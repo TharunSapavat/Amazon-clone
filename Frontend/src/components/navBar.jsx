@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
@@ -7,6 +8,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState('All');
     const [isScrolled, setIsScrolled] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -32,6 +34,11 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
     const handleSearch = (e) => {
         e.preventDefault();
         onSearch?.(searchQuery, searchCategory);
+        if (searchQuery.trim()) {
+            navigate(`/search?category=${encodeURIComponent(searchCategory)}&q=${encodeURIComponent(searchQuery)}`);
+        } else {
+            navigate(`/products`);
+        }
     };
 
     return (
@@ -43,14 +50,14 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                     {/* nav-left */}
                     <div className="flex items-center shrink-0 min-w-[min-content] overflow-visible h-[60px]">
                         {/* Logo.in */}
-                        <div className="flex items-center justify-center border border-transparent hover:border-white cursor-pointer m-[1px] pt-[1px] pr-[8px] pb-0 pl-[6px] w-[129.73px] h-[50px] box-border">
+                        <Link to="/" className="flex items-center justify-center border border-transparent hover:border-white cursor-pointer m-[1px] pt-[1px] pr-[8px] pb-0 pl-[6px] w-[129.73px] h-[50px] box-border">
                             <img
                                 src={amazonLogo}
                                 alt="Amazon"
                                 className="h-[30px] mt-2 object-contain"
                             />
                             <span className="text-sm mb-3">.in</span>
-                        </div>
+                        </Link>
 
                         {/* Delivering to */}
                         <div className="hidden xl:flex flex-col justify-center border border-transparent hover:border-white px-2 py-1 cursor-pointer text-sm">
@@ -115,13 +122,13 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                         </div>
 
                         {/* Returns & Orders */}
-                        <div className="hidden xl:block border border-transparent hover:border-white px-2 py-1 cursor-pointer">
+                        <Link to="/orders" className="hidden xl:block border border-transparent hover:border-white px-2 py-1 cursor-pointer">
                             <p className="text-xs leading-none text-white">Returns</p>
                             <p className="text-sm font-bold leading-none">& Orders</p>
-                        </div>
+                        </Link>
 
                         {/* Cart */}
-                        <div className="flex items-end border border-transparent hover:border-white px-2 py-1 cursor-pointer relative pb-0">
+                        <Link to="/cart" className="flex items-end border border-transparent hover:border-white px-2 py-1 cursor-pointer relative pb-0">
                             <div className="relative">
                                 <span className="absolute left-[16px] -top-1 text-[#f08804] font-bold text-base leading-none">
                                     {cartCount}
@@ -129,7 +136,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                                 <IoCartOutline className="text-[38px] h-[38px] w-[38px]" />
                             </div>
                             <span className="text-sm font-bold mb-1 ml-0.5 hidden md:block">Cart</span>
-                        </div>
+                        </Link>
                     </div>
                 </div>
             </div>

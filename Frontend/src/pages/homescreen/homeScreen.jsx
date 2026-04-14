@@ -8,10 +8,10 @@ const HomeScreen = () => {
     // Shared data
     const homeBannerItemProduct = {
         product: [
-            { id: 1, itemTitle: "Revamp your home in style", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 2, itemTitle: "Appliances for your home", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 3, itemTitle: "Automotive essentials", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 4, itemTitle: "Up to 60% off | Styles for men", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] }
+            { id: 1, itemTitle: "Appliances for your home | Up to 55% off", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
+            { id: 2, itemTitle: "Starting ₹49 | Deals on home essentials", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
+            { id: 3, itemTitle: "Bulk order discounts + Up to 18% GST savings", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
+            { id: 4, itemTitle: "Automotive essentials | Up to 60% off", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] }
         ]
     };
 
