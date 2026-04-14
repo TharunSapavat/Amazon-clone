@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
@@ -6,6 +6,15 @@ import amazonLogo from '../assets/amazonLogo.png';
 const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch, onCategorySelect }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState('All');
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 30);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     const categories = [
         'All', 'All Categories', 'Alexa Skills', 'Amazon Devices', 'Amazon Fashion',
@@ -26,7 +35,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
     };
 
     return (
-        <header className="w-full font-sans">
+        <header className="w-full font-sans sticky top-0 z-50">
             {/* Top Nav */}
             <div className="bg-[#131921] text-white">
                 <div className="flex flex-wrap md:flex-nowrap items-center min-h-[60px] pl-[11px] pr-[15px] pb-1 w-full">
@@ -126,7 +135,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
             </div>
 
             {/* Bottom Sub Nav */}
-            <div className="bg-[#232f3e] text-white">
+            <div className={`bg-[#232f3e] text-white transition-all duration-300 origin-top overflow-hidden ${isScrolled ? 'h-0' : 'h-[39px]'}`}>
                 <div className="flex items-center h-[39px] pl-[11px] w-full text-[14px] leading-[28px] overflow-x-auto scrollbar-hide">
 
                     <button
