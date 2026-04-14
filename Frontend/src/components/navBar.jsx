@@ -29,7 +29,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
         <header className="w-full font-sans">
             {/* Top Nav */}
             <div className="bg-[#131921] text-white">
-                <div className="flex items-center h-[60px] pl-[11px] pr-[15px] pb-1 w-full">
+                <div className="flex flex-wrap md:flex-nowrap items-center min-h-[60px] pl-[11px] pr-[15px] pb-1 w-full">
 
                     {/* nav-left */}
                     <div className="flex items-center shrink-0 min-w-[min-content] overflow-visible h-[60px]">
@@ -54,7 +54,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                     </div>
 
                     {/* nav-fill */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 order-3 md:order-none basis-full md:basis-auto mt-2 md:mt-0">
                         {/* nav-search */}
                         <div className="mx-[6px] pt-[10px] pr-[4px] pb-[10px] pl-[3px] h-[60px] box-border">
                             <form onSubmit={handleSearch} className="flex h-[40px] w-full min-w-0 rounded overflow-hidden">
@@ -90,7 +90,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                     </div>
 
                     {/* nav-right */}
-                    <div className="flex items-center shrink-0 min-w-[min-content] h-[60px]">
+                    <div className="flex items-center justify-end shrink-0 min-w-[min-content] h-[60px] ml-auto md:ml-0">
                         {/* Language */}
                         <div className="hidden lg:flex items-end border border-transparent hover:border-white px-2 py-1 cursor-pointer pb-1">
                             <img src="https://flagcdn.com/w20/in.png" alt="IN" className="h-3.5 mb-1" />
