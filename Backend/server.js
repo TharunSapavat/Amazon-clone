@@ -37,7 +37,20 @@ app.get('/api/health', async (req, res) => {
 // ============================================
 app.get('/api/products', async (req, res) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM products');
+        const { category, search } = req.query;
+        let queryStr = 'SELECT * FROM products WHERE 1=1';
+        const params = [];
+
+        if (category && category !== 'All') {
+            queryStr += ' AND category = ?';
+            params.push(category);
+        }
+        if (search) {
+            queryStr += ' AND name LIKE ?';
+            params.push(`%${search}%`);
+        }
+
+        const [rows] = await pool.query(queryStr, params);
         for (let product of rows) {
             const [images] = await pool.query('SELECT image_url FROM product_images WHERE product_id = ? LIMIT 1', [product.id]);
             product.image_url = images.length > 0 ? images[0].image_url : null;

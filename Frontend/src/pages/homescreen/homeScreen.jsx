@@ -24,17 +24,17 @@ const HomeScreen = () => {
         fetchProducts();
     }, []);
 
-    // Create 4 category blocks dynamically by mapping native User categories uniquely
-    const mobilesDeals = products.filter(p => p.category === 'Mobiles').slice(0, 4);
-    const computersDeals = products.filter(p => p.category === 'Computers').slice(0, 4);
+    // Create 4 category blocks dynamically by mapping to what the User actually included in seed
+    const electronicsDeals = products.filter(p => p.category === 'Electronics').slice(0, 4);
+    const appliancesDeals = products.filter(p => p.category === 'Appliances').slice(0, 4);
     const fashionDeals = products.filter(p => p.category === 'Fashion').slice(0, 4);
-    const homeDeals = products.filter(p => p.category === 'Home & Kitchen').slice(0, 4);
+    const homeDeals = products.filter(p => p.category === 'Home').slice(0, 4);
 
     const homeBannerItemProduct = [
-        { id: 1, itemTitle: "Latest Mobiles | Up to 40% off", items: mobilesDeals.length > 0 ? mobilesDeals : products.slice(0, 4) },
-        { id: 2, itemTitle: "Upgrade your Workstation", items: computersDeals.length > 0 ? computersDeals : products.slice(4, 8) },
-        { id: 3, itemTitle: "Festival Fashion | Trending Now", items: fashionDeals.length > 0 ? fashionDeals : products.slice(8, 12) },
-        { id: 4, itemTitle: "Home & Kitchen Upgrades", items: homeDeals.length > 0 ? homeDeals : products.slice(12, 16) }
+        { id: 1, itemTitle: "Latest Electronics | Up to 40% off", categoryParam: "Electronics", items: electronicsDeals.length > 0 ? electronicsDeals : products.slice(0, 4) },
+        { id: 2, itemTitle: "Major Appliances | Exchange Offers", categoryParam: "Appliances", items: appliancesDeals.length > 0 ? appliancesDeals : products.slice(4, 8) },
+        { id: 3, itemTitle: "Festival Fashion | Trending Now", categoryParam: "Fashion", items: fashionDeals.length > 0 ? fashionDeals : products.slice(8, 12) },
+        { id: 4, itemTitle: "Home Upgrades", categoryParam: "Home", items: homeDeals.length > 0 ? homeDeals : products.slice(12, 16) }
     ];
 
     // Banner slider state
@@ -110,7 +110,7 @@ const HomeScreen = () => {
                                     ))}
                                 </div>
 
-                                <Link to="/products" className="text-[13px] font-medium text-[#007185] hover:text-[#C7511F] mt-4">
+                                <Link to={`/products?category=${encodeURIComponent(block.categoryParam)}`} className="text-[13px] font-medium text-[#007185] hover:text-[#C7511F] mt-4">
                                     See all offers
                                 </Link>
                             </div>

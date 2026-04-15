@@ -15,7 +15,7 @@ const ProductListingPage = () => {
     priceMax: 50000
   });
 
-  const category = searchParams.get('category') || 'Microwaves';
+  const category = searchParams.get('category') || 'All';
   const query = searchParams.get('q') || '';
 
   useEffect(() => {
