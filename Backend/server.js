@@ -37,7 +37,7 @@ app.get('/api/health', async (req, res) => {
 // ============================================
 app.get('/api/products', async (req, res) => {
     try {
-        const { category, search } = req.query;
+        const { category, search, freeShipping, brands, minRating, minPrice, maxPrice } = req.query;
         let queryStr = 'SELECT * FROM products WHERE 1=1';
         const params = [];
 
@@ -48,6 +48,30 @@ app.get('/api/products', async (req, res) => {
         if (search) {
             queryStr += ' AND name LIKE ?';
             params.push(`%${search}%`);
+        }
+        if (freeShipping === 'true') {
+            // Because Free Shipping isn't cleanly populated, we'll dummy it out or filter if > 499
+            queryStr += ' AND price > 499';
+        }
+        if (brands) {
+            const brandList = brands.split(',');
+            if (brandList.length > 0) {
+                const brandConditions = brandList.map(() => 'name LIKE ?').join(' OR ');
+                queryStr += ` AND (${brandConditions})`;
+                brandList.forEach(b => params.push(`%${b}%`));
+            }
+        }
+        if (minRating && Number(minRating) > 0) {
+            queryStr += ' AND rating >= ?';
+            params.push(Number(minRating));
+        }
+        if (minPrice && Number(minPrice) > 0) {
+            queryStr += ' AND price >= ?';
+            params.push(Number(minPrice));
+        }
+        if (maxPrice && Number(maxPrice) > 0) {
+            queryStr += ' AND price <= ?';
+            params.push(Number(maxPrice));
         }
 
         const [rows] = await pool.query(queryStr, params);

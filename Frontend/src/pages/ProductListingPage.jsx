@@ -31,7 +31,15 @@ const ProductListingPage = () => {
 
     setLoading(true);
     axios.get('/api/products', {
-      params: { category, search: query, ...filters }
+      params: { 
+        category, 
+        search: query, 
+        freeShipping: filters.freeShipping,
+        brands: filters.brands.join(','),
+        minRating: filters.rating,
+        minPrice: filters.priceMin,
+        maxPrice: filters.priceMax
+      }
     }).then(res => {
       // Vite SPA fallback returns index.html (string) instead of 404 if no backend exists!
       if (Array.isArray(res.data)) {
@@ -98,7 +106,12 @@ const ProductListingPage = () => {
             <div>
               <h3 className="font-bold text-sm mb-2">Eligible for Free Shipping</h3>
               <label className="flex items-start gap-2 cursor-pointer">
-                <input type="checkbox" className="mt-1 accent-[#0F1111]" />
+                <input 
+                  type="checkbox" 
+                  className="mt-1 accent-[#0F1111]" 
+                  checked={filters.freeShipping} 
+                  onChange={e => setFilters(prev => ({...prev, freeShipping: e.target.checked}))} 
+                />
                 <span>Free Shipping<br/><span className="text-xs text-[#565959]">Get FREE Shipping on eligible orders shipped by Amazon</span></span>
               </label>
             </div>
@@ -114,9 +127,20 @@ const ProductListingPage = () => {
             {/* Brands */}
             <div>
               <h3 className="font-bold text-sm mb-2">Brands</h3>
-              {['Samsung', 'LG', 'IFB', 'Voltas Beko'].map(brand => (
+              {['Apple', 'Samsung', 'Dell', 'Sony'].map(brand => (
                 <label key={brand} className="flex items-center gap-2 cursor-pointer mb-1 hover:text-[#C7511F]">
-                  <input type="checkbox" className="accent-[#0F1111]" />
+                  <input 
+                    type="checkbox" 
+                    className="accent-[#0F1111]" 
+                    checked={filters.brands.includes(brand)}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      setFilters(prev => ({
+                        ...prev,
+                        brands: checked ? [...prev.brands, brand] : prev.brands.filter(b => b !== brand)
+                      }));
+                    }}
+                  />
                   <span>{brand}</span>
                 </label>
               ))}
@@ -126,7 +150,7 @@ const ProductListingPage = () => {
             <div>
               <h3 className="font-bold text-sm mb-2">Customer Reviews</h3>
               {[4, 3, 2, 1].map(star => (
-                <div key={star} className="flex items-center gap-1 cursor-pointer hover:text-[#C7511F] mb-1">
+                <div key={star} onClick={() => setFilters(prev => ({...prev, rating: star}))} className={`flex items-center gap-1 cursor-pointer hover:text-[#C7511F] mb-1 ${filters.rating === star ? 'font-bold' : ''}`}>
                   <div className="flex text-[#FFA41C]">
                     {[...Array(star)].map((_, i) => <IoStar key={i} />)}
                     {[...Array(5-star)].map((_, i) => <IoStarOutline key={i} />)}
@@ -134,18 +158,28 @@ const ProductListingPage = () => {
                   <span>& Up</span>
                 </div>
               ))}
+              {filters.rating > 0 && (
+                <button onClick={() => setFilters(prev => ({...prev, rating: 0}))} className="text-xs text-[#007185] hover:text-[#C7511F] mt-2 block">Clear filter</button>
+              )}
             </div>
 
             {/* Price */}
             <div>
               <h3 className="font-bold text-sm mb-2">Price</h3>
-              <p className="mb-2 text-[#0F1111]">₹6,400 – ₹17,900+</p>
-              <input type="range" className="w-full accent-[#007185] cursor-pointer" />
+              <p className="mb-2 text-[#0F1111]">Max Price: ₹{filters.priceMax.toLocaleString('en-IN')}</p>
+              <input 
+                type="range" 
+                min="1000" 
+                max="100000" 
+                step="1000"
+                value={filters.priceMax} 
+                onChange={e => setFilters(prev => ({...prev, priceMax: Number(e.target.value)}))} 
+                className="w-full accent-[#007185] cursor-pointer" 
+              />
               <div className="mt-2 space-y-1 text-[#0F1111]">
-                <p className="cursor-pointer hover:text-[#C7511F]">Up to ₹8,700</p>
-                <p className="cursor-pointer hover:text-[#C7511F]">₹8,700 - ₹10,500</p>
-                <p className="cursor-pointer hover:text-[#C7511F]">₹10,500 - ₹13,500</p>
-                <p className="cursor-pointer hover:text-[#C7511F]">Over ₹13,500</p>
+                <p onClick={() => setFilters(prev => ({...prev, priceMax: 10000}))} className="cursor-pointer hover:text-[#C7511F]">Under ₹10,000</p>
+                <p onClick={() => setFilters(prev => ({...prev, priceMax: 20000}))} className="cursor-pointer hover:text-[#C7511F]">Under ₹20,000</p>
+                <p onClick={() => setFilters(prev => ({...prev, priceMax: 50000}))} className="cursor-pointer hover:text-[#C7511F]">Under ₹50,000</p>
               </div>
             </div>
 
