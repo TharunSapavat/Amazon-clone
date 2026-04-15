@@ -14,8 +14,14 @@ const OrderController = require('./controllers/order.controller');
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+    process.env.FRONTEND_URL, 
+    'http://localhost:5173', 
+    'http://localhost:3000'
+].filter(Boolean);
+
 app.use(cors({
-    origin: '*',                    // Change to your frontend URL later
+    origin: allowedOrigins.length > 0 ? allowedOrigins : '*',
     credentials: true
 }));
 app.use(express.json());
