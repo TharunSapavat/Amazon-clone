@@ -4,47 +4,54 @@ require('dotenv').config();
 
 const pool = require('./config/db');
 
-// Import route modules
+// Import routes
 const productRoutes = require('./routes/product.routes');
 const cartRoutes = require('./routes/cart.routes');
 const orderRoutes = require('./routes/order.routes');
 const homeRoutes = require('./routes/home.routes');
-
-// Import order controller for returns (single endpoint)
 const OrderController = require('./controllers/order.controller');
 
 const app = express();
-app.use(cors());
+
+// Middleware
+app.use(cors({
+    origin: '*',                    // Change to your frontend URL later
+    credentials: true
+}));
 app.use(express.json());
 
-const port = process.env.PORT || 5000;
-
-// ============================================
-//               HEALTH CHECK
-// ============================================
+// ====================== HEALTH CHECK ======================
 app.get('/api/health', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT COUNT(*) as count FROM products');
-        res.json({ status: 'Connected to MySQL!', productsCount: rows[0].count });
+        res.json({
+            status: 'ok',
+            message: 'Backend is running and connected to MySQL!',
+            productsCount: rows[0].count,
+            environment: process.env.NODE_ENV || 'development',
+            dbHost: process.env.DATABASE_URL ? 'Using DATABASE_URL' : (process.env.DB_HOST || 'MISSING')
+        });
     } catch (err) {
-        res.status(500).json({ error: 'Failed to connect to MySQL', details: err.message });
+        console.error('Database Error:', err.message);
+        res.status(500).json({
+            status: 'error',
+            message: 'Failed to connect to MySQL',
+            error: err.message,
+            hint: 'Check DB_HOST, DB_USER, DB_PASSWORD, DB_NAME in Render Environment Variables'
+        });
     }
 });
 
-// ============================================
-//               MOUNT ROUTES
-// ============================================
+// Mount routes
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
-app.use('/api', homeRoutes);  // /api/categories, /api/banners, /api/home-sections, /api/data
-
-// Returns endpoint (standalone)
+app.use('/api', homeRoutes);
 app.post('/api/returns', OrderController.returnItem);
 
-// ============================================
-//               START SERVER
-// ============================================
-app.listen(port, () => {
-    console.log(`🚀 Backend API Server running on port ${port} (MySQL)`);
+// Start server
+const port = process.env.PORT || 5000;
+app.listen(port, '0.0.0.0', () => {
+    console.log(`🚀 Backend API Server running on port ${port}`);
+    console.log(`Health check available at: /api/health`);
 });
