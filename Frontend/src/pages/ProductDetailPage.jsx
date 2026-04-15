@@ -301,7 +301,7 @@ const ProductDetailPage = () => {
               <div className="flex items-start gap-1 mt-3 text-sm">
                 <IoLocationOutline className="text-lg mt-0.5" />
                 <a href="#" className="text-[#007185] hover:text-[#C7511F] hover:underline">
-                  Deliver to Sricity 517541
+                  Deliver to IIIT Sri City 601201
                 </a>
               </div>
 

@@ -5,7 +5,7 @@ import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
 import axios from 'axios';
 
-const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch, onCategorySelect }) => {
+const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSearch, onCategorySelect }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState('All');
     const [isScrolled, setIsScrolled] = useState(false);

@@ -9,11 +9,11 @@ const CheckoutPage = () => {
     const [loading, setLoading] = useState(true);
     
     const [address, setAddress] = useState({
-        fullName: 'John Doe',
-        line1: '123 Amazon Street',
-        city: 'Metropolis',
-        state: 'NY',
-        zip: '10001'
+        fullName: 'Tharun',
+        line1: 'Gummidipundi',
+        city: 'Chennai',
+        state: 'Tamil Nadu',
+        zip: '601201'
     });
 
     useEffect(() => {
