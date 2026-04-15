@@ -22,23 +22,28 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
     
     // Dynamic Categories
     const [dbCategories, setDbCategories] = useState([]);
+    const [userName, setUserName] = useState('');
 
     const navigate = useNavigate();
     const location = useLocation();
     const suggestionsRef = useRef(null);
     const searchInputRef = useRef(null);
 
-    // Fetch categories and cart count on mount
+    // Fetch categories, cart count, and user profile on mount
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [catRes, cartRes] = await Promise.all([
+                const [catRes, cartRes, userRes] = await Promise.all([
                     axios.get('/api/categories'),
-                    axios.get('/api/cart')
+                    axios.get('/api/cart'),
+                    axios.get('/api/user/profile')
                 ]);
                 setDbCategories(catRes.data);
                 const total = cartRes.data.reduce((sum, item) => sum + item.quantity, 0);
                 setLocalCartCount(total);
+                if (userRes.data) {
+                    setUserName(userRes.data.name.split(' ')[0]);
+                }
             } catch (err) {
                 console.error("Failed to fetch initial navbar data", err);
             }
@@ -248,7 +253,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
                         </div>
 
                         <div className="hidden lg:block border border-transparent hover:border-white px-2 py-1 cursor-pointer">
-                            <p className="text-xs leading-none text-white">Hello, sign in</p>
+                            <p className="text-xs leading-none text-white">Hello, {userName || 'sign in'}</p>
                             <p className="text-sm font-bold leading-none flex items-center">
                                 Account & Lists <HiOutlineChevronDown className="text-gray-400 ml-0.5" />
                             </p>

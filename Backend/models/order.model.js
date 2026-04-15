@@ -156,6 +156,14 @@ const OrderModel = {
         );
         if (result.affectedRows === 0) return null;
         return { success: true };
+    },
+
+    async getByInternalId(internalId) {
+        const [rows] = await pool.query(
+            'SELECT shipping_name, shipping_address, estimated_delivery FROM orders WHERE internal_order_id = ?',
+            [internalId]
+        );
+        return rows[0];
     }
 };
 

@@ -21,7 +21,7 @@ const ProductListingPage = () => {
   const query = searchParams.get('q') || '';
 
   useEffect(() => {
-    // Dummy Data Fallback for when backend is completely offline
+    // 1. Fetch Products
     const dummyProducts = [
       { id: 1, name: "Samsung 28 L Convection Microwave Oven (MC28A5013AK/TL, Black, 10 Yr Warranty)", image_url: "https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg", rating: 4.3, review_count: 5430, bought_count: "2K", badge: "Best seller", price: 11590, mrp: 15500, discount: 25 },
       { id: 2, name: "LG 28 L Convection Microwave Oven (MC2846SL, Silver)", image_url: "https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg", rating: 4.5, review_count: 8200, bought_count: "3K", badge: "Amazon's Choice", price: 12490, mrp: 16990, discount: 26 },
@@ -207,8 +207,8 @@ const ProductListingPage = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {products.map((product) => (
-                <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full">
-
+                <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full relative group/card">
+                  
                   <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group h-[220px]">
                     <OptimizedImage 
                       src={product.image_url} 
