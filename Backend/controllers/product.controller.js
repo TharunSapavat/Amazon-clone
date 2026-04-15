@@ -23,6 +23,18 @@ const ProductController = {
             console.error('Product detail API error:', err);
             res.status(500).json({ error: err.message });
         }
+    },
+
+    async getSuggestions(req, res) {
+        try {
+            const { q, category } = req.query;
+            if (!q || q.length < 2) return res.json([]);
+            const suggestions = await ProductModel.getSuggestions(q, category);
+            res.json(suggestions);
+        } catch (err) {
+            console.error('Suggestions API error:', err);
+            res.status(500).json({ error: err.message });
+        }
     }
 };
 

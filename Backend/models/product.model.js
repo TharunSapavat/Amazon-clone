@@ -134,6 +134,43 @@ const ProductModel = {
             sellerYears: product.seller_years,
             exchangeValue: product.exchange_value
         };
+    },
+
+    /**
+     * Get search suggestions for autocomplete.
+     * Returns minimal data (id, title, category, first image).
+     */
+    async getSuggestions(query, category = 'All', limit = 10) {
+        let sql = `
+            SELECT p.id, p.title, p.category, p.brand,
+                   (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
+            FROM products p
+            WHERE 1=1
+        `;
+        const params = [];
+
+        if (category && category !== 'All') {
+            sql += ' AND (p.category = ? OR p.category_id = ?)';
+            params.push(category, category);
+        }
+
+        if (query) {
+            sql += ' AND (p.title LIKE ? OR p.brand LIKE ? OR p.category LIKE ?)';
+            const term = `%${query}%`;
+            params.push(term, term, term);
+        }
+
+        sql += ' LIMIT ?';
+        params.push(Number(limit));
+
+        const [rows] = await pool.query(sql, params);
+        return rows.map(row => ({
+            id: row.id,
+            name: row.title,
+            category: row.category,
+            brand: row.brand,
+            image_url: row.image_url
+        }));
     }
 };
 
