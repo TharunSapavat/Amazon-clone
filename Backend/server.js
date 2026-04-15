@@ -16,12 +16,22 @@ const app = express();
 // Middleware
 const allowedOrigins = [
     process.env.FRONTEND_URL,
+    'https://amazon.tharun06.dev',
     'http://localhost:5173',
     'http://localhost:3000'
-].filter(Boolean);
+];
 
 app.use(cors({
-    origin: allowedOrigins.length > 0 ? allowedOrigins : '*',
+    origin: function (origin, callback) {
+        // allow requests with no origin (like Postman)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        } else {
+            return callback(new Error('Not allowed by CORS: ' + origin));
+        }
+    },
     credentials: true
 }));
 app.use(express.json());
