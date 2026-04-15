@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle } from 'react-icons/io5';
 import axios from 'axios';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ProductListingPage = () => {
   const [searchParams] = useSearchParams();
@@ -208,8 +209,13 @@ const ProductListingPage = () => {
               {products.map((product) => (
                 <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full">
 
-                  <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group">
-                    <img loading="lazy" decoding="async" src={product.image_url} alt={product.name} className="w-[180px] h-[180px] object-contain mix-blend-multiply group-hover:scale-105 transition-transform" />
+                  <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group h-[220px]">
+                    <OptimizedImage 
+                      src={product.image_url} 
+                      alt={product.name} 
+                      className="w-[180px] h-[180px] object-contain mix-blend-multiply group-hover:scale-105 transition-transform"
+                      containerClassName="w-full h-full flex items-center justify-center"
+                    />
                   </Link>
 
                   <Link to={`/product/${product.id}`} className="text-[15px] text-[#0F1111] hover:text-[#C7511F] line-clamp-3 mb-1 font-medium leading-snug">

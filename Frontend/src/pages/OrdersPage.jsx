@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { IoSearch } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import axios from 'axios';
+import OptimizedImage from '../components/OptimizedImage';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
@@ -140,7 +141,12 @@ const OrdersPage = () => {
 
                 <div className="flex gap-4 mt-3">
                   <Link to={`/product/${item.product_id}`} className="w-[90px] h-[90px] shrink-0 border border-gray-200 p-1 flex items-center justify-center rounded">
-                    <img src={item.image_url} alt={item.name} className="max-w-full max-h-full object-contain mix-blend-multiply" />
+                    <OptimizedImage
+                      src={item.image_url}
+                      alt={item.name}
+                      className="max-w-full max-h-full object-contain mix-blend-multiply"
+                      containerClassName="w-full h-full"
+                    />
                   </Link>
                   <div>
                     <Link

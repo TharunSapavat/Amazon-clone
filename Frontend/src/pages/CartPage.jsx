@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IoTrashOutline } from 'react-icons/io5';
 import { BsCheckCircleFill } from 'react-icons/bs';
 import axios from 'axios';
+import OptimizedImage from '../components/OptimizedImage';
 
 const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -18,11 +19,6 @@ const CartPage = () => {
 
   const fetchCart = async () => {
     try {
-      const dummyCart = [
-        { id: 101, product_id: 1, name: "Samsung 28 L Convection Microwave Oven (MC28A5013AK/TL, Black, 10 Yr Warranty)", image_url: "https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg", price: 11590, mrp: 15500, discount: 25, quantity: 1, color: "Black", badge: "Best seller" },
-        { id: 102, product_id: 3, name: "IFB 30 L Convection Microwave Oven (30BRC2, Black)", image_url: "https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg", price: 13990, mrp: 18490, discount: 24, quantity: 2, color: "Black" }
-      ];
-
       const res = await axios.get('/api/cart');
       if (Array.isArray(res.data)) {
         setCartItems(res.data);
@@ -137,10 +133,11 @@ const CartPage = () => {
                       />
 
                       <Link to={`/product/${item.product_id}`} className="w-[180px] h-[180px] shrink-0 mx-auto sm:mx-0">
-                        <img
+                        <OptimizedImage
                           src={item.image_url}
                           alt={item.name}
                           className="w-full h-full object-contain mix-blend-multiply"
+                          containerClassName="w-full h-full"
                         />
                       </Link>
 

@@ -6,6 +6,7 @@ import { BsShieldCheck } from 'react-icons/bs';
 import { TbTruckDelivery, TbCash, TbLock } from 'react-icons/tb';
 import { MdOutlineAssignmentReturn, MdOutlineVerifiedUser } from 'react-icons/md';
 import axios from 'axios';
+import OptimizedImage from '../components/OptimizedImage';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -159,22 +160,22 @@ const ProductDetailPage = () => {
                     selectedImage === idx? 'border-[#e77600] shadow-[0_0_3px_2px_rgba(228,121,17,0.5)]' : 'border-gray-300 hover:border-[#a2a6ac]'
                   }`}
                 >
-                  <img loading="lazy" decoding="async" src={img} alt="" className="w-full h-full object-contain" />
+                  <OptimizedImage eager={true} src={img} alt="" className="w-full h-full object-contain" containerClassName="w-full h-full" />
                 </div>
               ))}
             </div>
 
             {/* Main Image */}
             <div className="flex-1 relative">
-              <button className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-black">
+              <button className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-black z-10">
                 <IoShareOutline />
               </button>
-              <img
-                loading="lazy"
-                decoding="async"
+              <OptimizedImage
+                eager={true}
                 src={product.images[selectedImage]}
                 alt={product.name}
                 className="w-full h-[400px] lg:h-[500px] object-contain mix-blend-multiply"
+                containerClassName="w-full h-[400px] lg:h-[500px]"
               />
               <p className="text-center text-sm text-[#565959] mt-2 cursor-pointer hover:underline">
                 Click image to open expanded view

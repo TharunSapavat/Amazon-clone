@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import axios from 'axios';
+import OptimizedImage from '../../components/OptimizedImage';
 import banner1 from '../../assets/banner1.jpg';
 import banner2 from '../../assets/banner2.jpg';
 import banner3 from '../../assets/banner3.png'; 
@@ -50,6 +51,13 @@ const HomeScreen = () => {
         return () => clearInterval(timer);
     }, [bannerImages.length]);
 
+    // Preload next banner image so transition is seamless
+    useEffect(() => {
+        const nextSlide = (currentSlide + 1) % bannerImages.length;
+        const img = new Image();
+        img.src = bannerImages[nextSlide];
+    }, [currentSlide, bannerImages]);
+
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
 
@@ -59,22 +67,33 @@ const HomeScreen = () => {
             {/* --- HOME BANNER SECTION --- */}
             <div className="w-full relative bg-[#EAEDED] pb-4">
 
-                {/* Banner Slider */}
+                {/* Banner Slider — only render current + adjacent slides */}
                 <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full overflow-hidden">
-                    {bannerImages.map((img, idx) => (
-                        <img
-                            key={idx}
-                            className={`absolute h-full w-full object-cover object-top transition-opacity duration-700 ${
-                                idx === currentSlide ? 'opacity-100' : 'opacity-0'
-                            }`}
-                            src={img}
-                            alt={`Banner ${idx + 1}`}
-                            style={{
-                                maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)',
-                                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)'
-                            }}
-                        />
-                    ))}
+                    {bannerImages.map((img, idx) => {
+                        // Only render current, previous, and next slides
+                        const isActive = idx === currentSlide;
+                        const isAdjacent = idx === (currentSlide + 1) % bannerImages.length ||
+                                           idx === (currentSlide - 1 + bannerImages.length) % bannerImages.length;
+                        if (!isActive && !isAdjacent) return null;
+
+                        return (
+                            <img
+                                key={idx}
+                                className={`absolute h-full w-full object-cover object-top transition-opacity duration-700 ${
+                                    isActive ? 'opacity-100' : 'opacity-0'
+                                }`}
+                                src={img}
+                                alt={`Banner ${idx + 1}`}
+                                loading={idx === 0 ? 'eager' : 'lazy'}
+                                decoding={idx === 0 ? 'sync' : 'async'}
+                                fetchPriority={idx === 0 ? 'high' : 'auto'}
+                                style={{
+                                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)',
+                                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)'
+                                }}
+                            />
+                        );
+                    })}
 
                     {/* Controls */}
                     <button onClick={prevSlide} className="absolute left-2 top-1/3 text-3xl md:text-5xl bg-white/30 hover:bg-white/50 p-2 z-30">
@@ -103,7 +122,12 @@ const HomeScreen = () => {
                                     ) : block.items.map((prod, ind) => (
                                         <Link to={`/product/${prod.id}`} key={ind} className="flex flex-col items-start hover:opacity-90 transition-opacity">
                                             <div className="w-full h-24 flex items-center justify-center p-2">
-                                                <img loading="lazy" decoding="async" className="max-w-full max-h-full object-contain mix-blend-multiply" src={prod.image_url} alt={prod.name} />
+                                                <OptimizedImage
+                                                    src={prod.image_url}
+                                                    alt={prod.name}
+                                                    className="max-w-full max-h-full object-contain mix-blend-multiply"
+                                                    containerClassName="w-full h-full flex items-center justify-center"
+                                                />
                                             </div>
                                             <span className="text-[13px] text-[#0F1111] leading-snug line-clamp-1 mt-1">{prod.name}</span>
                                         </Link>
@@ -123,7 +147,7 @@ const HomeScreen = () => {
             <div className="w-full px-5 py-5 pb-10">
                 <div className="bg-white p-5 shadow-sm relative">
                     <div className="flex items-center gap-4 mb-4">
-                        <h2 className="text-[20px] font-bold text-[#0F1111]">Today’s Deals</h2>
+                        <h2 className="text-[20px] font-bold text-[#0F1111]">Today's Deals</h2>
                         <Link to="/products" className="text-[13px] font-medium text-[#007185] hover:text-[#C7511F] hover:underline">See all deals</Link>
                     </div>
 
@@ -139,7 +163,12 @@ const HomeScreen = () => {
                         ) : products.map((deal) => (
                             <Link to={`/product/${deal.id}`} key={deal.id} className="min-w-[200px] flex flex-col group cursor-pointer transition-all">
                                 <div className="h-[200px] bg-[#F7F7F7] flex items-center justify-center p-4 rounded mb-2 group-hover:bg-[#f0f0f0] transition-colors">
-                                    <img loading="lazy" decoding="async" src={deal.image_url} alt="deal" className="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300" />
+                                    <OptimizedImage
+                                        src={deal.image_url}
+                                        alt={deal.name}
+                                        className="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
+                                        containerClassName="w-full h-full flex items-center justify-center"
+                                    />
                                 </div>
                                 <div className="flex items-center gap-2 mb-1">
                                     <span className="bg-[#CC0C39] text-white text-[12px] font-bold px-1.5 py-1 rounded-sm">Up to {deal.discount}% off</span>
