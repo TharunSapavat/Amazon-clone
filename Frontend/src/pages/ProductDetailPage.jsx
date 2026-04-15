@@ -149,14 +149,32 @@ const ProductDetailPage = () => {
         <div className="flex flex-col lg:flex-row gap-6">
 
           {/* LEFT - IMAGE GALLERY */}
-          <div className="lg:w-[35%] flex gap-3">
-            {/* Thumbnails */}
-            <div className="hidden md:flex flex-col gap-2 shrink-0">
+          <div className="lg:w-[35%] flex flex-col md:flex-row gap-3">
+            
+            {/* Main Image - Top on Mobile, Right on Desktop */}
+            <div className="flex-1 relative order-1 md:order-2">
+              <button className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-black z-10">
+                <IoShareOutline />
+              </button>
+              <OptimizedImage
+                eager={true}
+                src={product.images[selectedImage]}
+                alt={product.name}
+                className="w-full h-[300px] md:h-[400px] lg:h-[500px] object-contain mix-blend-multiply"
+                containerClassName="w-full h-[300px] md:h-[400px] lg:h-[500px]"
+              />
+              <p className="text-center text-[13px] text-[#565959] mt-2 cursor-pointer hover:underline hidden md:block">
+                Click image to open expanded view
+              </p>
+            </div>
+
+            {/* Thumbnails - Below on Mobile, Left on Desktop */}
+            <div className="flex flex-row md:flex-col gap-2 shrink-0 order-2 md:order-1 overflow-x-auto md:overflow-visible pb-1 md:pb-0 scrollbar-hide">
               {product.images.map((img, idx) => (
                 <div
                   key={idx}
                   onClick={() => setSelectedImage(idx)}
-                  className={`w-12 h-12 border rounded cursor-pointer p-1 overflow-hidden mix-blend-multiply ${
+                  className={`w-12 h-12 md:w-[44px] md:h-[44px] border rounded cursor-pointer p-1 overflow-hidden shrink-0 mix-blend-multiply transition-all ${
                     selectedImage === idx? 'border-[#e77600] shadow-[0_0_3px_2px_rgba(228,121,17,0.5)]' : 'border-gray-300 hover:border-[#a2a6ac]'
                   }`}
                 >
@@ -165,22 +183,6 @@ const ProductDetailPage = () => {
               ))}
             </div>
 
-            {/* Main Image */}
-            <div className="flex-1 relative">
-              <button className="absolute top-2 right-2 text-2xl text-gray-600 hover:text-black z-10">
-                <IoShareOutline />
-              </button>
-              <OptimizedImage
-                eager={true}
-                src={product.images[selectedImage]}
-                alt={product.name}
-                className="w-full h-[400px] lg:h-[500px] object-contain mix-blend-multiply"
-                containerClassName="w-full h-[400px] lg:h-[500px]"
-              />
-              <p className="text-center text-sm text-[#565959] mt-2 cursor-pointer hover:underline">
-                Click image to open expanded view
-              </p>
-            </div>
           </div>
 
           {/* CENTER - PRODUCT INFO */}
