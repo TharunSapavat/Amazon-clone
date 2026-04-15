@@ -20,7 +20,7 @@ const sendOrderConfirmation = async (toEmail, orderData) => {
     // 3. Send the email via Resend API
     try {
         const { data, error } = await resend.emails.send({
-            from: 'Amazon Clone <onboarding@resend.dev>', // Default sender for unverified domains
+            from: 'Amazon Clone <noreply@amazon.tharun06.dev>', // Default sender for unverified domains
             to: [toEmail],
             subject: `Order Confirmation - ${orderData.internal_order_id}`,
             html: `
