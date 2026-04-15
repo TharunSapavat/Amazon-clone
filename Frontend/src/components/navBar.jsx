@@ -6,20 +6,45 @@ import amazonLogo from '../assets/amazonLogo.png';
 import axios from 'axios';
 import { useDebounce } from '../hooks/useDebounce';
 import OptimizedImage from './OptimizedImage';
+import SideDrawer from './SideDrawer';
 
-const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSearch, onCategorySelect }) => {
+const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => {
     const [searchQuery, setSearchQuery] = useState('');
-    const debouncedSearchQuery = useDebounce(searchQuery, 400); // Shorter debounce for suggestions
+    const debouncedSearchQuery = useDebounce(searchQuery, 400); 
     const [searchCategory, setSearchCategory] = useState('All');
     const [suggestions, setSuggestions] = useState([]);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [localCartCount, setLocalCartCount] = useState(cartCount);
     
+    // Side Drawer State
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    
+    // Dynamic Categories
+    const [dbCategories, setDbCategories] = useState([]);
+
     const navigate = useNavigate();
     const location = useLocation();
     const suggestionsRef = useRef(null);
     const searchInputRef = useRef(null);
+
+    // Fetch categories and cart count on mount
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [catRes, cartRes] = await Promise.all([
+                    axios.get('/api/categories'),
+                    axios.get('/api/cart')
+                ]);
+                setDbCategories(catRes.data);
+                const total = cartRes.data.reduce((sum, item) => sum + item.quantity, 0);
+                setLocalCartCount(total);
+            } catch (err) {
+                console.error("Failed to fetch initial navbar data", err);
+            }
+        };
+        fetchData();
+    }, []);
 
     // Fetch suggestions when user types
     useEffect(() => {
@@ -53,39 +78,28 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const fetchCartCount = async () => {
-        try {
-            const res = await axios.get('/api/cart');
-            const total = res.data.reduce((sum, item) => sum + item.quantity, 0);
-            setLocalCartCount(total);
-        } catch (e) {
-            console.log("Navbar Cart Fetch Fallback");
-        }
-    };
-
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 30);
-        fetchCartCount();
         window.addEventListener('scroll', handleScroll);
-        window.addEventListener('cartUpdated', fetchCartCount);
+        
+        const fetchCart = async () => {
+            try {
+                const res = await axios.get('/api/cart');
+                const total = res.data.reduce((sum, item) => sum + item.quantity, 0);
+                setLocalCartCount(total);
+            } catch(e) {}
+        };
+        window.addEventListener('cartUpdated', fetchCart);
+        
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('cartUpdated', fetchCartCount);
+            window.removeEventListener('cartUpdated', fetchCart);
         };
     }, []);
 
-    const categories = [
-        'All', 'All Categories', 'Alexa Skills', 'Amazon Devices', 'Amazon Fashion',
-        'Amazon Fresh', 'Amazon Pharmacy', 'Appliances', 'Apps & Games', 'Baby',
-        'Beauty', 'Books', 'Car & Motorbike', 'Clothing & Accessories', 'Collectibles',
-        'Computers & Accessories', 'Electronics', 'Furniture', 'Garden & Outdoors'
-    ];
-
-    const subNavItems = [
-        'Fresh', 'MX Player', 'Sell', 'Bestsellers', 'Mobiles', "Today's Deals",
-        'Customer Service', 'New Releases', 'Prime', 'Fashion', 'Electronics',
-        'Amazon Pay', 'Home & Kitchen', 'Computers', 'Books', 'Toys & Games'
-    ];
+    const subNavItems = dbCategories.length > 0 
+        ? dbCategories.slice(0, 10).map(c => c.label) 
+        : ['Mobiles', "Today's Deals", 'Fashion', 'Electronics', 'Prime', 'Home & Kitchen', 'Computers', 'Books'];
 
     const handleSearch = (e) => {
         e?.preventDefault();
@@ -103,8 +117,19 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
         navigate(`/product/${productId}`);
     };
 
+    const handleCategoryClick = (category) => {
+        navigate(`/products?category=${encodeURIComponent(category)}`);
+    };
+
     return (
         <header className="w-full font-sans sticky top-0 z-50">
+            {/* --- Side Drawer --- */}
+            <SideDrawer 
+                isOpen={isDrawerOpen} 
+                onClose={() => setIsDrawerOpen(false)} 
+                categories={dbCategories}
+            />
+
             <div className="bg-[#131921] text-white">
                 <div className="flex flex-wrap md:flex-nowrap items-center min-h-[60px] pl-[11px] pr-[15px] pb-1 w-full">
 
@@ -137,8 +162,9 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
                                         onChange={(e) => setSearchCategory(e.target.value)}
                                         className="bg-[#e6e6e6] text-[#0f1111] text-[14px] pl-[10px] pr-7 h-[40px] border-r border-gray-300 hover:bg-[#d4d4d4] focus:outline-none appearance-none cursor-pointer"
                                     >
-                                        {categories.slice(0, 8).map(cat => (
-                                            <option key={cat} value={cat}>{cat}</option>
+                                        <option value="All">All Categories</option>
+                                        {dbCategories.map(cat => (
+                                            <option key={cat.id} value={cat.label}>{cat.label}</option>
                                         ))}
                                     </select>
                                     <HiOutlineChevronDown className="absolute right-1.5 top-1/2 -translate-y-1/2 text-gray-600 pointer-events-none" />
@@ -209,8 +235,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
                                 </div>
                             </div>
                         )}
-                        {/* Overlay to dim background when searching */}
-                        {showSuggestions && suggestions.length > 0 && (
+                        {showSuggestions && (
                             <div className="fixed inset-0 bg-black/50 z-[-1] pointer-events-none mt-[60px]" />
                         )}
                     </div>
@@ -247,26 +272,30 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
                 </div>
             </div>
 
-            {/* Bottom Sub Nav */}
+            {/* Bottom Sub Nav Belt */}
             <div className={`bg-[#232f3e] text-white transition-all duration-300 origin-top overflow-hidden ${isScrolled ? 'h-0' : 'h-[39px]'}`}>
                 <div className="flex items-center h-[39px] pl-[11px] w-full text-[14px] leading-[28px] overflow-x-auto scrollbar-hide">
+                    {/* Burger Menu Button */}
                     <button
-                        className="flex items-center border border-transparent hover:border-white px-2 mb-1 mr-1 font-bold flex-shrink-0"
-                        onClick={() => onCategorySelect?.('all')}
+                        className="flex items-center border border-transparent hover:border-white px-2 mb-1 mr-1 font-bold flex-shrink-0 h-[30px]"
+                        onClick={() => setIsDrawerOpen(true)}
                     >
-                        <IoMenu className="text-xl mr-1" /> All
+                        <IoMenu className="text-2xl mr-1" /> All
                     </button>
 
-                    {subNavItems.map((item, idx) => (
+                    {/* Dynamic Category Links */}
+                    {subNavItems.map((item) => (
                         <button
                             key={item}
-                            className="border border-transparent hover:border-white px-2 mb-1 whitespace-nowrap flex-shrink-0"
-                            onClick={() => onCategorySelect?.(item)}
+                            onClick={() => handleCategoryClick(item)}
+                            className="border border-transparent hover:border-white px-2 mb-1 whitespace-nowrap flex-shrink-0 h-[30px] flex items-center"
                         >
                             {item}
                             {item === 'Prime' && <HiOutlineChevronDown className="inline text-gray-400 ml-0.5" />}
                         </button>
                     ))}
+                    <button onClick={() => navigate('/products')} className="border border-transparent hover:border-white px-2 mb-1 whitespace-nowrap flex-shrink-0 h-[30px] flex items-center">Amazon Pay</button>
+                    <button onClick={() => navigate('/products')} className="border border-transparent hover:border-white px-2 mb-1 whitespace-nowrap flex-shrink-0 h-[30px] flex items-center">Gift Cards</button>
                 </div>
             </div>
         </header>

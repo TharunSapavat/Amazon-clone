@@ -41,11 +41,13 @@ const CheckoutPage = () => {
                 cart_item_ids: cartItems.map(i => i.id)
             });
             if (res.data.success) {
+                window.dispatchEvent(new Event('cartUpdated'));
                 navigate(`/confirmation?internal_id=${res.data.internal_order_id}`);
             }
         } catch (err) {
             console.error("Order error", err);
             // Simulate offline fallback nav if API fails
+            window.dispatchEvent(new Event('cartUpdated'));
             navigate(`/confirmation?internal_id=ORDER-${Date.now()}`);
         }
     };

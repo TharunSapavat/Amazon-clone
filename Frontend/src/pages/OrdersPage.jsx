@@ -4,12 +4,14 @@ import { IoSearch } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import axios from 'axios';
 import OptimizedImage from '../components/OptimizedImage';
+import { useDebounce } from '../hooks/useDebounce';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [activeTab, setActiveTab] = useState('Orders');
   const [timeFilter, setTimeFilter] = useState('past 3 months');
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [loading, setLoading] = useState(true);
 
   const tabs = ['Orders', 'Buy Again', 'Not Yet Shipped'];
@@ -17,70 +19,31 @@ const OrdersPage = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, [timeFilter, searchQuery]);
+  }, [timeFilter, debouncedSearchQuery]);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (q = debouncedSearchQuery) => {
     setLoading(true);
     try {
       const res = await axios.get('/api/orders', {
-        params: { timeframe: timeFilter, search: searchQuery }
+        params: { timeframe: timeFilter, search: q }
       });
-      if (Array.isArray(res.data)) {
-        setOrders(res.data);
-      } else {
-        throw new Error("API Missing (Vite HTML Intercept)");
-      }
+      setOrders(res.data);
     } catch (err) {
-      console.log('Mocking Orders API Fallback', err.message);
-      const mockOrders = [
-        {
-          id: '407-1234567-8901234',
-          created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-          status: 'DELIVERED',
-          delivered_date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          total_amount: 11590,
-          shipping_name: 'John Doe',
-          items: [
-            {
-              id: 1,
-              product_id: 1,
-              name: 'Samsung 28 L Convection Microwave Oven (MC28A5013AK/TL, Black, 10 Yr Warranty)',
-              image_url: 'https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg',
-              is_returned: false
-            }
-          ]
-        },
-        {
-          id: '407-9876543-2109876',
-          created_at: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-          status: 'SHIPPED',
-          estimated_delivery: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString(),
-          total_amount: 5490,
-          shipping_name: 'John Doe',
-          items: [
-            {
-              id: 2,
-              product_id: 4,
-              name: 'Voltas Beko 20 L Solo Microwave Oven (MS20MPW10, White)',
-              image_url: 'https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg',
-              is_returned: false
-            }
-          ]
-        }
-      ];
-      setOrders(mockOrders);
+      console.error('Failed to fetch orders:', err);
+      setOrders([]);
     } finally {
       setLoading(false);
     }
   };
 
   const handleReturn = async (orderId, itemId) => {
+    if (!window.confirm("Are you sure you want to return this item?")) return;
     try {
-        await axios.post('/api/returns', { order_id: orderId, order_item_id: itemId, reason: 'No longer needed' });
+        await axios.post('/api/returns', { order_id: orderId, order_item_id: itemId });
         fetchOrders();
     } catch (e) {
-        console.log("Mock Return execution", orderId, itemId);
-        alert("Return initiated mockingly!");
+        console.error("Return failed:", e);
+        alert("Failed to process return. Please try again.");
     }
   };
 
@@ -112,7 +75,7 @@ const OrdersPage = () => {
               </button>
             </div>
             <div className="lg:text-right">
-              <p className="text-xs">ORDER # {order.id}</p>
+              <p className="text-xs">ORDER # {order.internal_order_id || order.id}</p>
               <div className="flex lg:justify-end gap-2 text-sm mt-0.5">
                 <a href="#" className="text-[#007185] hover:text-[#C7511F] hover:underline">View order details</a>
                 <span className="text-gray-300">|</span>
@@ -226,7 +189,7 @@ const OrdersPage = () => {
               />
             </div>
             <button
-              onClick={fetchOrders}
+              onClick={() => fetchOrders(searchQuery)}
               className="bg-[#0F1111] hover:bg-[#232F3E] text-white rounded-full px-6 py-1.5 text-[15px] font-medium shadow-sm transition-colors border border-transparent"
             >
               Search Orders

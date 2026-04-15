@@ -20,7 +20,8 @@ const OrderController = {
 
     async getOrders(req, res) {
         try {
-            const orders = await OrderModel.getByUserId(USER_ID);
+            const { timeframe, search } = req.query;
+            const orders = await OrderModel.getByUserId(USER_ID, { timeframe, search });
             res.json(orders);
         } catch (err) {
             console.error('Orders get error:', err);

@@ -70,19 +70,46 @@ const OrderModel = {
     },
 
     /**
-     * Get all orders for a user, with items.
-     * Fixed N+1: fetches ALL order items in one query, then groups by order_id in JS.
+     * Get all orders for a user, with items and filtering.
      */
-    async getByUserId(userId) {
-        // Fetch orders and their items in 2 queries (not N+1)
-        const [orders] = await pool.query(
-            'SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC',
-            [userId]
-        );
+    async getByUserId(userId, filters = {}) {
+        let sql = 'SELECT * FROM orders WHERE user_id = ?';
+        const params = [userId];
 
+        // 1. Timeframe filtering
+        if (filters.timeframe && filters.timeframe !== 'Archived orders') {
+            const now = new Date();
+            if (filters.timeframe === 'past 30 days') {
+                sql += ' AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)';
+            } else if (filters.timeframe === 'past 3 months') {
+                sql += ' AND created_at >= DATE_SUB(NOW(), INTERVAL 3 MONTH)';
+            } else if (/^\d{4}$/.test(filters.timeframe)) {
+                // Specific year filtering
+                sql += ' AND YEAR(created_at) = ?';
+                params.push(filters.timeframe);
+            }
+        }
+
+        // 2. Search filtering (Matches product name or Order ID)
+        if (filters.search) {
+            sql += ` AND (
+                internal_order_id LIKE ? OR 
+                id IN (
+                    SELECT oi.order_id FROM order_items oi 
+                    JOIN products p ON oi.product_id = p.id 
+                    WHERE p.title LIKE ?
+                )
+            )`;
+            const term = `%${filters.search}%`;
+            params.push(term, term);
+        }
+
+        sql += ' ORDER BY created_at DESC';
+
+        const [orders] = await pool.query(sql, params);
         if (orders.length === 0) return [];
 
-        // Single query for ALL order items across all orders
+        // Single query for ALL order items across all returned orders
         const orderIds = orders.map(o => o.id);
         const [allItems] = await pool.query(
             `SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.price_at_purchase, oi.is_returned,
