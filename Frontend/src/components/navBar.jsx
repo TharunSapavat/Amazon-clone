@@ -1,16 +1,35 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
 import axios from 'axios';
+import { useDebounce } from '../hooks/useDebounce';
 
 const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSearch, onCategorySelect }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const debouncedSearchQuery = useDebounce(searchQuery, 600);
     const [searchCategory, setSearchCategory] = useState('All');
     const [isScrolled, setIsScrolled] = useState(false);
     const [localCartCount, setLocalCartCount] = useState(cartCount);
     const navigate = useNavigate();
+    const location = useLocation();
+    const isMounted = useRef(false);
+
+    useEffect(() => {
+        if (!isMounted.current) {
+            isMounted.current = true;
+            return;
+        }
+
+        // Only auto-route if the user actually typed a query
+        if (debouncedSearchQuery.trim()) {
+            navigate(`/products?category=${encodeURIComponent(searchCategory)}&q=${encodeURIComponent(debouncedSearchQuery)}`);
+        } else if (location.pathname === '/products') {
+            // Revert strict filter if cleared while on the products page
+            navigate('/products');
+        }
+    }, [debouncedSearchQuery, searchCategory, navigate, location]);
 
     const fetchCartCount = async () => {
         try {
@@ -52,7 +71,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201", onSea
         e.preventDefault();
         onSearch?.(searchQuery, searchCategory);
         if (searchQuery.trim()) {
-            navigate(`/search?category=${encodeURIComponent(searchCategory)}&q=${encodeURIComponent(searchQuery)}`);
+            navigate(`/products?category=${encodeURIComponent(searchCategory)}&q=${encodeURIComponent(searchQuery)}`);
         } else {
             navigate(`/products`);
         }

@@ -12,7 +12,7 @@ const ProductListingPage = () => {
     brands: [],
     rating: 0,
     priceMin: 0,
-    priceMax: 50000
+    priceMax: 100000
   });
   const [toastMessage, setToastMessage] = useState(null);
 
