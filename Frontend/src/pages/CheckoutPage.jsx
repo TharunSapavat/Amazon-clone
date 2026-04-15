@@ -15,6 +15,7 @@ const CheckoutPage = () => {
         state: 'Tamil Nadu',
         zip: '601201'
     });
+    const [optionalEmail, setOptionalEmail] = useState('');
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -38,7 +39,8 @@ const CheckoutPage = () => {
             const res = await axios.post('/api/orders', {
                 shipping_name: address.fullName,
                 shipping_address: `${address.line1}, ${address.city}, ${address.state} ${address.zip}`,
-                cart_item_ids: cartItems.map(i => i.id)
+                cart_item_ids: cartItems.map(i => i.id),
+                optional_email: optionalEmail
             });
             if (res.data.success) {
                 window.dispatchEvent(new Event('cartUpdated'));
@@ -72,10 +74,10 @@ const CheckoutPage = () => {
                 {/* Left Column (Forms) */}
                 <div className="flex-1">
                     {/* 1. Shipping Address */}
-                    <div className="flex gap-4 pb-4 border-b border-gray-300">
+                    <div className="flex gap-4 pb-6 pt-4 border-b border-gray-300">
                         <div className="font-bold text-lg w-8">1</div>
                         <div className="flex-1">
-                            <h2 className="font-bold text-lg mb-2">Shipping address</h2>
+                            <h2 className="font-bold text-lg mb-2">Shipping address & Confirmation</h2>
                             <div className="grid gap-3 max-w-[400px]">
                                 <input type="text" placeholder="Full name" value={address.fullName} onChange={e => setAddress({...address, fullName: e.target.value})} className="border border-gray-400 rounded px-3 py-1.5 shadow-sm focus:border-[#e77600] focus:ring-1 focus:ring-[#e77600] outline-none" />
                                 <input type="text" placeholder="Address Line 1" value={address.line1} onChange={e => setAddress({...address, line1: e.target.value})} className="border border-gray-400 rounded px-3 py-1.5 shadow-sm focus:border-[#e77600] focus:ring-1 focus:ring-[#e77600] outline-none" />
@@ -85,6 +87,17 @@ const CheckoutPage = () => {
                                         <input type="text" placeholder="State" value={address.state} onChange={e => setAddress({...address, state: e.target.value})} className="border border-gray-400 rounded px-3 py-1.5 w-full shadow-sm focus:border-[#e77600] focus:ring-1 focus:ring-[#e77600] outline-none" />
                                         <input type="text" placeholder="ZIP" value={address.zip} onChange={e => setAddress({...address, zip: e.target.value})} className="border border-gray-400 rounded px-3 py-1.5 w-full shadow-sm focus:border-[#e77600] focus:ring-1 focus:ring-[#e77600] outline-none" />
                                     </div>
+                                </div>
+                                <div className="mt-2 pt-2 border-t border-gray-100">
+                                    <label className="text-xs font-bold text-gray-700 block mb-1">Confirmation Email (Optional)</label>
+                                    <input 
+                                        type="email" 
+                                        placeholder="email@example.com" 
+                                        value={optionalEmail} 
+                                        onChange={e => setOptionalEmail(e.target.value)} 
+                                        className="border border-gray-400 rounded px-3 py-1.5 w-full shadow-sm focus:border-[#e77600] focus:ring-1 focus:ring-[#e77600] outline-none text-sm" 
+                                    />
+                                    <p className="text-[10px] text-gray-500 mt-1">If blank, we'll send to your account email.</p>
                                 </div>
                             </div>
                         </div>
