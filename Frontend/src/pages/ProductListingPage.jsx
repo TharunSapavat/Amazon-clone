@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline } from 'react-icons/io5';
+import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle } from 'react-icons/io5';
 import axios from 'axios';
 
 const ProductListingPage = () => {
@@ -14,6 +14,7 @@ const ProductListingPage = () => {
     priceMin: 0,
     priceMax: 50000
   });
+  const [toastMessage, setToastMessage] = useState(null);
 
   const category = searchParams.get('category') || 'All';
   const query = searchParams.get('q') || '';
@@ -49,10 +50,15 @@ const ProductListingPage = () => {
   const handleAddToCart = async (productId) => {
     try {
         await axios.post('/api/cart', { product_id: productId, quantity: 1 });
+        window.dispatchEvent(new Event('cartUpdated'));
+        setToastMessage("Added to Cart");
+        setTimeout(() => setToastMessage(null), 3000);
     } catch(err) {
         console.log("Mocked add to cart!", productId);
+        window.dispatchEvent(new Event('cartUpdated'));
+        setToastMessage("Added to Cart");
+        setTimeout(() => setToastMessage(null), 3000);
     }
-    // trigger toast or update cart count in navbar
   };
 
   const StarRating = ({ rating, count }) => {
@@ -75,6 +81,14 @@ const ProductListingPage = () => {
   return (
     <div className="bg-white min-h-screen">
       <div className="max-w-[1500px] mx-auto flex border-t border-gray-200">
+
+        {/* Global Toast */}
+        {toastMessage && (
+          <div className="fixed top-4 right-4 z-50 bg-[#F2FBFA] border-l-4 border-[#007600] text-[#007600] px-5 py-3 rounded shadow-lg flex items-center gap-3 transition-opacity duration-300">
+            <IoCheckmarkCircle className="text-2xl" />
+            <span className="font-medium text-[15px]">{toastMessage}</span>
+          </div>
+        )}
 
         {/* LEFT SIDEBAR - FILTERS */}
         <aside className="hidden lg:block w-[280px] shrink-0 p-5 border-r border-gray-200">

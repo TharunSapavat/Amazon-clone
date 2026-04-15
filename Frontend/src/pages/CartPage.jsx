@@ -52,9 +52,11 @@ const CartPage = () => {
     try {
         await axios.put(`/api/cart/${cartItemId}`, { quantity: newQty });
         fetchCart();
+        window.dispatchEvent(new Event('cartUpdated'));
     } catch(err) {
         console.log("Mock Quantity Update");
         setCartItems(prev => prev.map(item => item.id === cartItemId ? { ...item, quantity: newQty } : item));
+        window.dispatchEvent(new Event('cartUpdated'));
     }
   };
 
@@ -62,9 +64,11 @@ const CartPage = () => {
     try {
         await axios.delete(`/api/cart/${cartItemId}`);
         fetchCart();
+        window.dispatchEvent(new Event('cartUpdated'));
     } catch(err) {
         console.log("Mock delete");
         setCartItems(prev => prev.filter(item => item.id !== cartItemId));
+        window.dispatchEvent(new Event('cartUpdated'));
     }
   };
 

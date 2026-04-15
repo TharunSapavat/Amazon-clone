@@ -3,19 +3,36 @@ import { useNavigate, Link } from 'react-router-dom';
 import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
+import axios from 'axios';
 
 const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch, onCategorySelect }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchCategory, setSearchCategory] = useState('All');
     const [isScrolled, setIsScrolled] = useState(false);
+    const [localCartCount, setLocalCartCount] = useState(cartCount);
     const navigate = useNavigate();
+
+    const fetchCartCount = async () => {
+        try {
+            const res = await axios.get('/api/cart');
+            const total = res.data.reduce((sum, item) => sum + item.quantity, 0);
+            setLocalCartCount(total);
+        } catch (e) {
+            console.log("Navbar Cart Fetch Fallback");
+        }
+    };
 
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 30);
         };
+        fetchCartCount();
         window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+        window.addEventListener('cartUpdated', fetchCartCount);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('cartUpdated', fetchCartCount);
+        };
     }, []);
 
     const categories = [
@@ -131,7 +148,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Tirupati 517520", onSearch,
                         <Link to="/cart" className="flex items-end border border-transparent hover:border-white px-2 py-1 cursor-pointer relative pb-0">
                             <div className="relative">
                                 <span className="absolute left-[16px] -top-1 text-[#f08804] font-bold text-base leading-none">
-                                    {cartCount}
+                                    {localCartCount}
                                 </span>
                                 <IoCartOutline className="text-[38px] h-[38px] w-[38px]" />
                             </div>

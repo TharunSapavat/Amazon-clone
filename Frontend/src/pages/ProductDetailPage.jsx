@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline, IoShareOutline, IoLocationOutline } from 'react-icons/io5';
+import { IoStar, IoStarHalf, IoStarOutline, IoShareOutline, IoLocationOutline, IoCheckmarkCircle } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { BsShieldCheck } from 'react-icons/bs';
 import { TbTruckDelivery, TbCash, TbLock } from 'react-icons/tb';
@@ -14,6 +14,7 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [toastMessage, setToastMessage] = useState(null);
 
   useEffect(() => {
     // Dummy product for when backend falls through
@@ -59,8 +60,14 @@ const ProductDetailPage = () => {
   const handleAddToCart = async () => {
     try {
       await axios.post('/api/cart', { product_id: product.id, quantity });
+      window.dispatchEvent(new Event('cartUpdated'));
+      setToastMessage("Added to Cart");
+      setTimeout(() => setToastMessage(null), 3000);
     } catch (e) {
       console.log("Mock added to cart", quantity, "units");
+      window.dispatchEvent(new Event('cartUpdated'));
+      setToastMessage("Added to Cart");
+      setTimeout(() => setToastMessage(null), 3000);
     }
   };
 
@@ -91,6 +98,12 @@ const ProductDetailPage = () => {
 
   if (loading) return (
     <div className="bg-white min-h-screen">
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-50 bg-[#F2FBFA] border-l-4 border-[#007600] text-[#007600] px-5 py-3 rounded shadow-lg flex items-center gap-3 transition-opacity duration-300">
+          <IoCheckmarkCircle className="text-2xl" />
+          <span className="font-medium text-[15px]">{toastMessage}</span>
+        </div>
+      )}
       <div className="max-w-[1500px] mx-auto px-4 py-4 mt-8 animate-pulse">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="lg:w-[35%] flex gap-3">
@@ -125,6 +138,12 @@ const ProductDetailPage = () => {
 
   return (
     <div className="bg-white min-h-screen">
+      {toastMessage && (
+        <div className="fixed top-4 right-4 z-50 bg-[#F2FBFA] border-l-4 border-[#007600] text-[#007600] px-5 py-3 rounded shadow-lg flex items-center gap-3 transition-opacity duration-300">
+          <IoCheckmarkCircle className="text-2xl" />
+          <span className="font-medium text-[15px]">{toastMessage}</span>
+        </div>
+      )}
       <div className="max-w-[1500px] mx-auto px-4 py-4">
         <div className="flex flex-col lg:flex-row gap-6">
 
@@ -255,9 +274,9 @@ const ProductDetailPage = () => {
               <div className="mt-5 border-t border-gray-300 pt-4">
                 <h2 className="font-bold text-base text-[#0F1111] mb-2">About this item</h2>
                 <ul className="list-disc pl-5 text-sm text-[#0F1111] space-y-1">
-                  {product.description.map((point, idx) => (
-                    <li key={idx}>{point}</li>
-                  ))}
+                  {Array.isArray(product.description) 
+                    ? product.description.map((point, idx) => <li key={idx}>{point}</li>)
+                    : <li>{product.description}</li>}
                 </ul>
               </div>
             )}
