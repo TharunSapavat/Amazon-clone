@@ -1,53 +1,14 @@
 const mysql = require('mysql2/promise');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
-const items = [
-    { "name": "iPhone 13", "price": 59999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1603899122634-f086ca5f5ddd?w=300", "stock": 10 },
-    { "name": "Samsung Galaxy S21", "price": 49999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=300", "stock": 12 },
-    { "name": "OnePlus Nord", "price": 32999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300", "stock": 8 },
-    { "name": "MacBook Air", "price": 89999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300", "stock": 5 },
-    { "name": "Dell Laptop", "price": 57999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300", "stock": 6 },
-    { "name": "Bluetooth Headphones", "price": 1999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=300", "stock": 25 },
-    { "name": "Wireless Mouse", "price": 799, "category": "Electronics", "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=300", "stock": 50 },
-    { "name": "Smart Watch", "price": 2999, "category": "Electronics", "image": "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=300", "stock": 18 },
-
-    { "name": "Men Casual Shirt", "price": 799, "category": "Fashion", "image": "https://images.unsplash.com/photo-1520975916090-3105956dac38?w=300", "stock": 30 },
-    { "name": "Women Dress", "price": 1299, "category": "Fashion", "image": "https://images.unsplash.com/photo-1495121605193-b116b5b09a18?w=300", "stock": 20 },
-    { "name": "Blue Jeans", "price": 1499, "category": "Fashion", "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300", "stock": 15 },
-    { "name": "T-Shirt Pack", "price": 899, "category": "Fashion", "image": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=300", "stock": 40 },
-    { "name": "Running Shoes", "price": 2499, "category": "Fashion", "image": "https://images.unsplash.com/photo-1528701800489-20be3c1a33e9?w=300", "stock": 22 },
-    { "name": "Winter Jacket", "price": 3499, "category": "Fashion", "image": "https://images.unsplash.com/photo-1542060748-10c28b62716f?w=300", "stock": 10 },
-
-    { "name": "Cookware Set", "price": 1999, "category": "Home", "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=300", "stock": 10 },
-    { "name": "Mixer Grinder", "price": 3499, "category": "Home", "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=300", "stock": 15 },
-    { "name": "Bedsheet", "price": 899, "category": "Home", "image": "https://images.unsplash.com/photo-1582582494700-3e5b64fcb29b?w=300", "stock": 20 },
-    { "name": "Wall Clock", "price": 599, "category": "Home", "image": "https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?w=300", "stock": 25 },
-    { "name": "Curtains", "price": 1299, "category": "Home", "image": "https://images.unsplash.com/photo-1616627988290-3a46d0d80f0c?w=300", "stock": 12 },
-
-    { "name": "Refrigerator", "price": 25999, "category": "Appliances", "image": "https://images.unsplash.com/photo-1586201375754-3a0d6b2c2a1f?w=300", "stock": 5 },
-    { "name": "Washing Machine", "price": 28999, "category": "Appliances", "image": "https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=300", "stock": 4 },
-    { "name": "Microwave Oven", "price": 9999, "category": "Appliances", "image": "https://images.unsplash.com/photo-1586201375793-1d7d1f7b6a9c?w=300", "stock": 7 },
-    { "name": "Air Conditioner", "price": 34999, "category": "Appliances", "image": "https://images.unsplash.com/photo-1581091012184-5c6c59f0f9b1?w=300", "stock": 3 },
-    { "name": "Ceiling Fan", "price": 2499, "category": "Appliances", "image": "https://images.unsplash.com/photo-1582719478171-3f6d4b6c3e3e?w=300", "stock": 20 },
-
-    { "name": "The Alchemist", "price": 399, "category": "Books", "image": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300", "stock": 50 },
-    { "name": "Atomic Habits", "price": 499, "category": "Books", "image": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=300", "stock": 40 },
-    { "name": "Rich Dad Poor Dad", "price": 399, "category": "Books", "image": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=300", "stock": 45 },
-    { "name": "Ikigai", "price": 299, "category": "Books", "image": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=300", "stock": 35 },
-    { "name": "Think and Grow Rich", "price": 349, "category": "Books", "image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=300", "stock": 30 },
-
-    { "name": "Football", "price": 699, "category": "Sports", "image": "https://images.unsplash.com/photo-1517649763962-0c623066013b?w=300", "stock": 25 },
-    { "name": "Cricket Bat", "price": 1999, "category": "Sports", "image": "https://images.unsplash.com/photo-1593341646782-e0b495cff86d?w=300", "stock": 10 },
-    { "name": "Badminton Racket", "price": 999, "category": "Sports", "image": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?w=300", "stock": 15 },
-    { "name": "Yoga Mat", "price": 799, "category": "Sports", "image": "https://images.unsplash.com/photo-1554294122-7f0f3f7f3b4f?w=300", "stock": 20 },
-    { "name": "Dumbbells", "price": 1499, "category": "Sports", "image": "https://images.unsplash.com/photo-1579758629938-03607ccdbaba?w=300", "stock": 18 },
-
-    { "name": "Toy Car", "price": 1299, "category": "Toys", "image": "https://images.unsplash.com/photo-1581235720704-06d3acfcb36f?w=300", "stock": 18 },
-    { "name": "Building Blocks", "price": 999, "category": "Toys", "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=300", "stock": 25 },
-    { "name": "Teddy Bear", "price": 599, "category": "Toys", "image": "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300", "stock": 30 }
-];
-
 async function seed() {
+    // Read data.json
+    const dataPath = path.join(__dirname, 'data.json');
+    const rawData = fs.readFileSync(dataPath, 'utf8');
+    const data = JSON.parse(rawData);
+
     const pool = mysql.createPool({
         host: process.env.DB_HOST || 'localhost',
         user: process.env.DB_USER || 'root',
@@ -55,87 +16,184 @@ async function seed() {
         database: process.env.DB_NAME || 'amazon_clone',
         waitForConnections: true,
         connectionLimit: 10,
-        queueLimit: 0
+        queueLimit: 0,
+        multipleStatements: true
     });
 
     const conn = await pool.getConnection();
 
     try {
         await conn.beginTransaction();
-        console.log("🔄 Clearing old data...");
+        console.log('🔄 Clearing old data...');
 
+        // Drop and recreate tables in correct order (respecting FKs)
         await conn.query('SET FOREIGN_KEY_CHECKS = 0');
-        await conn.query('TRUNCATE TABLE order_items');
-        await conn.query('TRUNCATE TABLE orders');
-        await conn.query('TRUNCATE TABLE cart_items');
-        await conn.query('TRUNCATE TABLE product_images');
-        await conn.query('TRUNCATE TABLE products');
+        const tables = [
+            'home_section_products', 'home_sections', 'order_items', 'orders',
+            'cart_items', 'product_variants', 'product_color_options',
+            'product_specifications', 'product_descriptions', 'product_highlights',
+            'product_images', 'products', 'banners', 'categories'
+        ];
+        for (const table of tables) {
+            await conn.query(`DROP TABLE IF EXISTS ${table}`);
+        }
         await conn.query('SET FOREIGN_KEY_CHECKS = 1');
 
-        console.log(`🌱 Seeding ${items.length} products with requested Unsplash / S3 URLs...`);
+        // Read and execute schema (skip CREATE DATABASE and USE lines)
+        const schemaPath = path.join(__dirname, 'schema.sql');
+        const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+        const statements = schemaSql
+            .split(';')
+            .map(s => s.trim())
+            .filter(s => s.length > 0 && !s.match(/^(CREATE DATABASE|USE )/i));
 
-        const productValues = items.map((item, idx) => {
-            const mrp = Math.round(item.price * (1.1 + Math.random() * 0.4));
-            const discount = Math.round(((mrp - item.price) / mrp) * 100);
-            const rating = Number((3.5 + Math.random() * 1.4).toFixed(1));
-            const reviewCount = Math.floor(Math.random() * 15000) + 120;
-            return [
-                item.name,
-                'Premium Brand',
-                `High quality ${item.name} with official warranty.`,
-                item.price,
-                mrp,
-                discount,
-                rating,
-                reviewCount,
-                item.stock,
-                item.category
-            ];
-        });
+        for (const stmt of statements) {
+            await conn.query(stmt);
+        }
+        console.log('✅ Schema created');
 
-        await conn.query(
-            `INSERT INTO products (name, brand, description, price, mrp, discount, rating, review_count, stock_quantity, category) VALUES ?`,
-            [productValues]
-        );
+        // ─── SEED CATEGORIES ───
+        if (data.categories && data.categories.length > 0) {
+            for (const cat of data.categories) {
+                await conn.query(
+                    'INSERT INTO categories (id, label, icon) VALUES (?, ?, ?)',
+                    [cat.id, cat.label, cat.icon || null]
+                );
+            }
+            console.log(`✅ Seeded ${data.categories.length} categories`);
+        }
 
-        const [insertedProducts] = await conn.query('SELECT id FROM products ORDER BY id LIMIT ?', [items.length]);
-        const productIds = insertedProducts.map(p => p.id);
+        // ─── SEED BANNERS ───
+        if (data.banners && data.banners.length > 0) {
+            for (let i = 0; i < data.banners.length; i++) {
+                await conn.query(
+                    'INSERT INTO banners (image_url, sort_order) VALUES (?, ?)',
+                    [data.banners[i], i]
+                );
+            }
+            console.log(`✅ Seeded ${data.banners.length} banners`);
+        }
 
-        const imageValues = [];
-        productIds.forEach((pid, idx) => {
-            imageValues.push([pid, items[idx].image]);
-            imageValues.push([pid, items[idx].image]);
-        });
+        // ─── SEED PRODUCTS ───
+        if (data.products && data.products.length > 0) {
+            for (const p of data.products) {
+                // Insert main product row
+                await conn.query(
+                    `INSERT INTO products (id, title, brand, category, category_id, subcategory,
+                     price, original_price, discount_label, rating, reviews_text, review_count,
+                     f_assured, stock, seller, seller_rating, seller_years, exchange_value)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                    [
+                        p.id, p.title, p.brand, p.category, p.categoryId || null,
+                        p.subcategory || null, p.price, p.originalPrice || null,
+                        p.discountLabel || null, p.rating || 0, p.reviews || null,
+                        p.reviewCount || 0, p.fAssured ? 1 : 0, p.stock || 0,
+                        p.seller || null, p.sellerRating || null, p.sellerYears || null,
+                        p.exchangeValue || 0
+                    ]
+                );
 
-        await conn.query(
-            'INSERT INTO product_images (product_id, image_url) VALUES ?',
-            [imageValues]
-        );
+                // Insert images
+                if (p.images && p.images.length > 0) {
+                    for (let i = 0; i < p.images.length; i++) {
+                        await conn.query(
+                            'INSERT INTO product_images (product_id, image_url, sort_order) VALUES (?, ?, ?)',
+                            [p.id, p.images[i], i]
+                        );
+                    }
+                }
 
-        const defaultUser = 1;
-        await conn.query('INSERT INTO cart_items (user_id, product_id, quantity) VALUES ?', [
-            [[defaultUser, productIds[0], 1], [defaultUser, productIds[15], 2]]
-        ]);
+                // Insert highlights
+                if (p.highlights && p.highlights.length > 0) {
+                    for (let i = 0; i < p.highlights.length; i++) {
+                        await conn.query(
+                            'INSERT INTO product_highlights (product_id, highlight, sort_order) VALUES (?, ?, ?)',
+                            [p.id, p.highlights[i], i]
+                        );
+                    }
+                }
 
-        const [order1] = await conn.query(
-            'INSERT INTO orders (user_id, internal_order_id, total_amount, shipping_status, shipping_name, shipping_address) VALUES (?,?,?,?,?,?)',
-            [defaultUser, 'ORDER-' + Date.now(), 19397, 'DELIVERED', 'Tharun', 'Gummidipundi, Chennai, Tamil Nadu, 601201']
-        );
+                // Insert description paragraphs
+                if (p.description && p.description.length > 0) {
+                    const descArr = Array.isArray(p.description) ? p.description : [p.description];
+                    for (let i = 0; i < descArr.length; i++) {
+                        await conn.query(
+                            'INSERT INTO product_descriptions (product_id, paragraph, sort_order) VALUES (?, ?, ?)',
+                            [p.id, descArr[i], i]
+                        );
+                    }
+                }
 
-        await conn.query('INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES ?', [
-            [[order1.insertId, productIds[0], 1, 17999], [order1.insertId, productIds[15], 2, 699]]
-        ]);
+                // Insert specifications
+                if (p.specifications) {
+                    for (const [sectionName, specs] of Object.entries(p.specifications)) {
+                        for (const [key, value] of Object.entries(specs)) {
+                            await conn.query(
+                                'INSERT INTO product_specifications (product_id, section_name, spec_key, spec_value) VALUES (?, ?, ?, ?)',
+                                [p.id, sectionName, key, value]
+                            );
+                        }
+                    }
+                }
+
+                // Insert color options
+                if (p.colorOptions && p.colorOptions.length > 0) {
+                    for (const color of p.colorOptions) {
+                        await conn.query(
+                            'INSERT INTO product_color_options (product_id, color_name, hex_code) VALUES (?, ?, ?)',
+                            [p.id, color.name, color.hex || null]
+                        );
+                    }
+                }
+
+                // Insert variants
+                if (p.variants && p.variants.length > 0) {
+                    for (const v of p.variants) {
+                        await conn.query(
+                            'INSERT INTO product_variants (product_id, label, in_stock, price, original_price, discount_label) VALUES (?, ?, ?, ?, ?, ?)',
+                            [p.id, v.label, v.inStock ? 1 : 0, v.price || null, v.originalPrice || null, v.discountLabel || null]
+                        );
+                    }
+                }
+            }
+            console.log(`✅ Seeded ${data.products.length} products with images, highlights, specs, colors, variants`);
+        }
+
+        // ─── SEED HOME SECTIONS ───
+        if (data.homeSections && data.homeSections.length > 0) {
+            for (let i = 0; i < data.homeSections.length; i++) {
+                const section = data.homeSections[i];
+                const [result] = await conn.query(
+                    'INSERT INTO home_sections (title, bg_color, category_id, sort_order) VALUES (?, ?, ?, ?)',
+                    [section.title, section.bgColor || null, section.categoryId || null, i]
+                );
+                const sectionId = result.insertId;
+
+                if (section.productIds && section.productIds.length > 0) {
+                    for (let j = 0; j < section.productIds.length; j++) {
+                        await conn.query(
+                            'INSERT INTO home_section_products (section_id, product_id, sort_order) VALUES (?, ?, ?)',
+                            [sectionId, section.productIds[j], j]
+                        );
+                    }
+                }
+            }
+            console.log(`✅ Seeded ${data.homeSections.length} home sections`);
+        }
 
         await conn.commit();
-        console.log("✅ Database seeded with properly mapped image links!");
+        console.log('🎉 Database seeded successfully from data.json!');
 
     } catch (err) {
         await conn.rollback();
-        console.error("❌ Seed failed:", err.message);
+        console.error('❌ Seed failed:', err.message);
+        console.error(err);
         process.exit(1);
     } finally {
         conn.release();
+        await pool.end();
         process.exit(0);
     }
 }
+
 seed();

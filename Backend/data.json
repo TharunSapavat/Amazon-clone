@@ -1,0 +1,2264 @@
+{
+    "categories": [
+        {
+            "id": "for-you",
+            "label": "For You",
+            "icon": "/small-components/For-you.svg"
+        },
+        {
+            "id": "fashion",
+            "label": "Fashion",
+            "icon": "/small-components/fashion.svg"
+        },
+        {
+            "id": "mobiles",
+            "label": "Mobiles",
+            "icon": "/small-components/mobiles.svg"
+        },
+        {
+            "id": "beauty",
+            "label": "Beauty",
+            "icon": "/small-components/beauty.svg"
+        },
+        {
+            "id": "electronics",
+            "label": "Electronics",
+            "icon": "/small-components/electronics.svg"
+        },
+        {
+            "id": "home",
+            "label": "Home",
+            "icon": "/small-components/home-final.svg"
+        },
+        {
+            "id": "appliances",
+            "label": "Appliances",
+            "icon": "/small-components/appliances.svg"
+        },
+        {
+            "id": "toys",
+            "label": "Toys, baby products",
+            "icon": "/small-components/toys.svg"
+        },
+        {
+            "id": "food",
+            "label": "Food & Healthcare",
+            "icon": "/small-components/food.svg"
+        },
+        {
+            "id": "sports",
+            "label": "Sports & Fitness",
+            "icon": "/small-components/sport.svg"
+        },
+        {
+            "id": "books",
+            "label": "Books & More",
+            "icon": "/small-components/books.svg"
+        },
+        {
+            "id": "furniture",
+            "label": "Furniture",
+            "icon": "/small-components/furniture.svg"
+        }
+    ],
+    "banners": [
+        "/posters/AC.webp",
+        "/posters/speakers.webp",
+        "/posters/Samsung-phone.webp",
+        "/posters/watches.webp"
+    ],
+    "homeSections": [
+        {
+            "title": "Best Gadgets & Appliances",
+            "bgColor": "#ede7f6",
+            "categoryId": "electronics",
+            "productIds": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ]
+        },
+        {
+            "title": "Top Mobiles",
+            "bgColor": "#e8f5e9",
+            "categoryId": "mobiles",
+            "productIds": [
+                "5",
+                "6",
+                "7",
+                "8"
+            ]
+        },
+        {
+            "title": "Fashion Top Deals",
+            "bgColor": "#fff3e0",
+            "categoryId": "fashion",
+            "productIds": [
+                "9",
+                "10",
+                "11",
+                "12"
+            ]
+        },
+        {
+            "title": "Beauty & More",
+            "bgColor": "#fce4ec",
+            "categoryId": "beauty",
+            "productIds": [
+                "13",
+                "14",
+                "15",
+                "16"
+            ]
+        },
+        {
+            "title": "Home & Furniture",
+            "bgColor": "#e3f2fd",
+            "categoryId": "home",
+            "productIds": [
+                "17",
+                "18",
+                "19",
+                "20"
+            ]
+        }
+    ],
+    "products": [
+        {
+            "id": "1",
+            "title": "HP Pavilion 15 Gaming Laptop (Shadow Black)",
+            "brand": "HP",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Laptops",
+            "price": 62990,
+            "originalPrice": 79999,
+            "discountLabel": "21% off",
+            "rating": 4.5,
+            "reviews": "8,234 Ratings",
+            "reviewCount": 8234,
+            "fAssured": true,
+            "stock": 35,
+            "seller": "HPIndiaStore",
+            "sellerRating": 4.7,
+            "sellerYears": 10,
+            "exchangeValue": 15000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/laptops/HP%20Pavilion%2015-DK1056WM/1.png",
+                "https://cdn.dummyjson.com/products/images/laptops/HP%20Pavilion%2015-DK1056WM/2.png",
+                "https://cdn.dummyjson.com/products/images/laptops/HP%20Pavilion%2015-DK1056WM/3.png"
+            ],
+            "highlights": [
+                "Intel Core i5-12500H Processor",
+                "8 GB DDR4 RAM | 512 GB SSD",
+                "15.6 inch Full HD IPS Display",
+                "NVIDIA GTX 1650 4 GB Graphics",
+                "Windows 11 Home",
+                "Backlit Keyboard"
+            ],
+            "description": [
+                "HP Pavilion 15 gaming laptop delivers powerful performance with Intel Core i5-12500H processor and NVIDIA GTX 1650 graphics.",
+                "The 15.6-inch Full HD IPS display ensures vivid visuals for gaming and content creation.",
+                "512 GB SSD provides fast boot times and ample storage."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "HP",
+                    "Model": "Pavilion 15-DK1056WM",
+                    "OS": "Windows 11"
+                },
+                "Performance": {
+                    "Processor": "Intel Core i5-12500H",
+                    "RAM": "8 GB DDR4",
+                    "Storage": "512 GB SSD"
+                },
+                "Display": {
+                    "Size": "15.6 inches",
+                    "Type": "Full HD IPS",
+                    "Refresh Rate": "144Hz"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Shadow Black",
+                    "hex": "#1A1A1A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "8 GB + 512 GB",
+                    "inStock": true,
+                    "price": 62990,
+                    "originalPrice": 79999,
+                    "discountLabel": "21% off"
+                },
+                {
+                    "label": "16 GB + 512 GB",
+                    "inStock": true,
+                    "price": 72990,
+                    "originalPrice": 89999,
+                    "discountLabel": "18% off"
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Samsung Galaxy Tab S8 Plus (Grey, 128 GB)",
+            "brand": "Samsung",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Tablets",
+            "price": 49999,
+            "originalPrice": 74999,
+            "discountLabel": "33% off",
+            "rating": 4.5,
+            "reviews": "4,567 Ratings",
+            "reviewCount": 4567,
+            "fAssured": true,
+            "stock": 40,
+            "seller": "Samsung Official",
+            "sellerRating": 4.8,
+            "sellerYears": 8,
+            "exchangeValue": 12000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/tablets/Samsung%20Galaxy%20Tab%20S8%20Plus%20Grey/1.png",
+                "https://cdn.dummyjson.com/products/images/tablets/Samsung%20Galaxy%20Tab%20S8%20Plus%20Grey/2.png",
+                "https://cdn.dummyjson.com/products/images/tablets/Samsung%20Galaxy%20Tab%20S8%20Plus%20Grey/3.png"
+            ],
+            "highlights": [
+                "8 GB RAM | 128 GB ROM",
+                "12.4 inch Super AMOLED Display",
+                "13MP + 6MP Dual Rear Camera",
+                "12MP Front Camera",
+                "10090 mAh Battery",
+                "S Pen Included"
+            ],
+            "description": [
+                "Samsung Galaxy Tab S8 Plus with a stunning 12.4-inch Super AMOLED display and S Pen included.",
+                "Powered by Snapdragon 8 Gen 1 for blazing-fast performance.",
+                "10090 mAh battery for all-day productivity."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Samsung",
+                    "Model": "Galaxy Tab S8 Plus",
+                    "OS": "Android 12"
+                },
+                "Display": {
+                    "Size": "12.4 inches",
+                    "Type": "Super AMOLED",
+                    "Resolution": "2800 x 1752"
+                },
+                "Battery": {
+                    "Capacity": "10090 mAh",
+                    "Charging": "45W"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Grey",
+                    "hex": "#808080"
+                },
+                {
+                    "name": "Silver",
+                    "hex": "#C0C0C0"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "128 GB WiFi",
+                    "inStock": true,
+                    "price": 49999,
+                    "originalPrice": 74999,
+                    "discountLabel": "33% off"
+                },
+                {
+                    "label": "256 GB WiFi",
+                    "inStock": true,
+                    "price": 59999,
+                    "originalPrice": 84999,
+                    "discountLabel": "29% off"
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "title": "Rolex Submariner Automatic Watch (Oystersteel)",
+            "brand": "Rolex",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Luxury Watches",
+            "price": 89999,
+            "originalPrice": 120000,
+            "discountLabel": "25% off",
+            "rating": 4.9,
+            "reviews": "2,134 Ratings",
+            "reviewCount": 2134,
+            "fAssured": true,
+            "stock": 5,
+            "seller": "LuxeTimeIndia",
+            "sellerRating": 4.9,
+            "sellerYears": 15,
+            "exchangeValue": 30000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-watches/Rolex%20Submariner%20Watch/3.png"
+            ],
+            "highlights": [
+                "Automatic Self-Winding Movement",
+                "Oystersteel Case Material",
+                "Water Resistant to 300m",
+                "Cerachrom Bezel Insert",
+                "41mm Case Diameter",
+                "Swiss Made"
+            ],
+            "description": [
+                "The Rolex Submariner is the quintessential diver's watch, water resistant to 300 metres.",
+                "Features a unidirectional rotatable bezel with a Cerachrom insert and Chromalight display.",
+                "Powered by Rolex's calibre 3230 automatic movement with 70-hour power reserve."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Rolex",
+                    "Model": "Submariner",
+                    "Movement": "Automatic"
+                },
+                "Case": {
+                    "Material": "Oystersteel",
+                    "Diameter": "41mm",
+                    "Water Resistance": "300m"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Black Dial",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Blue Dial",
+                    "hex": "#003366"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "41mm Standard",
+                    "inStock": true,
+                    "price": 89999,
+                    "originalPrice": 120000,
+                    "discountLabel": "25% off"
+                }
+            ]
+        },
+        {
+            "id": "4",
+            "title": "Longines Master Collection Automatic Watch",
+            "brand": "Longines",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Premium Watches",
+            "price": 45999,
+            "originalPrice": 65000,
+            "discountLabel": "29% off",
+            "rating": 4.7,
+            "reviews": "1,876 Ratings",
+            "reviewCount": 1876,
+            "fAssured": true,
+            "stock": 12,
+            "seller": "WatchHouseIndia",
+            "sellerRating": 4.8,
+            "sellerYears": 10,
+            "exchangeValue": 10000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-watches/Longines%20Master%20Collection/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-watches/Longines%20Master%20Collection/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-watches/Longines%20Master%20Collection/3.png"
+            ],
+            "highlights": [
+                "Swiss Automatic Movement",
+                "Stainless Steel Case",
+                "Sapphire Crystal Glass",
+                "Date Display",
+                "Leather Strap",
+                "Water Resistant 30m"
+            ],
+            "description": [
+                "The Longines Master Collection is a timeless dress watch with Swiss automatic movement.",
+                "Elegant stainless steel case with scratch-resistant sapphire crystal.",
+                "Classic leather strap for sophisticated everyday wear."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Longines",
+                    "Model": "Master Collection",
+                    "Movement": "Automatic"
+                },
+                "Case": {
+                    "Material": "Stainless Steel",
+                    "Diameter": "40mm",
+                    "Crystal": "Sapphire"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Silver/White",
+                    "hex": "#F5F5F5"
+                },
+                {
+                    "name": "Gold/Brown",
+                    "hex": "#C5A37A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "40mm",
+                    "inStock": true,
+                    "price": 45999,
+                    "originalPrice": 65000,
+                    "discountLabel": "29% off"
+                }
+            ]
+        },
+        {
+            "id": "5",
+            "title": "Apple iPhone 13 Pro (Alpine Green, 128 GB)",
+            "brand": "Apple",
+            "category": "Mobiles",
+            "categoryId": "mobiles",
+            "subcategory": "Smartphones",
+            "price": 62999,
+            "originalPrice": 79900,
+            "discountLabel": "21% off",
+            "rating": 4.7,
+            "reviews": "34,567 Ratings",
+            "reviewCount": 34567,
+            "fAssured": true,
+            "stock": 40,
+            "seller": "AppleRetailIndia",
+            "sellerRating": 4.9,
+            "sellerYears": 15,
+            "exchangeValue": 45000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/smartphones/iPhone%2013%20Pro/1.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/iPhone%2013%20Pro/2.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/iPhone%2013%20Pro/3.png"
+            ],
+            "highlights": [
+                "128 GB ROM",
+                "6.1 inch Super Retina XDR ProMotion",
+                "12MP Triple Camera (Pro System)",
+                "12MP TrueDepth Front Camera",
+                "A15 Bionic Chip",
+                "Ceramic Shield Front"
+            ],
+            "description": [
+                "iPhone 13 Pro features the powerful A15 Bionic chip with ProMotion 120Hz display.",
+                "Pro camera system with 12MP triple cameras and Cinematic mode for stunning video.",
+                "Ceramic Shield front and surgical-grade stainless steel design."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Apple",
+                    "Model": "iPhone 13 Pro",
+                    "OS": "iOS 15"
+                },
+                "Display": {
+                    "Size": "6.1 inches",
+                    "Type": "Super Retina XDR OLED",
+                    "Refresh Rate": "120Hz ProMotion"
+                },
+                "Camera": {
+                    "Rear": "12MP Triple (Wide + Ultra Wide + Telephoto)",
+                    "Front": "12MP TrueDepth"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Alpine Green",
+                    "hex": "#4A6741"
+                },
+                {
+                    "name": "Sierra Blue",
+                    "hex": "#A7C1D9"
+                },
+                {
+                    "name": "Graphite",
+                    "hex": "#54524F"
+                },
+                {
+                    "name": "Gold",
+                    "hex": "#FAE7CE"
+                },
+                {
+                    "name": "Silver",
+                    "hex": "#F1F2ED"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "128 GB",
+                    "inStock": true,
+                    "price": 62999,
+                    "originalPrice": 79900,
+                    "discountLabel": "21% off"
+                },
+                {
+                    "label": "256 GB",
+                    "inStock": true,
+                    "price": 72999,
+                    "originalPrice": 89900,
+                    "discountLabel": "18% off"
+                },
+                {
+                    "label": "512 GB",
+                    "inStock": true,
+                    "price": 89999,
+                    "originalPrice": 109900,
+                    "discountLabel": "18% off"
+                },
+                {
+                    "label": "1 TB",
+                    "inStock": false
+                }
+            ]
+        },
+        {
+            "id": "6",
+            "title": "Samsung Galaxy S10 (Prism White, 128 GB)",
+            "brand": "Samsung",
+            "category": "Mobiles",
+            "categoryId": "mobiles",
+            "subcategory": "Smartphones",
+            "price": 34999,
+            "originalPrice": 49999,
+            "discountLabel": "30% off",
+            "rating": 4.5,
+            "reviews": "45,678 Ratings",
+            "reviewCount": 45678,
+            "fAssured": true,
+            "stock": 60,
+            "seller": "Samsung Official",
+            "sellerRating": 4.8,
+            "sellerYears": 8,
+            "exchangeValue": 25000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/1.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/2.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/3.png"
+            ],
+            "highlights": [
+                "8 GB RAM | 128 GB ROM",
+                "6.1 inch Dynamic AMOLED Display",
+                "16MP + 12MP + 12MP Triple Camera",
+                "10MP Front Camera",
+                "3400 mAh Battery",
+                "Snapdragon 855 Processor"
+            ],
+            "description": [
+                "Samsung Galaxy S10 features a stunning 6.1-inch Dynamic AMOLED Infinity-O display.",
+                "Triple camera system with ultra-wide, wide, and telephoto lenses.",
+                "Ultrasonic in-display fingerprint scanner for secure access."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Samsung",
+                    "Model": "Galaxy S10",
+                    "OS": "Android 9 (upgradable)"
+                },
+                "Display": {
+                    "Size": "6.1 inches",
+                    "Type": "Dynamic AMOLED",
+                    "Resolution": "3040 x 1440"
+                },
+                "Camera": {
+                    "Rear": "16MP + 12MP + 12MP",
+                    "Front": "10MP"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Prism White",
+                    "hex": "#F0F0F0"
+                },
+                {
+                    "name": "Prism Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Prism Blue",
+                    "hex": "#2196F3"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "128 GB + 8 GB",
+                    "inStock": true,
+                    "price": 34999,
+                    "originalPrice": 49999,
+                    "discountLabel": "30% off"
+                },
+                {
+                    "label": "512 GB + 8 GB",
+                    "inStock": true,
+                    "price": 44999,
+                    "originalPrice": 59999,
+                    "discountLabel": "25% off"
+                }
+            ]
+        },
+        {
+            "id": "7",
+            "title": "Vivo S1 (Diamond Black, 128 GB)",
+            "brand": "Vivo",
+            "category": "Mobiles",
+            "categoryId": "mobiles",
+            "subcategory": "Smartphones",
+            "price": 14999,
+            "originalPrice": 19999,
+            "discountLabel": "25% off",
+            "rating": 4.2,
+            "reviews": "28,901 Ratings",
+            "reviewCount": 28901,
+            "fAssured": true,
+            "stock": 120,
+            "seller": "VivoBrandStore",
+            "sellerRating": 4.5,
+            "sellerYears": 6,
+            "exchangeValue": 10000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/smartphones/Vivo%20S1/1.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Vivo%20S1/2.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Vivo%20S1/3.png"
+            ],
+            "highlights": [
+                "6 GB RAM | 128 GB ROM",
+                "6.38 inch Super AMOLED Display",
+                "16MP + 8MP + 2MP Triple Camera",
+                "32MP Front Camera",
+                "4500 mAh Battery",
+                "In-Display Fingerprint Sensor"
+            ],
+            "description": [
+                "Vivo S1 sports a 6.38-inch Super AMOLED FHD+ display with in-display fingerprint.",
+                "32MP AI selfie camera for stunning portraits.",
+                "4500 mAh battery for all-day usage."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Vivo",
+                    "Model": "S1",
+                    "OS": "Android 9"
+                },
+                "Display": {
+                    "Size": "6.38 inches",
+                    "Type": "Super AMOLED"
+                },
+                "Battery": {
+                    "Capacity": "4500 mAh"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Diamond Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Skyline Blue",
+                    "hex": "#4682B4"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "128 GB + 6 GB",
+                    "inStock": true,
+                    "price": 14999,
+                    "originalPrice": 19999,
+                    "discountLabel": "25% off"
+                }
+            ]
+        },
+        {
+            "id": "8",
+            "title": "Oppo A57 (Glowing Black, 64 GB)",
+            "brand": "Oppo",
+            "category": "Mobiles",
+            "categoryId": "mobiles",
+            "subcategory": "Smartphones",
+            "price": 11999,
+            "originalPrice": 15999,
+            "discountLabel": "25% off",
+            "rating": 4.1,
+            "reviews": "18,345 Ratings",
+            "reviewCount": 18345,
+            "fAssured": true,
+            "stock": 200,
+            "seller": "OppoOfficialStore",
+            "sellerRating": 4.4,
+            "sellerYears": 5,
+            "exchangeValue": 8000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/smartphones/Oppo%20A57/1.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Oppo%20A57/2.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Oppo%20A57/3.png"
+            ],
+            "highlights": [
+                "4 GB RAM | 64 GB ROM",
+                "6.56 inch HD+ Display",
+                "13MP + 2MP Dual Camera",
+                "8MP Front Camera",
+                "5000 mAh Battery",
+                "MediaTek Helio G35"
+            ],
+            "description": [
+                "Oppo A57 delivers reliable performance with Helio G35 and a massive 5000 mAh battery.",
+                "6.56-inch HD+ display for immersive viewing.",
+                "Expandable storage up to 1 TB via microSD."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Oppo",
+                    "Model": "A57",
+                    "OS": "Android 12"
+                },
+                "Display": {
+                    "Size": "6.56 inches",
+                    "Type": "IPS LCD"
+                },
+                "Battery": {
+                    "Capacity": "5000 mAh"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Glowing Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Glowing Green",
+                    "hex": "#2E8B57"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "64 GB + 4 GB",
+                    "inStock": true,
+                    "price": 11999,
+                    "originalPrice": 15999,
+                    "discountLabel": "25% off"
+                },
+                {
+                    "label": "128 GB + 4 GB",
+                    "inStock": true,
+                    "price": 13999,
+                    "originalPrice": 17999,
+                    "discountLabel": "22% off"
+                }
+            ]
+        },
+        {
+            "id": "9",
+            "title": "Blue & Black Check Casual Shirt for Men",
+            "brand": "Allen Solly",
+            "category": "Fashion",
+            "categoryId": "fashion",
+            "subcategory": "Men's Shirts",
+            "price": 1049,
+            "originalPrice": 1999,
+            "discountLabel": "47% off",
+            "rating": 4.2,
+            "reviews": "5,678 Ratings",
+            "reviewCount": 5678,
+            "fAssured": true,
+            "stock": 200,
+            "seller": "AllenSollyBrand",
+            "sellerRating": 4.6,
+            "sellerYears": 10,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-shirts/Blue%20&%20Black%20Check%20Shirt/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-shirts/Blue%20&%20Black%20Check%20Shirt/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-shirts/Blue%20&%20Black%20Check%20Shirt/3.png",
+                "https://cdn.dummyjson.com/products/images/mens-shirts/Blue%20&%20Black%20Check%20Shirt/4.png"
+            ],
+            "highlights": [
+                "Regular Fit",
+                "Blue & Black Checkered Pattern",
+                "Pure Cotton Fabric",
+                "Full Sleeve",
+                "Machine Washable",
+                "Casual Wear"
+            ],
+            "description": [
+                "A classic blue and black checkered shirt crafted from premium cotton.",
+                "Regular fit offers relaxed comfort for casual outings.",
+                "Machine washable for easy maintenance."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Allen Solly",
+                    "Fit": "Regular",
+                    "Sleeve": "Full"
+                },
+                "Fabric": {
+                    "Material": "100% Cotton",
+                    "Pattern": "Checkered"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Blue/Black Check",
+                    "hex": "#1B2A4A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "S",
+                    "inStock": true,
+                    "price": 1049,
+                    "originalPrice": 1999,
+                    "discountLabel": "47% off"
+                },
+                {
+                    "label": "M",
+                    "inStock": true,
+                    "price": 1049,
+                    "originalPrice": 1999,
+                    "discountLabel": "47% off"
+                },
+                {
+                    "label": "L",
+                    "inStock": true,
+                    "price": 1049,
+                    "originalPrice": 1999,
+                    "discountLabel": "47% off"
+                },
+                {
+                    "label": "XL",
+                    "inStock": true,
+                    "price": 1049,
+                    "originalPrice": 1999,
+                    "discountLabel": "47% off"
+                },
+                {
+                    "label": "XXL",
+                    "inStock": false
+                }
+            ]
+        },
+        {
+            "id": "10",
+            "title": "Nike Air Jordan 1 Red and Black Sneakers",
+            "brand": "Nike",
+            "category": "Fashion",
+            "categoryId": "fashion",
+            "subcategory": "Men's Footwear",
+            "price": 8995,
+            "originalPrice": 12995,
+            "discountLabel": "30% off",
+            "rating": 4.6,
+            "reviews": "12,456 Ratings",
+            "reviewCount": 12456,
+            "fAssured": true,
+            "stock": 50,
+            "seller": "NikeIndia",
+            "sellerRating": 4.8,
+            "sellerYears": 12,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Nike%20Air%20Jordan%201%20Red%20And%20Black/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Nike%20Air%20Jordan%201%20Red%20And%20Black/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Nike%20Air%20Jordan%201%20Red%20And%20Black/3.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Nike%20Air%20Jordan%201%20Red%20And%20Black/4.png"
+            ],
+            "highlights": [
+                "Iconic Air Jordan 1 Design",
+                "Genuine Leather Upper",
+                "Air-Sole Unit Cushioning",
+                "High-Top Silhouette",
+                "Rubber Outsole",
+                "Classic Red & Black Colorway"
+            ],
+            "description": [
+                "The Nike Air Jordan 1 in classic Bred (Red and Black) is an iconic sneaker.",
+                "Premium leather upper with Air-Sole cushioning for comfort.",
+                "A must-have for sneaker collectors and basketball fans."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Nike",
+                    "Model": "Air Jordan 1",
+                    "Type": "High-Top Sneakers"
+                },
+                "Material": {
+                    "Upper": "Genuine Leather",
+                    "Outsole": "Rubber"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Red/Black",
+                    "hex": "#8B0000"
+                },
+                {
+                    "name": "Royal Blue/Black",
+                    "hex": "#002366"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "UK 7",
+                    "inStock": true,
+                    "price": 8995,
+                    "originalPrice": 12995,
+                    "discountLabel": "30% off"
+                },
+                {
+                    "label": "UK 8",
+                    "inStock": true,
+                    "price": 8995,
+                    "originalPrice": 12995,
+                    "discountLabel": "30% off"
+                },
+                {
+                    "label": "UK 9",
+                    "inStock": true,
+                    "price": 8995,
+                    "originalPrice": 12995,
+                    "discountLabel": "30% off"
+                },
+                {
+                    "label": "UK 10",
+                    "inStock": true,
+                    "price": 8995,
+                    "originalPrice": 12995,
+                    "discountLabel": "30% off"
+                }
+            ]
+        },
+        {
+            "id": "11",
+            "title": "Puma Future Rider Trainers (Casual Sneakers)",
+            "brand": "Puma",
+            "category": "Fashion",
+            "categoryId": "fashion",
+            "subcategory": "Men's Footwear",
+            "price": 3499,
+            "originalPrice": 5999,
+            "discountLabel": "41% off",
+            "rating": 4.3,
+            "reviews": "9,234 Ratings",
+            "reviewCount": 9234,
+            "fAssured": true,
+            "stock": 80,
+            "seller": "PumaIndia",
+            "sellerRating": 4.7,
+            "sellerYears": 10,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Puma%20Future%20Rider%20Trainers/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Puma%20Future%20Rider%20Trainers/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Puma%20Future%20Rider%20Trainers/3.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Puma%20Future%20Rider%20Trainers/4.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Puma%20Future%20Rider%20Trainers/4.png"
+            ],
+            "highlights": [
+                "Retro-Inspired Design",
+                "Mesh & Suede Upper",
+                "Lightweight Cushioning",
+                "Rubber Outsole",
+                "Lace-Up Closure",
+                "Everyday Casual Wear"
+            ],
+            "description": [
+                "Puma Future Rider Trainers bring retro style with modern comfort.",
+                "Mesh and suede upper for breathability and durability.",
+                "Lightweight cushioned midsole for all-day comfort."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Puma",
+                    "Model": "Future Rider",
+                    "Type": "Trainers"
+                },
+                "Material": {
+                    "Upper": "Mesh + Suede",
+                    "Outsole": "Rubber"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "White/Multi",
+                    "hex": "#FFFFFF"
+                },
+                {
+                    "name": "Black/Red",
+                    "hex": "#1A1A1A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "UK 7",
+                    "inStock": true,
+                    "price": 3499,
+                    "originalPrice": 5999,
+                    "discountLabel": "41% off"
+                },
+                {
+                    "label": "UK 8",
+                    "inStock": true,
+                    "price": 3499,
+                    "originalPrice": 5999,
+                    "discountLabel": "41% off"
+                },
+                {
+                    "label": "UK 9",
+                    "inStock": true,
+                    "price": 3499,
+                    "originalPrice": 5999,
+                    "discountLabel": "41% off"
+                },
+                {
+                    "label": "UK 10",
+                    "inStock": false
+                }
+            ]
+        },
+        {
+            "id": "12",
+            "title": "Classic Leather Formal Shoes (Oxford Brown)",
+            "brand": "Clarks",
+            "category": "Fashion",
+            "categoryId": "fashion",
+            "subcategory": "Men's Footwear",
+            "price": 4999,
+            "originalPrice": 7999,
+            "discountLabel": "37% off",
+            "rating": 4.4,
+            "reviews": "6,789 Ratings",
+            "reviewCount": 6789,
+            "fAssured": true,
+            "stock": 70,
+            "seller": "ClarksIndia",
+            "sellerRating": 4.7,
+            "sellerYears": 20,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Sports%20Tracker%20Watch/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Sports%20Tracker%20Watch/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Sports%20Tracker%20Watch/3.png"
+            ],
+            "highlights": [
+                "Genuine Leather Upper",
+                "Cushioned Insole",
+                "Durable Rubber Sole",
+                "Lace-Up Closure",
+                "Formal & Semi-Formal Wear",
+                "Premium Finish"
+            ],
+            "description": [
+                "Classic Oxford formal shoes crafted from genuine leather.",
+                "Cushioned insole provides comfort during long hours.",
+                "Perfect for office, meetings, and formal events."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Clarks",
+                    "Type": "Formal Shoes",
+                    "Closure": "Lace-Up"
+                },
+                "Material": {
+                    "Upper": "Genuine Leather",
+                    "Sole": "Rubber"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Oxford Brown",
+                    "hex": "#8B4513"
+                },
+                {
+                    "name": "Classic Black",
+                    "hex": "#1A1A1A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "UK 7",
+                    "inStock": true,
+                    "price": 4999,
+                    "originalPrice": 7999,
+                    "discountLabel": "37% off"
+                },
+                {
+                    "label": "UK 8",
+                    "inStock": true,
+                    "price": 4999,
+                    "originalPrice": 7999,
+                    "discountLabel": "37% off"
+                },
+                {
+                    "label": "UK 9",
+                    "inStock": true,
+                    "price": 4999,
+                    "originalPrice": 7999,
+                    "discountLabel": "37% off"
+                }
+            ]
+        },
+        {
+            "id": "13",
+            "title": "Essence Mascara Lash Princess Volume",
+            "brand": "Essence",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Eye Makeup",
+            "price": 499,
+            "originalPrice": 799,
+            "discountLabel": "37% off",
+            "rating": 4.6,
+            "reviews": "42,567 Ratings",
+            "reviewCount": 42567,
+            "fAssured": true,
+            "stock": 400,
+            "seller": "BeautyBreeze",
+            "sellerRating": 4.5,
+            "sellerYears": 6,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/2.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/3.png"
+            ],
+            "highlights": [
+                "Dramatic Volume Effect",
+                "Sculpted Lash Look",
+                "Long-Lasting Formula",
+                "Cruelty Free",
+                "Easy to Remove",
+                "Cone-Shaped Brush"
+            ],
+            "description": [
+                "Essence Lash Princess mascara gives dramatic volume and sculpted lash effect.",
+                "The cone-shaped fiber brush separates and defines each lash.",
+                "Cruelty-free and easy to remove at the end of the day."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Essence",
+                    "Type": "Mascara",
+                    "Effect": "Volume"
+                },
+                "Details": {
+                    "Weight": "12 ml",
+                    "Cruelty Free": "Yes"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Black",
+                    "hex": "#1A1A1A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "Standard",
+                    "inStock": true,
+                    "price": 499,
+                    "originalPrice": 799,
+                    "discountLabel": "37% off"
+                }
+            ]
+        },
+        {
+            "id": "14",
+            "title": "Eyeshadow Palette with Mirror (12 Colors)",
+            "brand": "Glamour Beauty",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Eye Makeup",
+            "price": 899,
+            "originalPrice": 1499,
+            "discountLabel": "40% off",
+            "rating": 4.3,
+            "reviews": "18,234 Ratings",
+            "reviewCount": 18234,
+            "fAssured": true,
+            "stock": 250,
+            "seller": "GlamourStore",
+            "sellerRating": 4.4,
+            "sellerYears": 5,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/1.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/2.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Eyeshadow%20Palette%20with%20Mirror/3.png"
+            ],
+            "highlights": [
+                "12 Versatile Shades",
+                "Built-in Mirror",
+                "Highly Pigmented",
+                "Matte & Shimmer Finishes",
+                "Long Lasting 10+ Hours",
+                "Compact Travel Size"
+            ],
+            "description": [
+                "A versatile eyeshadow palette with 12 curated shades from matte to shimmer.",
+                "Built-in mirror for easy on-the-go application.",
+                "Highly pigmented formula that lasts 10+ hours."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Glamour Beauty",
+                    "Type": "Eyeshadow Palette"
+                },
+                "Details": {
+                    "Shades": "12",
+                    "Finishes": "Matte + Shimmer",
+                    "Mirror": "Yes"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Warm Tones",
+                    "hex": "#C5A37A"
+                },
+                {
+                    "name": "Cool Tones",
+                    "hex": "#B0C4DE"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "12 Colors",
+                    "inStock": true,
+                    "price": 899,
+                    "originalPrice": 1499,
+                    "discountLabel": "40% off"
+                }
+            ]
+        },
+        {
+            "id": "15",
+            "title": "Red Lipstick Matte Finish (Long Lasting)",
+            "brand": "Glamour Beauty",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Lipstick",
+            "price": 599,
+            "originalPrice": 999,
+            "discountLabel": "40% off",
+            "rating": 4.4,
+            "reviews": "24,567 Ratings",
+            "reviewCount": 24567,
+            "fAssured": true,
+            "stock": 300,
+            "seller": "GlamourStore",
+            "sellerRating": 4.4,
+            "sellerYears": 5,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/1.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/2.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Red%20Lipstick/3.png"
+            ],
+            "highlights": [
+                "Classic Red Shade",
+                "Ultra Matte Finish",
+                "Long Lasting 12 Hours",
+                "Vitamin E Enriched",
+                "Creamy Smooth Texture",
+                "Cruelty Free"
+            ],
+            "description": [
+                "A classic red lipstick with ultra matte finish that lasts up to 12 hours.",
+                "Enriched with Vitamin E for lip nourishment.",
+                "Creamy smooth texture for easy application."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Glamour Beauty",
+                    "Type": "Lipstick",
+                    "Finish": "Matte"
+                },
+                "Details": {
+                    "Weight": "3.5g",
+                    "Lasting": "12 hours"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Classic Red",
+                    "hex": "#CC0000"
+                },
+                {
+                    "name": "Berry",
+                    "hex": "#8E4585"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "Standard",
+                    "inStock": true,
+                    "price": 599,
+                    "originalPrice": 999,
+                    "discountLabel": "40% off"
+                }
+            ]
+        },
+        {
+            "id": "16",
+            "title": "Powder Canister (Translucent Setting Powder)",
+            "brand": "Glamour Beauty",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Face Makeup",
+            "price": 749,
+            "originalPrice": 1199,
+            "discountLabel": "37% off",
+            "rating": 4.2,
+            "reviews": "9,876 Ratings",
+            "reviewCount": 9876,
+            "fAssured": true,
+            "stock": 180,
+            "seller": "GlamourStore",
+            "sellerRating": 4.4,
+            "sellerYears": 5,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/1.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/2.png",
+                "https://cdn.dummyjson.com/products/images/beauty/Powder%20Canister/3.png"
+            ],
+            "highlights": [
+                "Translucent Setting Powder",
+                "Matte Finish",
+                "Controls Shine All Day",
+                "Lightweight Formula",
+                "For All Skin Types",
+                "Minimizes Pores"
+            ],
+            "description": [
+                "A translucent setting powder that locks in makeup and controls shine.",
+                "Lightweight formula doesn't feel cakey or heavy.",
+                "Suitable for all skin types and tones."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Glamour Beauty",
+                    "Type": "Setting Powder",
+                    "Finish": "Matte"
+                },
+                "Details": {
+                    "Weight": "20g",
+                    "Skin Type": "All"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Translucent",
+                    "hex": "#FFF8DC"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "20g",
+                    "inStock": true,
+                    "price": 749,
+                    "originalPrice": 1199,
+                    "discountLabel": "37% off"
+                }
+            ]
+        },
+        {
+            "id": "17",
+            "title": "Annibale Colombo Bed (Luxury Italian Design)",
+            "brand": "Annibale Colombo",
+            "category": "Home",
+            "categoryId": "home",
+            "subcategory": "Beds",
+            "price": 89999,
+            "originalPrice": 129999,
+            "discountLabel": "30% off",
+            "rating": 4.7,
+            "reviews": "1,234 Ratings",
+            "reviewCount": 1234,
+            "fAssured": true,
+            "stock": 8,
+            "seller": "LuxuryFurnitureIndia",
+            "sellerRating": 4.8,
+            "sellerYears": 12,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/1.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/2.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Bed/3.png"
+            ],
+            "highlights": [
+                "Italian Luxury Design",
+                "Premium Upholstered Headboard",
+                "Solid Wood Frame",
+                "King Size",
+                "Handcrafted Details",
+                "5 Year Warranty"
+            ],
+            "description": [
+                "Annibale Colombo luxury bed with Italian handcrafted design and upholstered headboard.",
+                "Solid wood frame ensures durability and stability.",
+                "King size bed that transforms your bedroom into a luxury suite."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Annibale Colombo",
+                    "Type": "Bed",
+                    "Size": "King"
+                },
+                "Details": {
+                    "Material": "Solid Wood + Upholstery",
+                    "Origin": "Italy",
+                    "Warranty": "5 Years"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Ivory",
+                    "hex": "#FFFFF0"
+                },
+                {
+                    "name": "Charcoal",
+                    "hex": "#36454F"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "King Size",
+                    "inStock": true,
+                    "price": 89999,
+                    "originalPrice": 129999,
+                    "discountLabel": "30% off"
+                }
+            ]
+        },
+        {
+            "id": "18",
+            "title": "Annibale Colombo Sofa (3-Seater Premium)",
+            "brand": "Annibale Colombo",
+            "category": "Home",
+            "categoryId": "home",
+            "subcategory": "Sofas",
+            "price": 65999,
+            "originalPrice": 99999,
+            "discountLabel": "34% off",
+            "rating": 4.6,
+            "reviews": "2,345 Ratings",
+            "reviewCount": 2345,
+            "fAssured": true,
+            "stock": 10,
+            "seller": "LuxuryFurnitureIndia",
+            "sellerRating": 4.8,
+            "sellerYears": 12,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/1.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/2.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Annibale%20Colombo%20Sofa/3.png"
+            ],
+            "highlights": [
+                "Italian Craftsmanship",
+                "3-Seater Design",
+                "Premium Fabric Upholstery",
+                "High-Density Foam Cushions",
+                "Solid Wood Legs",
+                "5 Year Warranty"
+            ],
+            "description": [
+                "Annibale Colombo 3-seater sofa with Italian craftsmanship and premium upholstery.",
+                "High-density foam cushions for maximum comfort.",
+                "Solid wood legs with a modern contemporary design."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Annibale Colombo",
+                    "Type": "Sofa",
+                    "Seating": "3-Seater"
+                },
+                "Details": {
+                    "Material": "Fabric + Solid Wood",
+                    "Cushion": "High-Density Foam",
+                    "Warranty": "5 Years"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Beige",
+                    "hex": "#F5F5DC"
+                },
+                {
+                    "name": "Grey",
+                    "hex": "#808080"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "3-Seater",
+                    "inStock": true,
+                    "price": 65999,
+                    "originalPrice": 99999,
+                    "discountLabel": "34% off"
+                }
+            ]
+        },
+        {
+            "id": "19",
+            "title": "Bedside Table (Solid Wood, Modern Design)",
+            "brand": "HomeStyle",
+            "category": "Home",
+            "categoryId": "home",
+            "subcategory": "Tables",
+            "price": 4999,
+            "originalPrice": 8999,
+            "discountLabel": "44% off",
+            "rating": 4.3,
+            "reviews": "5,678 Ratings",
+            "reviewCount": 5678,
+            "fAssured": true,
+            "stock": 60,
+            "seller": "HomeStyleIndia",
+            "sellerRating": 4.5,
+            "sellerYears": 8,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/1.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/2.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Bedside%20Table%20African%20Cherry/3.png"
+            ],
+            "highlights": [
+                "African Cherry Wood",
+                "2 Drawer Storage",
+                "Modern Minimalist Design",
+                "Sturdy Construction",
+                "Easy Assembly",
+                "Dimensions: 45 x 40 x 55 cm"
+            ],
+            "description": [
+                "A beautiful bedside table crafted from African Cherry wood.",
+                "Two drawers provide convenient storage for essentials.",
+                "Modern minimalist design complements any bedroom decor."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "HomeStyle",
+                    "Type": "Bedside Table",
+                    "Material": "African Cherry Wood"
+                },
+                "Details": {
+                    "Drawers": "2",
+                    "Dimensions": "45 x 40 x 55 cm",
+                    "Assembly": "Required"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Cherry Wood",
+                    "hex": "#954535"
+                },
+                {
+                    "name": "Walnut",
+                    "hex": "#5C4033"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "Standard",
+                    "inStock": true,
+                    "price": 4999,
+                    "originalPrice": 8999,
+                    "discountLabel": "44% off"
+                }
+            ]
+        },
+        {
+            "id": "20",
+            "title": "Knoll Rocking Chair (Solid Wood Frame)",
+            "brand": "Knoll",
+            "category": "Home",
+            "categoryId": "home",
+            "subcategory": "Chairs",
+            "price": 12999,
+            "originalPrice": 19999,
+            "discountLabel": "35% off",
+            "rating": 4.5,
+            "reviews": "3,456 Ratings",
+            "reviewCount": 3456,
+            "fAssured": true,
+            "stock": 25,
+            "seller": "KnollIndia",
+            "sellerRating": 4.7,
+            "sellerYears": 10,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/1.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/2.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Knoll%20Saarinen%20Executive%20Conference%20Chair/3.png"
+            ],
+            "highlights": [
+                "Iconic Saarinen Design",
+                "Premium Upholstered Seat",
+                "Chrome Swivel Base",
+                "Ergonomic Comfort",
+                "For Office & Conference",
+                "5 Year Warranty"
+            ],
+            "description": [
+                "Knoll Saarinen Executive chair with iconic mid-century modern design.",
+                "Premium upholstered seat with chrome swivel base.",
+                "Perfect for office, conference room, or home study."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Knoll",
+                    "Type": "Executive Chair",
+                    "Design": "Saarinen"
+                },
+                "Details": {
+                    "Material": "Upholstery + Chrome",
+                    "Swivel": "Yes",
+                    "Warranty": "5 Years"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Grey",
+                    "hex": "#808080"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "Standard",
+                    "inStock": true,
+                    "price": 12999,
+                    "originalPrice": 19999,
+                    "discountLabel": "35% off"
+                }
+            ]
+        },
+        {
+            "id": "21",
+            "title": "Samsung Galaxy Watch 4 (Bluetooth, 44mm)",
+            "brand": "Samsung",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Smartwatches",
+            "price": 14999,
+            "originalPrice": 23999,
+            "discountLabel": "37% off",
+            "rating": 4.4,
+            "reviews": "15,678 Ratings",
+            "reviewCount": 15678,
+            "fAssured": true,
+            "stock": 55,
+            "seller": "Samsung Official",
+            "sellerRating": 4.8,
+            "sellerYears": 8,
+            "exchangeValue": 3000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Samsung%20Galaxy%20Watch%204/1.png",
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Samsung%20Galaxy%20Watch%204/2.png",
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Samsung%20Galaxy%20Watch%204/3.png"
+            ],
+            "highlights": [
+                "1.4 inch Super AMOLED Display",
+                "Body Composition Analysis",
+                "Sleep Tracking with Blood Oxygen",
+                "Wear OS by Google",
+                "Bluetooth Calling",
+                "Water Resistant 5ATM"
+            ],
+            "description": [
+                "Samsung Galaxy Watch 4 with advanced health monitoring including body composition analysis.",
+                "1.4-inch Super AMOLED display with Wear OS for seamless app experience.",
+                "Water resistant to 5ATM with durable aluminium frame."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Samsung",
+                    "Model": "Galaxy Watch 4",
+                    "OS": "Wear OS"
+                },
+                "Display": {
+                    "Size": "1.4 inches",
+                    "Type": "Super AMOLED"
+                },
+                "Features": {
+                    "Health": "BIA, Heart Rate, SpO2, Sleep",
+                    "Water Resistance": "5ATM"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Silver",
+                    "hex": "#C0C0C0"
+                },
+                {
+                    "name": "Green",
+                    "hex": "#2E8B57"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "40mm",
+                    "inStock": true,
+                    "price": 12999,
+                    "originalPrice": 21999,
+                    "discountLabel": "40% off"
+                },
+                {
+                    "label": "44mm",
+                    "inStock": true,
+                    "price": 14999,
+                    "originalPrice": 23999,
+                    "discountLabel": "37% off"
+                }
+            ]
+        },
+        {
+            "id": "22",
+            "title": "Apple AirPods Max (Silver)",
+            "brand": "Apple",
+            "category": "Electronics",
+            "categoryId": "electronics",
+            "subcategory": "Headphones",
+            "price": 49900,
+            "originalPrice": 59900,
+            "discountLabel": "16% off",
+            "rating": 4.8,
+            "reviews": "6,789 Ratings",
+            "reviewCount": 6789,
+            "fAssured": true,
+            "stock": 15,
+            "seller": "AppleRetailIndia",
+            "sellerRating": 4.9,
+            "sellerYears": 15,
+            "exchangeValue": 8000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20AirPods%20Max%20Silver/1.png",
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20AirPods%20Max%20Silver/2.png",
+                "https://cdn.dummyjson.com/products/images/mobile-accessories/Apple%20AirPods%20Max%20Silver/3.png"
+            ],
+            "highlights": [
+                "Active Noise Cancellation",
+                "Spatial Audio with Head Tracking",
+                "Computational Audio with Apple H1",
+                "20 Hours Battery Life",
+                "Digital Crown Control",
+                "Premium Aluminium & Steel Build"
+            ],
+            "description": [
+                "Apple AirPods Max deliver the ultimate listening experience with Active Noise Cancellation.",
+                "Spatial audio with dynamic head tracking for theater-like sound.",
+                "Premium build with aluminium ear cups and stainless steel headband."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Apple",
+                    "Model": "AirPods Max",
+                    "Type": "Over-Ear"
+                },
+                "Audio": {
+                    "Chip": "Apple H1 (dual)",
+                    "ANC": "Yes",
+                    "Spatial Audio": "Yes"
+                },
+                "Battery": {
+                    "Life": "20 hours",
+                    "Charging": "Lightning"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Silver",
+                    "hex": "#C0C0C0"
+                },
+                {
+                    "name": "Space Grey",
+                    "hex": "#4A4A4A"
+                },
+                {
+                    "name": "Green",
+                    "hex": "#4A7C59"
+                },
+                {
+                    "name": "Sky Blue",
+                    "hex": "#87CEEB"
+                },
+                {
+                    "name": "Pink",
+                    "hex": "#FFB6C1"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "AirPods Max",
+                    "inStock": true,
+                    "price": 49900,
+                    "originalPrice": 59900,
+                    "discountLabel": "16% off"
+                }
+            ]
+        },
+        {
+            "id": "23",
+            "title": "Samsung Galaxy S24 Ultra 5G (Titanium Gray, 256 GB)",
+            "brand": "Samsung",
+            "category": "Mobiles",
+            "categoryId": "mobiles",
+            "subcategory": "Smartphones",
+            "price": 109999,
+            "originalPrice": 134999,
+            "discountLabel": "18% off",
+            "rating": 4.7,
+            "reviews": "22,345 Ratings",
+            "reviewCount": 22345,
+            "fAssured": true,
+            "stock": 20,
+            "seller": "Samsung Official",
+            "sellerRating": 4.8,
+            "sellerYears": 8,
+            "exchangeValue": 65000,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/1.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/2.png",
+                "https://cdn.dummyjson.com/products/images/smartphones/Samsung%20Galaxy%20S10/3.png"
+            ],
+            "highlights": [
+                "12 GB RAM | 256 GB ROM",
+                "6.8 inch Dynamic AMOLED 2X QHD+",
+                "200MP + 50MP + 12MP + 10MP Quad Camera",
+                "Snapdragon 8 Gen 3 for Galaxy",
+                "5000 mAh Battery",
+                "S Pen Built-in with AI Features"
+            ],
+            "description": [
+                "Samsung Galaxy S24 Ultra with revolutionary 200MP camera and Galaxy AI features.",
+                "Titanium frame for unmatched durability and premium feel.",
+                "Built-in S Pen with AI-powered note-taking and translation."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Samsung",
+                    "Model": "Galaxy S24 Ultra",
+                    "OS": "Android 14 + One UI 6.1"
+                },
+                "Display": {
+                    "Size": "6.8 inches",
+                    "Type": "Dynamic AMOLED 2X",
+                    "Resolution": "QHD+"
+                },
+                "Camera": {
+                    "Rear": "200MP + 50MP + 12MP + 10MP",
+                    "Front": "12MP"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Titanium Gray",
+                    "hex": "#808080"
+                },
+                {
+                    "name": "Titanium Black",
+                    "hex": "#1A1A1A"
+                },
+                {
+                    "name": "Titanium Violet",
+                    "hex": "#7F00FF"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "256 GB + 12 GB",
+                    "inStock": true,
+                    "price": 109999,
+                    "originalPrice": 134999,
+                    "discountLabel": "18% off"
+                },
+                {
+                    "label": "512 GB + 12 GB",
+                    "inStock": true,
+                    "price": 124999,
+                    "originalPrice": 149999,
+                    "discountLabel": "16% off"
+                },
+                {
+                    "label": "1 TB + 12 GB",
+                    "inStock": false
+                }
+            ]
+        },
+        {
+            "id": "24",
+            "title": "Wooden Bathroom Sink with Mirror Cabinet",
+            "brand": "HomeStyle",
+            "category": "Home",
+            "categoryId": "home",
+            "subcategory": "Bathroom Furniture",
+            "price": 18999,
+            "originalPrice": 29999,
+            "discountLabel": "36% off",
+            "rating": 4.2,
+            "reviews": "3,456 Ratings",
+            "reviewCount": 3456,
+            "fAssured": true,
+            "stock": 20,
+            "seller": "HomeStyleIndia",
+            "sellerRating": 4.5,
+            "sellerYears": 8,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/1.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/2.png",
+                "https://cdn.dummyjson.com/products/images/furniture/Wooden%20Bathroom%20Sink%20With%20Mirror/3.png"
+            ],
+            "highlights": [
+                "Solid Wood Construction",
+                "Built-in Mirror Cabinet",
+                "Ceramic Basin Included",
+                "Water Resistant Finish",
+                "Modern Minimalist Design",
+                "Easy Installation"
+            ],
+            "description": [
+                "A premium wooden bathroom sink unit with built-in mirror cabinet.",
+                "Solid wood with water-resistant finish for long-lasting use.",
+                "Ceramic basin and modern design elevate your bathroom aesthetics."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "HomeStyle",
+                    "Type": "Bathroom Vanity",
+                    "Material": "Solid Wood"
+                },
+                "Details": {
+                    "Basin": "Ceramic",
+                    "Mirror": "Included",
+                    "Installation": "Wall Mounted"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Natural Wood",
+                    "hex": "#DEB887"
+                },
+                {
+                    "name": "Dark Walnut",
+                    "hex": "#5C4033"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "Standard",
+                    "inStock": true,
+                    "price": 18999,
+                    "originalPrice": 29999,
+                    "discountLabel": "36% off"
+                }
+            ]
+        },
+        {
+            "id": "25",
+            "title": "Adidas Ultraboost Running Shoes (Cloud White)",
+            "brand": "Adidas",
+            "category": "Sports",
+            "categoryId": "sports",
+            "subcategory": "Running Shoes",
+            "price": 11999,
+            "originalPrice": 16999,
+            "discountLabel": "29% off",
+            "rating": 4.6,
+            "reviews": "18,234 Ratings",
+            "reviewCount": 18234,
+            "fAssured": true,
+            "stock": 45,
+            "seller": "AdidasIndia",
+            "sellerRating": 4.8,
+            "sellerYears": 15,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Adidas%20Ultra%20Boost%20Running%20Shoes/1.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Adidas%20Ultra%20Boost%20Running%20Shoes/2.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Adidas%20Ultra%20Boost%20Running%20Shoes/3.png",
+                "https://cdn.dummyjson.com/products/images/mens-shoes/Adidas%20Ultra%20Boost%20Running%20Shoes/4.png"
+            ],
+            "highlights": [
+                "BOOST Midsole Technology",
+                "Primeknit+ Upper",
+                "Continental Rubber Outsole",
+                "Torsion System for Stability",
+                "Linear Energy Push",
+                "Responsive Cushioning"
+            ],
+            "description": [
+                "Adidas Ultraboost delivers incredible energy return with BOOST midsole technology.",
+                "Primeknit+ upper hugs the foot for adaptive comfort.",
+                "Continental rubber outsole provides superior grip in wet and dry conditions."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Adidas",
+                    "Model": "Ultraboost",
+                    "Type": "Running Shoes"
+                },
+                "Material": {
+                    "Upper": "Primeknit+",
+                    "Midsole": "BOOST",
+                    "Outsole": "Continental Rubber"
+                }
+            },
+            "colorOptions": [
+                {
+                    "name": "Cloud White",
+                    "hex": "#F5F5F5"
+                },
+                {
+                    "name": "Core Black",
+                    "hex": "#1A1A1A"
+                }
+            ],
+            "variants": [
+                {
+                    "label": "UK 7",
+                    "inStock": true,
+                    "price": 11999,
+                    "originalPrice": 16999,
+                    "discountLabel": "29% off"
+                },
+                {
+                    "label": "UK 8",
+                    "inStock": true,
+                    "price": 11999,
+                    "originalPrice": 16999,
+                    "discountLabel": "29% off"
+                },
+                {
+                    "label": "UK 9",
+                    "inStock": true,
+                    "price": 11999,
+                    "originalPrice": 16999,
+                    "discountLabel": "29% off"
+                },
+                {
+                    "label": "UK 10",
+                    "inStock": true,
+                    "price": 11999,
+                    "originalPrice": 16999,
+                    "discountLabel": "29% off"
+                }
+            ]
+        },
+        {
+            "id": "26",
+            "title": "Calvin Klein CK One EDT Perfume (100 ml)",
+            "brand": "Calvin Klein",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Perfumes",
+            "price": 2999,
+            "originalPrice": 4500,
+            "discountLabel": "33% off",
+            "rating": 4.5,
+            "reviews": "12,345 Ratings",
+            "reviewCount": 12345,
+            "fAssured": true,
+            "stock": 100,
+            "seller": "PerfumeWorld",
+            "sellerRating": 4.6,
+            "sellerYears": 8,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/1.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/2.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Calvin%20Klein%20CK%20One/3.png"
+            ],
+            "highlights": [
+                "Eau de Toilette",
+                "Unisex Fragrance",
+                "Fresh Citrus Notes",
+                "Long Lasting",
+                "100 ml Bottle",
+                "Iconic Classic Scent"
+            ],
+            "description": [
+                "Calvin Klein CK One is an iconic unisex fragrance with fresh citrus notes.",
+                "A clean, crisp scent perfect for everyday wear.",
+                "One of the world's best-selling fragrances since 1994."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Calvin Klein",
+                    "Type": "EDT",
+                    "Gender": "Unisex"
+                },
+                "Details": {
+                    "Volume": "100 ml",
+                    "Top Notes": "Bergamot, Cardamom, Pineapple"
+                }
+            },
+            "colorOptions": [],
+            "variants": [
+                {
+                    "label": "100 ml",
+                    "inStock": true,
+                    "price": 2999,
+                    "originalPrice": 4500,
+                    "discountLabel": "33% off"
+                },
+                {
+                    "label": "200 ml",
+                    "inStock": true,
+                    "price": 4499,
+                    "originalPrice": 6500,
+                    "discountLabel": "30% off"
+                }
+            ]
+        },
+        {
+            "id": "27",
+            "title": "Chanel Coco Noir Eau de Parfum (100 ml)",
+            "brand": "Chanel",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Perfumes",
+            "price": 8999,
+            "originalPrice": 12000,
+            "discountLabel": "25% off",
+            "rating": 4.8,
+            "reviews": "5,678 Ratings",
+            "reviewCount": 5678,
+            "fAssured": true,
+            "stock": 30,
+            "seller": "LuxuryFragrances",
+            "sellerRating": 4.9,
+            "sellerYears": 12,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/1.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/2.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Chanel%20Coco%20Noir%20Eau%20De/3.png"
+            ],
+            "highlights": [
+                "Eau de Parfum",
+                "Oriental Floral Scent",
+                "Long Lasting 8+ Hours",
+                "Premium Glass Bottle",
+                "For Women",
+                "100 ml"
+            ],
+            "description": [
+                "Chanel Coco Noir is a mysterious and sophisticated oriental fragrance.",
+                "Notes of grapefruit, rose, and Indonesian patchouli create an unforgettable scent.",
+                "Elegant glass bottle that embodies Chanel's timeless luxury."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Chanel",
+                    "Type": "EDP",
+                    "Gender": "Women"
+                },
+                "Details": {
+                    "Volume": "100 ml",
+                    "Family": "Oriental Floral"
+                }
+            },
+            "colorOptions": [],
+            "variants": [
+                {
+                    "label": "50 ml",
+                    "inStock": true,
+                    "price": 5999,
+                    "originalPrice": 8000,
+                    "discountLabel": "25% off"
+                },
+                {
+                    "label": "100 ml",
+                    "inStock": true,
+                    "price": 8999,
+                    "originalPrice": 12000,
+                    "discountLabel": "25% off"
+                }
+            ]
+        },
+        {
+            "id": "28",
+            "title": "Dior Sauvage Eau de Parfum (100 ml)",
+            "brand": "Dior",
+            "category": "Beauty",
+            "categoryId": "beauty",
+            "subcategory": "Perfumes",
+            "price": 7499,
+            "originalPrice": 10500,
+            "discountLabel": "28% off",
+            "rating": 4.7,
+            "reviews": "9,012 Ratings",
+            "reviewCount": 9012,
+            "fAssured": true,
+            "stock": 40,
+            "seller": "LuxuryFragrances",
+            "sellerRating": 4.9,
+            "sellerYears": 12,
+            "exchangeValue": 0,
+            "images": [
+                "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/1.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/2.png",
+                "https://cdn.dummyjson.com/products/images/fragrances/Dior%20J'adore/3.png"
+            ],
+            "highlights": [
+                "Eau de Parfum",
+                "Fresh Spicy Fragrance",
+                "Long Lasting 10+ Hours",
+                "For Men",
+                "100 ml Bottle",
+                "Iconic Modern Classic"
+            ],
+            "description": [
+                "Dior Sauvage is a bold and fresh fragrance inspired by wide-open spaces.",
+                "Bergamot and Ambroxan create a powerfully fresh yet woody trail.",
+                "One of the most popular men's fragrances worldwide."
+            ],
+            "specifications": {
+                "General": {
+                    "Brand": "Dior",
+                    "Type": "EDP",
+                    "Gender": "Men"
+                },
+                "Details": {
+                    "Volume": "100 ml",
+                    "Family": "Fresh Spicy"
+                }
+            },
+            "colorOptions": [],
+            "variants": [
+                {
+                    "label": "60 ml",
+                    "inStock": true,
+                    "price": 5499,
+                    "originalPrice": 7500,
+                    "discountLabel": "26% off"
+                },
+                {
+                    "label": "100 ml",
+                    "inStock": true,
+                    "price": 7499,
+                    "originalPrice": 10500,
+                    "discountLabel": "28% off"
+                }
+            ]
+        }
+    ]
+}
