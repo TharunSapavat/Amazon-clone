@@ -1,21 +1,41 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import axios from 'axios';
 import banner1 from '../../assets/banner1.jpg';
 import banner2 from '../../assets/banner2.jpg';
 import banner3 from '../../assets/banner3.png'; 
 
 const HomeScreen = () => {
-    // Shared data
-    const homeBannerItemProduct = {
-        product: [
-            { id: 1, itemTitle: "Appliances for your home | Up to 55% off", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 2, itemTitle: "Starting ₹49 | Deals on home essentials", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 3, itemTitle: "Bulk order discounts + Up to 18% GST savings", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] },
-            { id: 4, itemTitle: "Automotive essentials | Up to 60% off", imgs: ["https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg","https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg"] }
-        ]
-    };
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const deals = Array.from({ length: 8 }, (_, i) => ({ id: i }));
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await axios.get('/api/products');
+                setProducts(res.data);
+            } catch (err) {
+                console.error("Failed to load products dynamically:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchProducts();
+    }, []);
+
+    // Create 4 category blocks dynamically by mapping native User categories uniquely
+    const mobilesDeals = products.filter(p => p.category === 'Mobiles').slice(0, 4);
+    const computersDeals = products.filter(p => p.category === 'Computers').slice(0, 4);
+    const fashionDeals = products.filter(p => p.category === 'Fashion').slice(0, 4);
+    const homeDeals = products.filter(p => p.category === 'Home & Kitchen').slice(0, 4);
+
+    const homeBannerItemProduct = [
+        { id: 1, itemTitle: "Latest Mobiles | Up to 40% off", items: mobilesDeals.length > 0 ? mobilesDeals : products.slice(0, 4) },
+        { id: 2, itemTitle: "Upgrade your Workstation", items: computersDeals.length > 0 ? computersDeals : products.slice(4, 8) },
+        { id: 3, itemTitle: "Festival Fashion | Trending Now", items: fashionDeals.length > 0 ? fashionDeals : products.slice(8, 12) },
+        { id: 4, itemTitle: "Home & Kitchen Upgrades", items: homeDeals.length > 0 ? homeDeals : products.slice(12, 16) }
+    ];
 
     // Banner slider state
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -68,22 +88,31 @@ const HomeScreen = () => {
                 {/* Cards */}
                 <div className="w-full px-5 -mt-20 md:-mt-32 lg:-mt-40 relative z-20">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-                        {homeBannerItemProduct.product.map((item) => (
-                            <div key={item.id} className="flex flex-col bg-white p-5 w-full shadow-sm">
-                                <h2 className="text-lg font-bold text-[#0F1111] mb-2">{item.itemTitle}</h2>
+                        {homeBannerItemProduct.map((block) => (
+                            <div key={block.id} className="flex flex-col bg-white p-5 w-full shadow-sm">
+                                <h2 className="text-lg font-bold text-[#0F1111] mb-2">{block.itemTitle}</h2>
 
-                                <div className="grid grid-cols-2 gap-4 flex-1 mt-2">
-                                    {item.imgs.map((imgUrl, ind) => (
-                                        <div key={ind}>
-                                            <img className="w-full h-24 object-contain" src={imgUrl} alt="Product" />
-                                            <span className="text-sm">boAt Stone 1800</span>
-                                        </div>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-6 flex-1 mt-2">
+                                    {loading ? (
+                                        Array.from({ length: 4 }).map((_, i) => (
+                                            <div key={i} className="flex flex-col items-start animate-pulse">
+                                                <div className="w-full h-24 bg-gray-200 rounded-sm mb-2"></div>
+                                                <div className="h-3 bg-gray-200 w-3/4 rounded-sm"></div>
+                                            </div>
+                                        ))
+                                    ) : block.items.map((prod, ind) => (
+                                        <Link to={`/product/${prod.id}`} key={ind} className="flex flex-col items-start hover:opacity-90 transition-opacity">
+                                            <div className="w-full h-24 flex items-center justify-center p-2">
+                                                <img loading="lazy" decoding="async" className="max-w-full max-h-full object-contain mix-blend-multiply" src={prod.image_url} alt={prod.name} />
+                                            </div>
+                                            <span className="text-[13px] text-[#0F1111] leading-snug line-clamp-1 mt-1">{prod.name}</span>
+                                        </Link>
                                     ))}
                                 </div>
 
-                                <a href="#" className="text-sm text-[#007185] hover:text-[#C7511F] mt-4">
-                                    See More
-                                </a>
+                                <Link to="/products" className="text-[13px] font-medium text-[#007185] hover:text-[#C7511F] mt-4">
+                                    See all offers
+                                </Link>
                             </div>
                         ))}
                     </div>
@@ -91,16 +120,33 @@ const HomeScreen = () => {
             </div>
 
             {/* --- DEALS SECTION --- */}
-            <div className="w-full px-5 py-5">
-                <div className="bg-white p-4">
-                    <h2 className="text-lg font-bold mb-4">Today’s Deals</h2>
+            <div className="w-full px-5 py-5 pb-10">
+                <div className="bg-white p-5 shadow-sm relative">
+                    <div className="flex items-center gap-4 mb-4">
+                        <h2 className="text-[20px] font-bold text-[#0F1111]">Today’s Deals</h2>
+                        <Link to="/products" className="text-[13px] font-medium text-[#007185] hover:text-[#C7511F] hover:underline">See all deals</Link>
+                    </div>
 
-                    <div className="flex gap-4 overflow-x-auto">
-                        {deals.map((deal) => (
-                            <div key={deal.id} className="min-w-[150px] p-2 bg-gray-100">
-                                <img src="https://m.media-amazon.com/images/I/41WnWm3IjiL._AC_SY200_.jpg" alt="deal" />
-                                <p className="text-sm mt-2">Limited Deal</p>
-                            </div>
+                    <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                        {loading ? (
+                            Array.from({ length: 7 }).map((_, i) => (
+                                <div key={i} className="min-w-[200px] flex flex-col animate-pulse">
+                                    <div className="h-[200px] bg-gray-200 rounded mb-3"></div>
+                                    <div className="h-4 bg-gray-200 w-1/2 rounded mb-2"></div>
+                                    <div className="h-4 bg-gray-200 w-3/4 rounded"></div>
+                                </div>
+                            ))
+                        ) : products.map((deal) => (
+                            <Link to={`/product/${deal.id}`} key={deal.id} className="min-w-[200px] flex flex-col group cursor-pointer transition-all">
+                                <div className="h-[200px] bg-[#F7F7F7] flex items-center justify-center p-4 rounded mb-2 group-hover:bg-[#f0f0f0] transition-colors">
+                                    <img loading="lazy" decoding="async" src={deal.image_url} alt="deal" className="max-w-full max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300" />
+                                </div>
+                                <div className="flex items-center gap-2 mb-1">
+                                    <span className="bg-[#CC0C39] text-white text-[12px] font-bold px-1.5 py-1 rounded-sm">Up to {deal.discount}% off</span>
+                                    <span className="text-[#CC0C39] text-[12px] font-bold">Great Indian Festival</span>
+                                </div>
+                                <p className="text-[15px] font-medium text-[#0F1111] line-clamp-2 leading-snug">{deal.name}</p>
+                            </Link>
                         ))}
                     </div>
                 </div>

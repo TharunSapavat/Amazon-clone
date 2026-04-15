@@ -89,7 +89,38 @@ const ProductDetailPage = () => {
     );
   };
 
-  if (loading) return <div className="h-screen flex items-center justify-center font-bold text-lg">Loading...</div>;
+  if (loading) return (
+    <div className="bg-white min-h-screen">
+      <div className="max-w-[1500px] mx-auto px-4 py-4 mt-8 animate-pulse">
+        <div className="flex flex-col lg:flex-row gap-6">
+          <div className="lg:w-[35%] flex gap-3">
+             <div className="hidden md:flex flex-col gap-2 shrink-0">
+               <div className="w-12 h-12 bg-gray-200 rounded"></div>
+               <div className="w-12 h-12 bg-gray-200 rounded"></div>
+               <div className="w-12 h-12 bg-gray-200 rounded"></div>
+             </div>
+             <div className="flex-1 h-[400px] lg:h-[500px] bg-gray-200 rounded"></div>
+          </div>
+          <div className="lg:w-[40%] flex flex-col pt-2 shrink-0 space-y-4">
+             <div className="h-8 bg-gray-200 w-full rounded"></div>
+             <div className="h-8 bg-gray-200 w-3/4 rounded"></div>
+             <div className="h-4 bg-gray-200 w-1/3 rounded mt-4"></div>
+             <div className="h-6 bg-gray-200 w-1/4 rounded mt-4"></div>
+             <div className="h-32 bg-gray-200 w-full rounded mt-6"></div>
+          </div>
+          <div className="lg:w-[25%] shrink-0">
+             <div className="border border-gray-200 rounded-lg p-4 h-[350px]">
+                <div className="h-8 bg-gray-200 w-1/2 rounded mb-4"></div>
+                <div className="h-4 bg-gray-200 w-3/4 rounded mb-6"></div>
+                <div className="h-10 bg-gray-200 w-full rounded-full mb-3"></div>
+                <div className="h-10 bg-gray-200 w-full rounded-full"></div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   if (!product) return <div className="h-screen flex items-center justify-center font-bold text-lg">Product not found</div>;
 
   return (
@@ -109,7 +140,7 @@ const ProductDetailPage = () => {
                     selectedImage === idx? 'border-[#e77600] shadow-[0_0_3px_2px_rgba(228,121,17,0.5)]' : 'border-gray-300 hover:border-[#a2a6ac]'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-contain" />
+                  <img loading="lazy" decoding="async" src={img} alt="" className="w-full h-full object-contain" />
                 </div>
               ))}
             </div>
@@ -120,6 +151,8 @@ const ProductDetailPage = () => {
                 <IoShareOutline />
               </button>
               <img
+                loading="lazy"
+                decoding="async"
                 src={product.images[selectedImage]}
                 alt={product.name}
                 className="w-full h-[400px] lg:h-[500px] object-contain mix-blend-multiply"

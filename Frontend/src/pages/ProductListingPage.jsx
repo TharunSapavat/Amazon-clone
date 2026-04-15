@@ -143,13 +143,25 @@ const ProductListingPage = () => {
           <h1 className="text-2xl font-bold mb-1">Results</h1>
           <p className="text-sm text-[#565959] mb-6">Check each product page for other buying options.</p>
 
-          {loading? <p className="text-lg font-bold">Loading...</p> : (
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                 <div key={i} className="border border-[#F5F5F5] p-3 flex flex-col rounded bg-white h-full animate-pulse shadow-sm">
+                    <div className="bg-gray-200 h-[180px] w-full mb-3 rounded"></div>
+                    <div className="h-4 bg-gray-200 w-full mb-2 rounded"></div>
+                    <div className="h-4 bg-gray-200 w-3/4 mb-4 rounded"></div>
+                    <div className="h-3 bg-gray-200 w-1/2 mb-6 rounded"></div>
+                    <div className="h-8 bg-gray-200 w-full rounded-full mt-auto"></div>
+                 </div>
+              ))}
+            </div>
+          ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {products.map((product) => (
                 <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full">
 
                   <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group">
-                    <img src={product.image_url} alt={product.name} className="w-[180px] h-[180px] object-contain mix-blend-multiply group-hover:scale-105 transition-transform" />
+                    <img loading="lazy" decoding="async" src={product.image_url} alt={product.name} className="w-[180px] h-[180px] object-contain mix-blend-multiply group-hover:scale-105 transition-transform" />
                   </Link>
 
                   <Link to={`/product/${product.id}`} className="text-[15px] text-[#0F1111] hover:text-[#C7511F] line-clamp-3 mb-1 font-medium leading-snug">
