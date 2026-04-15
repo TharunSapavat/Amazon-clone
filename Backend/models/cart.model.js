@@ -32,25 +32,16 @@ const CartModel = {
     },
 
     /**
-     * Add a product to cart. If it already exists, increment quantity.
+     * Add a product to cart using ON DUPLICATE KEY UPDATE.
+     * Single query instead of SELECT + INSERT/UPDATE.
      */
     async addItem(userId, productId, quantity = 1) {
-        const [existing] = await pool.query(
-            'SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ?',
-            [userId, productId]
+        await pool.query(
+            `INSERT INTO cart_items (user_id, product_id, quantity)
+             VALUES (?, ?, ?)
+             ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)`,
+            [userId, productId, quantity]
         );
-
-        if (existing.length > 0) {
-            await pool.query(
-                'UPDATE cart_items SET quantity = quantity + ? WHERE id = ?',
-                [quantity, existing[0].id]
-            );
-        } else {
-            await pool.query(
-                'INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)',
-                [userId, productId, quantity]
-            );
-        }
         return { success: true };
     },
 
@@ -75,28 +66,10 @@ const CartModel = {
     },
 
     /**
-     * Get cart items by IDs (for checkout).
-     */
-    async getByIds(userId, cartItemIds) {
-        if (!cartItemIds || cartItemIds.length === 0) {
-            return this.getByUserId(userId);
-        }
-        const placeholders = cartItemIds.map(() => '?').join(',');
-        const [rows] = await pool.query(
-            `SELECT ci.id, ci.product_id, ci.quantity, p.price, p.title
-             FROM cart_items ci
-             JOIN products p ON ci.product_id = p.id
-             WHERE ci.user_id = ? AND ci.id IN (${placeholders})`,
-            [userId, ...cartItemIds]
-        );
-        return rows;
-    },
-
-    /**
      * Clear all or specific cart items for a user.
      */
     async clearItems(userId, cartItemIds = null) {
-        if (cartItemIds && cartItemIds.length > 0) {
+        if (cartItemIds?.length) {
             const placeholders = cartItemIds.map(() => '?').join(',');
             await pool.query(
                 `DELETE FROM cart_items WHERE user_id = ? AND id IN (${placeholders})`,

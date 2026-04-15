@@ -4,10 +4,8 @@ const path = require('path');
 require('dotenv').config();
 
 async function seed() {
-    // Read data.json
     const dataPath = path.join(__dirname, 'data.json');
-    const rawData = fs.readFileSync(dataPath, 'utf8');
-    const data = JSON.parse(rawData);
+    const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
     const pool = mysql.createPool({
         host: process.env.DB_HOST || 'localhost',
@@ -26,7 +24,6 @@ async function seed() {
         await conn.beginTransaction();
         console.log('🔄 Clearing old data...');
 
-        // Drop and recreate tables in correct order (respecting FKs)
         await conn.query('SET FOREIGN_KEY_CHECKS = 0');
         const tables = [
             'home_section_products', 'home_sections', 'order_items', 'orders',
@@ -39,9 +36,8 @@ async function seed() {
         }
         await conn.query('SET FOREIGN_KEY_CHECKS = 1');
 
-        // Read and execute schema (skip CREATE DATABASE and USE lines)
-        const schemaPath = path.join(__dirname, 'schema.sql');
-        const schemaSql = fs.readFileSync(schemaPath, 'utf8');
+        // Execute schema
+        const schemaSql = fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
         const statements = schemaSql
             .split(';')
             .map(s => s.trim())
@@ -52,131 +48,114 @@ async function seed() {
         }
         console.log('✅ Schema created');
 
-        // ─── SEED CATEGORIES ───
-        if (data.categories && data.categories.length > 0) {
-            for (const cat of data.categories) {
-                await conn.query(
-                    'INSERT INTO categories (id, label, icon) VALUES (?, ?, ?)',
-                    [cat.id, cat.label, cat.icon || null]
-                );
-            }
-            console.log(`✅ Seeded ${data.categories.length} categories`);
+        // ─── SEED CATEGORIES (batch) ───
+        if (data.categories?.length) {
+            const vals = data.categories.map(c => [c.id, c.label, c.icon || null]);
+            await conn.query('INSERT INTO categories (id, label, icon) VALUES ?', [vals]);
+            console.log(`✅ Seeded ${vals.length} categories`);
         }
 
-        // ─── SEED BANNERS ───
-        if (data.banners && data.banners.length > 0) {
-            for (let i = 0; i < data.banners.length; i++) {
-                await conn.query(
-                    'INSERT INTO banners (image_url, sort_order) VALUES (?, ?)',
-                    [data.banners[i], i]
-                );
-            }
-            console.log(`✅ Seeded ${data.banners.length} banners`);
+        // ─── SEED BANNERS (batch) ───
+        if (data.banners?.length) {
+            const vals = data.banners.map((url, i) => [url, i]);
+            await conn.query('INSERT INTO banners (image_url, sort_order) VALUES ?', [vals]);
+            console.log(`✅ Seeded ${vals.length} banners`);
         }
 
-        // ─── SEED PRODUCTS ───
-        if (data.products && data.products.length > 0) {
+        // ─── SEED PRODUCTS (batch inserts per table) ───
+        if (data.products?.length) {
+            // Batch insert products
+            const productVals = data.products.map(p => [
+                p.id, p.title, p.brand, p.category, p.categoryId || null,
+                p.subcategory || null, p.price, p.originalPrice || null,
+                p.discountLabel || null, p.rating || 0, p.reviews || null,
+                p.reviewCount || 0, p.fAssured ? 1 : 0, p.stock || 0,
+                p.seller || null, p.sellerRating || null, p.sellerYears || null,
+                p.exchangeValue || 0
+            ]);
+            await conn.query(
+                `INSERT INTO products (id, title, brand, category, category_id, subcategory,
+                 price, original_price, discount_label, rating, reviews_text, review_count,
+                 f_assured, stock, seller, seller_rating, seller_years, exchange_value)
+                 VALUES ?`, [productVals]
+            );
+
+            // Collect all child-table rows across all products, then batch insert each
+            const imageVals = [];
+            const highlightVals = [];
+            const descVals = [];
+            const specVals = [];
+            const colorVals = [];
+            const variantVals = [];
+
             for (const p of data.products) {
-                // Insert main product row
-                await conn.query(
-                    `INSERT INTO products (id, title, brand, category, category_id, subcategory,
-                     price, original_price, discount_label, rating, reviews_text, review_count,
-                     f_assured, stock, seller, seller_rating, seller_years, exchange_value)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                    [
-                        p.id, p.title, p.brand, p.category, p.categoryId || null,
-                        p.subcategory || null, p.price, p.originalPrice || null,
-                        p.discountLabel || null, p.rating || 0, p.reviews || null,
-                        p.reviewCount || 0, p.fAssured ? 1 : 0, p.stock || 0,
-                        p.seller || null, p.sellerRating || null, p.sellerYears || null,
-                        p.exchangeValue || 0
-                    ]
-                );
-
-                // Insert images
-                if (p.images && p.images.length > 0) {
-                    for (let i = 0; i < p.images.length; i++) {
-                        await conn.query(
-                            'INSERT INTO product_images (product_id, image_url, sort_order) VALUES (?, ?, ?)',
-                            [p.id, p.images[i], i]
-                        );
-                    }
+                if (p.images?.length) {
+                    p.images.forEach((url, i) => imageVals.push([p.id, url, i]));
                 }
-
-                // Insert highlights
-                if (p.highlights && p.highlights.length > 0) {
-                    for (let i = 0; i < p.highlights.length; i++) {
-                        await conn.query(
-                            'INSERT INTO product_highlights (product_id, highlight, sort_order) VALUES (?, ?, ?)',
-                            [p.id, p.highlights[i], i]
-                        );
-                    }
+                if (p.highlights?.length) {
+                    p.highlights.forEach((h, i) => highlightVals.push([p.id, h, i]));
                 }
-
-                // Insert description paragraphs
-                if (p.description && p.description.length > 0) {
-                    const descArr = Array.isArray(p.description) ? p.description : [p.description];
-                    for (let i = 0; i < descArr.length; i++) {
-                        await conn.query(
-                            'INSERT INTO product_descriptions (product_id, paragraph, sort_order) VALUES (?, ?, ?)',
-                            [p.id, descArr[i], i]
-                        );
-                    }
+                if (p.description?.length) {
+                    const arr = Array.isArray(p.description) ? p.description : [p.description];
+                    arr.forEach((d, i) => descVals.push([p.id, d, i]));
                 }
-
-                // Insert specifications
                 if (p.specifications) {
-                    for (const [sectionName, specs] of Object.entries(p.specifications)) {
+                    for (const [section, specs] of Object.entries(p.specifications)) {
                         for (const [key, value] of Object.entries(specs)) {
-                            await conn.query(
-                                'INSERT INTO product_specifications (product_id, section_name, spec_key, spec_value) VALUES (?, ?, ?, ?)',
-                                [p.id, sectionName, key, value]
-                            );
+                            specVals.push([p.id, section, key, value]);
                         }
                     }
                 }
-
-                // Insert color options
-                if (p.colorOptions && p.colorOptions.length > 0) {
-                    for (const color of p.colorOptions) {
-                        await conn.query(
-                            'INSERT INTO product_color_options (product_id, color_name, hex_code) VALUES (?, ?, ?)',
-                            [p.id, color.name, color.hex || null]
-                        );
-                    }
+                if (p.colorOptions?.length) {
+                    p.colorOptions.forEach(c => colorVals.push([p.id, c.name, c.hex || null]));
                 }
-
-                // Insert variants
-                if (p.variants && p.variants.length > 0) {
-                    for (const v of p.variants) {
-                        await conn.query(
-                            'INSERT INTO product_variants (product_id, label, in_stock, price, original_price, discount_label) VALUES (?, ?, ?, ?, ?, ?)',
-                            [p.id, v.label, v.inStock ? 1 : 0, v.price || null, v.originalPrice || null, v.discountLabel || null]
-                        );
-                    }
+                if (p.variants?.length) {
+                    p.variants.forEach(v => variantVals.push([
+                        p.id, v.label, v.inStock ? 1 : 0,
+                        v.price || null, v.originalPrice || null, v.discountLabel || null
+                    ]));
                 }
             }
-            console.log(`✅ Seeded ${data.products.length} products with images, highlights, specs, colors, variants`);
+
+            // 6 batch inserts instead of ~200 individual ones
+            if (imageVals.length) {
+                await conn.query('INSERT INTO product_images (product_id, image_url, sort_order) VALUES ?', [imageVals]);
+            }
+            if (highlightVals.length) {
+                await conn.query('INSERT INTO product_highlights (product_id, highlight, sort_order) VALUES ?', [highlightVals]);
+            }
+            if (descVals.length) {
+                await conn.query('INSERT INTO product_descriptions (product_id, paragraph, sort_order) VALUES ?', [descVals]);
+            }
+            if (specVals.length) {
+                await conn.query('INSERT INTO product_specifications (product_id, section_name, spec_key, spec_value) VALUES ?', [specVals]);
+            }
+            if (colorVals.length) {
+                await conn.query('INSERT INTO product_color_options (product_id, color_name, hex_code) VALUES ?', [colorVals]);
+            }
+            if (variantVals.length) {
+                await conn.query('INSERT INTO product_variants (product_id, label, in_stock, price, original_price, discount_label) VALUES ?', [variantVals]);
+            }
+
+            console.log(`✅ Seeded ${data.products.length} products (${imageVals.length} images, ${highlightVals.length} highlights, ${specVals.length} specs, ${colorVals.length} colors, ${variantVals.length} variants)`);
         }
 
         // ─── SEED HOME SECTIONS ───
-        if (data.homeSections && data.homeSections.length > 0) {
+        if (data.homeSections?.length) {
+            // Must insert sequentially to capture insertId for join table
+            const sectionProductVals = [];
             for (let i = 0; i < data.homeSections.length; i++) {
-                const section = data.homeSections[i];
+                const s = data.homeSections[i];
                 const [result] = await conn.query(
                     'INSERT INTO home_sections (title, bg_color, category_id, sort_order) VALUES (?, ?, ?, ?)',
-                    [section.title, section.bgColor || null, section.categoryId || null, i]
+                    [s.title, s.bgColor || null, s.categoryId || null, i]
                 );
-                const sectionId = result.insertId;
-
-                if (section.productIds && section.productIds.length > 0) {
-                    for (let j = 0; j < section.productIds.length; j++) {
-                        await conn.query(
-                            'INSERT INTO home_section_products (section_id, product_id, sort_order) VALUES (?, ?, ?)',
-                            [sectionId, section.productIds[j], j]
-                        );
-                    }
+                if (s.productIds?.length) {
+                    s.productIds.forEach((pid, j) => sectionProductVals.push([result.insertId, pid, j]));
                 }
+            }
+            if (sectionProductVals.length) {
+                await conn.query('INSERT INTO home_section_products (section_id, product_id, sort_order) VALUES ?', [sectionProductVals]);
             }
             console.log(`✅ Seeded ${data.homeSections.length} home sections`);
         }

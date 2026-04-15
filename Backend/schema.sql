@@ -53,7 +53,12 @@ CREATE TABLE IF NOT EXISTS products (
     seller_years INT,
     exchange_value INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE SET NULL,
+    INDEX idx_products_category (category),
+    INDEX idx_products_category_id (category_id),
+    INDEX idx_products_brand (brand),
+    INDEX idx_products_price (price),
+    INDEX idx_products_rating (rating)
 );
 
 -- ============================================
@@ -64,7 +69,8 @@ CREATE TABLE IF NOT EXISTS product_images (
     product_id VARCHAR(50) NOT NULL,
     image_url VARCHAR(500) NOT NULL,
     sort_order INT DEFAULT 0,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pimg_product (product_id, sort_order)
 );
 
 -- ============================================
@@ -75,7 +81,8 @@ CREATE TABLE IF NOT EXISTS product_highlights (
     product_id VARCHAR(50) NOT NULL,
     highlight TEXT NOT NULL,
     sort_order INT DEFAULT 0,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_phigh_product (product_id)
 );
 
 -- ============================================
@@ -86,7 +93,8 @@ CREATE TABLE IF NOT EXISTS product_descriptions (
     product_id VARCHAR(50) NOT NULL,
     paragraph TEXT NOT NULL,
     sort_order INT DEFAULT 0,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pdesc_product (product_id)
 );
 
 -- ============================================
@@ -98,7 +106,8 @@ CREATE TABLE IF NOT EXISTS product_specifications (
     section_name VARCHAR(100) NOT NULL,
     spec_key VARCHAR(200) NOT NULL,
     spec_value VARCHAR(500) NOT NULL,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pspec_product (product_id)
 );
 
 -- ============================================
@@ -109,7 +118,8 @@ CREATE TABLE IF NOT EXISTS product_color_options (
     product_id VARCHAR(50) NOT NULL,
     color_name VARCHAR(100) NOT NULL,
     hex_code VARCHAR(10),
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pcolor_product (product_id)
 );
 
 -- ============================================
@@ -123,7 +133,8 @@ CREATE TABLE IF NOT EXISTS product_variants (
     price DECIMAL(12, 2),
     original_price DECIMAL(12, 2),
     discount_label VARCHAR(50),
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_pvar_product (product_id)
 );
 
 -- ============================================
@@ -147,7 +158,8 @@ CREATE TABLE IF NOT EXISTS home_section_products (
     product_id VARCHAR(50) NOT NULL,
     sort_order INT DEFAULT 0,
     FOREIGN KEY (section_id) REFERENCES home_sections(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_hsp_section (section_id, sort_order)
 );
 
 -- ============================================
@@ -160,7 +172,9 @@ CREATE TABLE IF NOT EXISTS cart_items (
     quantity INT DEFAULT 1,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    UNIQUE KEY uk_cart_user_product (user_id, product_id),
+    INDEX idx_cart_user (user_id)
 );
 
 -- ============================================
@@ -177,7 +191,8 @@ CREATE TABLE IF NOT EXISTS orders (
     estimated_delivery TIMESTAMP,
     delivered_date TIMESTAMP NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    INDEX idx_orders_user (user_id, created_at)
 );
 
 -- ============================================
@@ -191,7 +206,8 @@ CREATE TABLE IF NOT EXISTS order_items (
     price_at_purchase DECIMAL(12, 2) NOT NULL,
     is_returned BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+    INDEX idx_oi_order (order_id)
 );
 
 -- ============================================

@@ -1,49 +1,34 @@
 const pool = require('../config/db');
-const CartModel = require('./cart.model');
 
 const OrderModel = {
     /**
      * Create an order from cart items (uses transaction).
+     * Batch inserts order_items instead of per-item INSERT.
      */
     async create(userId, shippingName, shippingAddress, cartItemIds = null) {
         const conn = await pool.getConnection();
         try {
             await conn.beginTransaction();
 
-            // Get items to order
-            let itemsToOrder;
-            if (cartItemIds && cartItemIds.length > 0) {
-                const placeholders = cartItemIds.map(() => '?').join(',');
-                const [rows] = await conn.query(
-                    `SELECT ci.id, ci.product_id, ci.quantity, p.price, p.title,
-                            (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
-                     FROM cart_items ci
-                     JOIN products p ON ci.product_id = p.id
-                     WHERE ci.user_id = ? AND ci.id IN (${placeholders})`,
-                    [userId, ...cartItemIds]
-                );
-                itemsToOrder = rows;
-            } else {
-                const [rows] = await conn.query(
-                    `SELECT ci.id, ci.product_id, ci.quantity, p.price, p.title,
-                            (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
-                     FROM cart_items ci
-                     JOIN products p ON ci.product_id = p.id
-                     WHERE ci.user_id = ?`,
-                    [userId]
-                );
-                itemsToOrder = rows;
+            // Build query to fetch cart items
+            let cartSql = `
+                SELECT ci.id, ci.product_id, ci.quantity, p.price, p.title,
+                       (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
+                FROM cart_items ci
+                JOIN products p ON ci.product_id = p.id
+                WHERE ci.user_id = ?`;
+            const cartParams = [userId];
+
+            if (cartItemIds?.length) {
+                cartSql += ` AND ci.id IN (${cartItemIds.map(() => '?').join(',')})`;
+                cartParams.push(...cartItemIds);
             }
 
-            if (itemsToOrder.length === 0) {
-                throw new Error('Cart is empty');
-            }
+            const [itemsToOrder] = await conn.query(cartSql, cartParams);
+            if (itemsToOrder.length === 0) throw new Error('Cart is empty');
 
             // Calculate total
-            const totalAmount = itemsToOrder.reduce((sum, item) => {
-                return sum + (Number(item.price) * item.quantity);
-            }, 0);
-
+            const totalAmount = itemsToOrder.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
             const internalOrderId = 'ORDER-' + Date.now();
 
             // Create order
@@ -56,20 +41,17 @@ const OrderModel = {
             );
             const orderId = orderResult.insertId;
 
-            // Create order items
-            for (const item of itemsToOrder) {
-                await conn.query(
-                    `INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase)
-                     VALUES (?, ?, ?, ?)`,
-                    [orderId, item.product_id, item.quantity, item.price]
-                );
-            }
+            // Batch insert order items
+            const orderItemVals = itemsToOrder.map(item => [orderId, item.product_id, item.quantity, item.price]);
+            await conn.query(
+                'INSERT INTO order_items (order_id, product_id, quantity, price_at_purchase) VALUES ?',
+                [orderItemVals]
+            );
 
             // Clear ordered items from cart
-            if (cartItemIds && cartItemIds.length > 0) {
-                const placeholders = cartItemIds.map(() => '?').join(',');
+            if (cartItemIds?.length) {
                 await conn.query(
-                    `DELETE FROM cart_items WHERE user_id = ? AND id IN (${placeholders})`,
+                    `DELETE FROM cart_items WHERE user_id = ? AND id IN (${cartItemIds.map(() => '?').join(',')})`,
                     [userId, ...cartItemIds]
                 );
             } else {
@@ -77,11 +59,7 @@ const OrderModel = {
             }
 
             await conn.commit();
-            return {
-                success: true,
-                order_id: orderId.toString(),
-                internal_order_id: internalOrderId
-            };
+            return { success: true, order_id: orderId.toString(), internal_order_id: internalOrderId };
 
         } catch (err) {
             await conn.rollback();
@@ -93,26 +71,35 @@ const OrderModel = {
 
     /**
      * Get all orders for a user, with items.
+     * Fixed N+1: fetches ALL order items in one query, then groups by order_id in JS.
      */
     async getByUserId(userId) {
+        // Fetch orders and their items in 2 queries (not N+1)
         const [orders] = await pool.query(
-            `SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC`,
+            'SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC',
             [userId]
         );
 
-        // Enrich each order with its items
-        for (const order of orders) {
-            const [items] = await pool.query(
-                `SELECT oi.id, oi.product_id, oi.quantity, oi.price_at_purchase, oi.is_returned,
-                        p.title AS name,
-                        (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
-                 FROM order_items oi
-                 JOIN products p ON oi.product_id = p.id
-                 WHERE oi.order_id = ?`,
-                [order.id]
-            );
+        if (orders.length === 0) return [];
 
-            order.items = items.map(item => ({
+        // Single query for ALL order items across all orders
+        const orderIds = orders.map(o => o.id);
+        const [allItems] = await pool.query(
+            `SELECT oi.id, oi.order_id, oi.product_id, oi.quantity, oi.price_at_purchase, oi.is_returned,
+                    p.title AS name,
+                    (SELECT pi.image_url FROM product_images pi WHERE pi.product_id = p.id ORDER BY pi.sort_order LIMIT 1) AS image_url
+             FROM order_items oi
+             JOIN products p ON oi.product_id = p.id
+             WHERE oi.order_id IN (${orderIds.map(() => '?').join(',')})`,
+            orderIds
+        );
+
+        // Group items by order_id using a Map for O(1) lookups
+        const itemsByOrder = new Map();
+        for (const item of allItems) {
+            const orderId = item.order_id;
+            if (!itemsByOrder.has(orderId)) itemsByOrder.set(orderId, []);
+            itemsByOrder.get(orderId).push({
                 id: item.id.toString(),
                 product_id: item.product_id,
                 quantity: item.quantity,
@@ -120,14 +107,16 @@ const OrderModel = {
                 name: item.name,
                 image_url: item.image_url,
                 is_returned: Boolean(item.is_returned)
-            }));
-
-            // Map order fields to match frontend expectations
-            order.id = order.id.toString();
-            order.total_amount = Number(order.total_amount);
+            });
         }
 
-        return orders;
+        // Assemble final response
+        return orders.map(order => ({
+            ...order,
+            id: order.id.toString(),
+            total_amount: Number(order.total_amount),
+            items: itemsByOrder.get(Number(order.id)) || []
+        }));
     },
 
     /**
@@ -135,8 +124,7 @@ const OrderModel = {
      */
     async returnItem(orderId, orderItemId) {
         const [result] = await pool.query(
-            `UPDATE order_items SET is_returned = TRUE
-             WHERE id = ? AND order_id = ?`,
+            'UPDATE order_items SET is_returned = TRUE WHERE id = ? AND order_id = ?',
             [orderItemId, orderId]
         );
         if (result.affectedRows === 0) return null;
