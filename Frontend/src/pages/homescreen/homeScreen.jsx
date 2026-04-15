@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
-import axios from 'axios';
+import axios from '../../api/axios';
 import OptimizedImage from '../../components/OptimizedImage';
 import banner1 from '../../assets/banner1.jpg';
 import banner2 from '../../assets/banner2.jpg';

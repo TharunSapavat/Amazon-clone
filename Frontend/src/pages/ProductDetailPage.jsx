@@ -5,7 +5,7 @@ import { HiOutlineChevronDown } from 'react-icons/hi';
 import { BsShieldCheck } from 'react-icons/bs';
 import { TbTruckDelivery, TbCash, TbLock } from 'react-icons/tb';
 import { MdOutlineAssignmentReturn, MdOutlineVerifiedUser } from 'react-icons/md';
-import axios from 'axios';
+import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
 
 const ProductDetailPage = () => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoTrashOutline } from 'react-icons/io5';
 import { BsCheckCircleFill } from 'react-icons/bs';
-import axios from 'axios';
+import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
 
 const CartPage = () => {

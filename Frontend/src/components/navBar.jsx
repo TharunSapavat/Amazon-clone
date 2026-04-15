@@ -3,7 +3,7 @@ import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu, IoCloseOutline } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
-import axios from 'axios';
+import axios from '../api/axios';
 import { useDebounce } from '../hooks/useDebounce';
 import OptimizedImage from './OptimizedImage';
 import SideDrawer from './SideDrawer';

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle } from 'react-icons/io5';
-import axios from 'axios';
+import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
 
 const ProductListingPage = () => {

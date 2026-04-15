@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { IoSearch } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
-import axios from 'axios';
+import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
 import { useDebounce } from '../hooks/useDebounce';
 
