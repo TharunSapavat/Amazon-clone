@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle, IoHeartOutline, IoHeart } from 'react-icons/io5';
+import { IoStar, IoStarOutline, IoCheckmarkCircle } from 'react-icons/io5';
 import axios from '../api/axios';
-import OptimizedImage from '../components/OptimizedImage';
 import { addToWishlist, removeFromWishlist, isInWishlist } from './WishlistPage';
+import { useCart } from '../hooks/useCart';
+import StarRating from '../components/StarRating';
+import ProductCard from '../components/ProductCard';
 
 const ProductListingPage = () => {
   const [searchParams] = useSearchParams();
@@ -16,7 +18,7 @@ const ProductListingPage = () => {
     priceMin: 0,
     priceMax: 100000
   });
-  const [toastMessage, setToastMessage] = useState(null);
+  const { addToCart, toastMessage, setToastMessage } = useCart();
 
   const category = searchParams.get('category') || 'All';
   const query = searchParams.get('q') || '';
@@ -57,35 +59,14 @@ const ProductListingPage = () => {
     });
   }, [category, query, filters]);
 
-  const handleAddToCart = async (productId) => {
-    try {
-        await axios.post('/api/cart', { product_id: productId, quantity: 1 });
-        window.dispatchEvent(new Event('cartUpdated'));
-        setToastMessage("Added to Cart");
-        setTimeout(() => setToastMessage(null), 3000);
-    } catch(err) {
-        console.log("Mocked add to cart!", productId);
-        window.dispatchEvent(new Event('cartUpdated'));
-        setToastMessage("Added to Cart");
-        setTimeout(() => setToastMessage(null), 3000);
+  const handleToggleWishlist = (product) => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      setToastMessage('Removed from Wishlist');
+    } else {
+      addToWishlist(product);
+      setToastMessage('Added to Wishlist');
     }
-  };
-
-  const StarRating = ({ rating, count }) => {
-    const fullStars = Math.floor(rating);
-    const hasHalf = rating % 1 >= 0.5;
-    return (
-      <div className="flex items-center gap-1">
-        <div className="flex text-[#FFA41C] text-sm">
-          {[...Array(5)].map((_, i) => {
-            if (i < fullStars) return <IoStar key={i} />;
-            if (i === fullStars && hasHalf) return <IoStarHalf key={i} />;
-            return <IoStarOutline key={i} />;
-          })}
-        </div>
-        <span className="text-xs text-[#007185] hover:text-[#C7511F] cursor-pointer">({count})</span>
-      </div>
-    );
   };
 
   return (
@@ -208,77 +189,13 @@ const ProductListingPage = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {products.map((product) => (
-                <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full relative group/card">
-                  
-                  {/* Wishlist Heart */}
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      if (isInWishlist(product.id)) {
-                        removeFromWishlist(product.id);
-                        setToastMessage('Removed from Wishlist');
-                      } else {
-                        addToWishlist(product);
-                        setToastMessage('Added to Wishlist');
-                      }
-                      setTimeout(() => setToastMessage(null), 3000);
-                    }}
-                    className="absolute top-4 right-4 z-10 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm border border-gray-200 hover:shadow-md transition-all hover:scale-110"
-                    title={isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
-                  >
-                    {isInWishlist(product.id)
-                      ? <IoHeart className="text-[#CC0C39] text-lg" />
-                      : <IoHeartOutline className="text-gray-500 text-lg" />
-                    }
-                  </button>
-
-                  <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group h-[220px]">
-                    <OptimizedImage 
-                      src={product.image_url} 
-                      alt={product.name} 
-                      className="w-[180px] h-[180px] object-contain mix-blend-multiply group-hover:scale-105 transition-transform"
-                      containerClassName="w-full h-full flex items-center justify-center"
-                    />
-                  </Link>
-
-                  <Link to={`/product/${product.id}`} className="text-[15px] text-[#0F1111] hover:text-[#C7511F] line-clamp-3 mb-1 font-medium leading-snug">
-                    {product.name}
-                  </Link>
-
-                  <StarRating rating={product.rating} count={product.review_count} />
-
-                  <p className="text-xs text-[#565959] mt-1 mb-2">{product.bought_count}+ bought in past month</p>
-
-                  <div className="mt-auto">
-                    {product.badge && (
-                        <span className="bg-[#CC0C39] text-white text-[11px] font-bold px-2 py-0.5 w-fit block mb-2 rounded-sm">
-                        {product.badge.toUpperCase()}
-                        </span>
-                    )}
-
-                    <div className="mt-2 flex items-baseline gap-1.5 flex-wrap">
-                        <span className="text-[28px] font-medium leading-none text-[#0F1111]">
-                            <span className="text-sm align-super mr-0.5">₹</span>
-                            {product.price.toLocaleString('en-IN')}
-                        </span>
-                        <span className="text-sm text-[#565959]">
-                        M.R.P: <span className="line-through">₹{product.mrp.toLocaleString('en-IN')}</span> ({product.discount}% off)
-                        </span>
-                    </div>
-
-                    <p className="text-xs mt-2 text-[#0F1111]">Up to 5% back with Amazon Pay I...</p>
-                    <p className="text-xs mt-1 text-[#0F1111]">
-                        FREE delivery as soon as <span className="font-bold">Sat, 25 Apr, 7am - 10pm</span>
-                    </p>
-
-                    <button
-                        onClick={() => handleAddToCart(product.id)}
-                        className="bg-[#FFD814] border border-[#FCD200] hover:bg-[#F7CA00] rounded-full py-2 px-4 text-sm mt-4 w-full shadow-sm"
-                    >
-                        Add to cart
-                    </button>
-                  </div>
-                </div>
+                <ProductCard 
+                  key={product.id}
+                  product={product}
+                  onAddToCart={addToCart}
+                  isInWishlist={isInWishlist(product.id)}
+                  onToggleWishlist={handleToggleWishlist}
+                />
               ))}
             </div>
           )}

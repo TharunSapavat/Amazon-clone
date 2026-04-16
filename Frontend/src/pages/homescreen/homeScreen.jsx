@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import axios from '../../api/axios';
 import OptimizedImage from '../../components/OptimizedImage';
+import BannerSlider from '../../components/BannerSlider';
 import banner1 from '../../assets/banner1.jpg';
 import banner2 from '../../assets/banner2.jpg';
 import banner3 from '../../assets/banner3.png'; 
@@ -38,28 +38,9 @@ const HomeScreen = () => {
         { id: 4, itemTitle: "Home Upgrades", categoryParam: "Home", items: homeDeals.length > 0 ? homeDeals : products.slice(12, 16) }
     ];
 
-    // Banner slider state
-    const [currentSlide, setCurrentSlide] = useState(0);
     const bannerImages = [
         banner1, banner2, banner3 
     ];
-
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
-        }, 5000);
-        return () => clearInterval(timer);
-    }, [bannerImages.length]);
-
-    // Preload next banner image so transition is seamless
-    useEffect(() => {
-        const nextSlide = (currentSlide + 1) % bannerImages.length;
-        const img = new Image();
-        img.src = bannerImages[nextSlide];
-    }, [currentSlide, bannerImages]);
-
-    const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
-    const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
 
     return (
         <div className="flex flex-col w-full bg-[#EAEDED]">
@@ -67,42 +48,7 @@ const HomeScreen = () => {
             {/* --- HOME BANNER SECTION --- */}
             <div className="w-full relative bg-[#EAEDED] pb-4">
 
-                {/* Banner Slider — only render current + adjacent slides */}
-                <div className="relative h-[300px] md:h-[400px] lg:h-[500px] w-full overflow-hidden">
-                    {bannerImages.map((img, idx) => {
-                        // Only render current, previous, and next slides
-                        const isActive = idx === currentSlide;
-                        const isAdjacent = idx === (currentSlide + 1) % bannerImages.length ||
-                                           idx === (currentSlide - 1 + bannerImages.length) % bannerImages.length;
-                        if (!isActive && !isAdjacent) return null;
-
-                        return (
-                            <img
-                                key={idx}
-                                className={`absolute h-full w-full object-cover object-top transition-opacity duration-700 ${
-                                    isActive ? 'opacity-100' : 'opacity-0'
-                                }`}
-                                src={img}
-                                alt={`Banner ${idx + 1}`}
-                                loading={idx === 0 ? 'eager' : 'lazy'}
-                                decoding={idx === 0 ? 'sync' : 'async'}
-                                fetchPriority={idx === 0 ? 'high' : 'auto'}
-                                style={{
-                                    maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)',
-                                    WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%)'
-                                }}
-                            />
-                        );
-                    })}
-
-                    {/* Controls */}
-                    <button onClick={prevSlide} className="absolute left-2 top-1/3 text-3xl md:text-5xl bg-white/30 hover:bg-white/50 p-2 z-30">
-                        <IoChevronBack />
-                    </button>
-                    <button onClick={nextSlide} className="absolute right-2 top-1/3 text-3xl md:text-5xl bg-white/30 hover:bg-white/50 p-2 z-30">
-                        <IoChevronForward />
-                    </button>
-                </div>
+                <BannerSlider images={bannerImages} />
 
                 {/* Cards */}
                 <div className="w-full px-5 -mt-20 md:-mt-32 lg:-mt-40 relative z-20">

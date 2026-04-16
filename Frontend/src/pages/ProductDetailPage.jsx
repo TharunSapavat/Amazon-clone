@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline, IoShareOutline, IoLocationOutline, IoCheckmarkCircle, IoHeartOutline, IoHeart } from 'react-icons/io5';
+import { IoShareOutline, IoLocationOutline, IoCheckmarkCircle, IoHeartOutline, IoHeart } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { BsShieldCheck } from 'react-icons/bs';
 import { TbTruckDelivery, TbCash, TbLock } from 'react-icons/tb';
@@ -8,6 +8,8 @@ import { MdOutlineAssignmentReturn, MdOutlineVerifiedUser } from 'react-icons/md
 import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
 import { addToWishlist, removeFromWishlist, isInWishlist } from './WishlistPage';
+import { useCart } from '../hooks/useCart';
+import StarRating from '../components/StarRating';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -16,7 +18,7 @@ const ProductDetailPage = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [toastMessage, setToastMessage] = useState(null);
+  const { addToCart, toastMessage, setToastMessage } = useCart();
 
   useEffect(() => {
     // Dummy product for when backend falls through
@@ -59,43 +61,9 @@ const ProductDetailPage = () => {
     });
   }, [id]);
 
-  const handleAddToCart = async () => {
-    try {
-      await axios.post('/api/cart', { product_id: product.id, quantity });
-      window.dispatchEvent(new Event('cartUpdated'));
-      setToastMessage("Added to Cart");
-      setTimeout(() => setToastMessage(null), 3000);
-    } catch (e) {
-      console.log("Mock added to cart", quantity, "units");
-      window.dispatchEvent(new Event('cartUpdated'));
-      setToastMessage("Added to Cart");
-      setTimeout(() => setToastMessage(null), 3000);
-    }
-  };
-
   const handleBuyNow = async () => {
-    await handleAddToCart();
-    navigate('/checkout'); // Needs a checkout component later
-  };
-
-  const StarRating = ({ rating, count }) => {
-    const fullStars = Math.floor(rating);
-    const hasHalf = rating % 1 >= 0.5;
-    return (
-      <div className="flex items-center gap-1.5">
-        <div className="flex text-[#FFA41C] text-lg">
-          {[...Array(5)].map((_, i) => {
-            if (i < fullStars) return <IoStar key={i} />;
-            if (i === fullStars && hasHalf) return <IoStarHalf key={i} />;
-            return <IoStarOutline key={i} />;
-          })}
-        </div>
-        <HiOutlineChevronDown className="text-xs text-gray-500" />
-        <span className="text-[15px] text-[#007185] hover:text-[#C7511F] hover:underline cursor-pointer ml-1 font-medium">
-          {count.toLocaleString()} ratings
-        </span>
-      </div>
-    );
+    await addToCart(product.id, quantity);
+    navigate('/checkout');
   };
 
   if (loading) return (
@@ -198,7 +166,7 @@ const ProductDetailPage = () => {
 
             <div className="flex items-center gap-2 mt-2 pb-3 border-b border-gray-300">
               <span className="text-base font-medium">{product.rating}</span>
-              <StarRating rating={product.rating} count={product.review_count} />
+              <StarRating rating={product.rating} count={product.review_count} size="lg" showChevron={true} />
               <span className="text-sm text-[#007185] hover:underline cursor-pointer ml-3">Search this page</span>
             </div>
 
@@ -338,7 +306,7 @@ const ProductDetailPage = () => {
               </div>
 
               <button
-                onClick={handleAddToCart}
+                onClick={() => addToCart(product.id, quantity)}
                 className="w-full bg-[#FFD814] border border-[#FCD200] hover:bg-[#F7CA00] rounded-full py-2 text-[15px] mt-4 shadow-sm font-medium"
               >
                 Add to cart
@@ -351,7 +319,6 @@ const ProductDetailPage = () => {
                 Buy Now
               </button>
 
-              {/* Add to Wishlist */}
               <button
                 onClick={() => {
                   if (isInWishlist(product.id)) {
@@ -361,9 +328,9 @@ const ProductDetailPage = () => {
                     addToWishlist(product);
                     setToastMessage('Added to Wishlist');
                   }
-                  setTimeout(() => setToastMessage(null), 3000);
                 }}
                 className="w-full border border-[#D5D9D9] hover:bg-[#F7FAFA] rounded-full py-2 text-[13px] mt-2 shadow-sm font-medium text-[#0F1111] flex items-center justify-center gap-2 transition-colors"
+                title={isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
               >
                 {isInWishlist(product.id)
                   ? <><IoHeart className="text-[#CC0C39] text-lg" /> In your Wishlist</>

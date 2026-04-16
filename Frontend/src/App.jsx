@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Navbar from './components/navBar'
@@ -13,8 +12,6 @@ import ConfirmationPage from './pages/ConfirmationPage'
 import WishlistPage from './pages/WishlistPage'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <BrowserRouter>
       <Navbar />
