@@ -98,7 +98,9 @@ VITE_API_URL=http://localhost:5000
 - cd Backend
 - npm run seed 
 
-**📂 Project Structure**
+## 📂 Project Structure
+
+```bash
 Amazon-clone/
 ├── Backend/
 │   ├── config/db.js          # MySQL pool with SSL for Railway
@@ -118,6 +120,6 @@ Amazon-clone/
 │   └── .env
 └── README.md
 
-
+```
 Made by Tharun for scaler assignment
 **This project is for educational purposes only.**
