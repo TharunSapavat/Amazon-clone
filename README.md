@@ -71,7 +71,7 @@ A production-style Amazon clone demonstrating end-to-end full-stack engineering:
 
 ### 2. Clone & Install
 ```bash
-git clone [https://github.com/yourusername/amazon-clone.git](https://github.com/TharunSapavat/Amazon-clone.git)
+git clone https://github.com/TharunSapavat/Amazon-clone.git
 cd amazon-clone
 
 # Backend
@@ -81,20 +81,22 @@ cd Backend && npm install
 cd ../Frontend && npm install
 ```
 ### 3. Environment Variables
-Backend/.env:
+
+#### Backend/.env
+```env
 PORT=5000
 NODE_ENV=development
 DATABASE_URL=mysql://root:password@localhost:3306/amazon_clone
 FRONTEND_URL=http://localhost:5173
 RESEND_API_KEY=re_xxxxxxxxxx
-
-Frontend/.env:
+```
+### Frontend/.env:
 VITE_API_URL=http://localhost:5000
 
 
 ### 4.Seed Data
-cd Backend
-npm run seed 
+- cd Backend
+- npm run seed 
 
 **📂 Project Structure**
 Amazon-clone/
@@ -118,3 +120,4 @@ Amazon-clone/
 
 
 Made by Tharun for scaler assignment
+**This project is for educational purposes only.**
