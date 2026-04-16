@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle } from 'react-icons/io5';
+import { IoStar, IoStarHalf, IoStarOutline, IoCheckmarkCircle, IoHeartOutline, IoHeart } from 'react-icons/io5';
 import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
+import { addToWishlist, removeFromWishlist, isInWishlist } from './WishlistPage';
 
 const ProductListingPage = () => {
   const [searchParams] = useSearchParams();
@@ -209,6 +210,28 @@ const ProductListingPage = () => {
               {products.map((product) => (
                 <div key={product.id} className="border border-[#F5F5F5] hover:shadow-lg p-3 flex flex-col rounded bg-white h-full relative group/card">
                   
+                  {/* Wishlist Heart */}
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      if (isInWishlist(product.id)) {
+                        removeFromWishlist(product.id);
+                        setToastMessage('Removed from Wishlist');
+                      } else {
+                        addToWishlist(product);
+                        setToastMessage('Added to Wishlist');
+                      }
+                      setTimeout(() => setToastMessage(null), 3000);
+                    }}
+                    className="absolute top-4 right-4 z-10 w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-sm border border-gray-200 hover:shadow-md transition-all hover:scale-110"
+                    title={isInWishlist(product.id) ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                  >
+                    {isInWishlist(product.id)
+                      ? <IoHeart className="text-[#CC0C39] text-lg" />
+                      : <IoHeartOutline className="text-gray-500 text-lg" />
+                    }
+                  </button>
+
                   <Link to={`/product/${product.id}`} className="bg-[#F7F7F7] p-5 mb-3 flex items-center justify-center rounded cursor-pointer group h-[220px]">
                     <OptimizedImage 
                       src={product.image_url} 

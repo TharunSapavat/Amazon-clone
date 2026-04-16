@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu, IoCloseOutline } from 'react-icons/io5';
+import { IoLocationOutline, IoSearch, IoCartOutline, IoMenu, IoCloseOutline, IoHeartOutline } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import amazonLogo from '../assets/amazonLogo.png';
 import axios from '../api/axios';
@@ -16,13 +16,15 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [localCartCount, setLocalCartCount] = useState(cartCount);
+    const [wishlistCount, setWishlistCount] = useState(0);
     
     // Side Drawer State
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     
     // Dynamic Categories
     const [dbCategories, setDbCategories] = useState([]);
-    const [userName, setUserName] = useState('');
+    const [userName, setUserName] = useState('Tharun');
+    const [deliveryCity, setDeliveryCity] = useState(deliveryLocation);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -43,6 +45,9 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
                 setLocalCartCount(total);
                 if (userRes.data) {
                     setUserName(userRes.data.name.split(' ')[0]);
+                    if (userRes.data.city && userRes.data.pincode) {
+                        setDeliveryCity(`${userRes.data.city} ${userRes.data.pincode}`);
+                    }
                 }
             } catch (err) {
                 console.error("Failed to fetch initial navbar data", err);
@@ -95,10 +100,21 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
             } catch(e) {}
         };
         window.addEventListener('cartUpdated', fetchCart);
+
+        // Wishlist count from localStorage
+        const updateWishlistCount = () => {
+            try {
+                const list = JSON.parse(localStorage.getItem('amazon_clone_wishlist')) || [];
+                setWishlistCount(list.length);
+            } catch { setWishlistCount(0); }
+        };
+        updateWishlistCount();
+        window.addEventListener('wishlistUpdated', updateWishlistCount);
         
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('cartUpdated', fetchCart);
+            window.removeEventListener('wishlistUpdated', updateWishlistCount);
         };
     }, []);
 
@@ -146,7 +162,7 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
                         </Link>
 
                         <div className="hidden xl:flex flex-col justify-center border border-transparent hover:border-white px-2 py-1 cursor-pointer text-sm">
-                            <p className="text-xs text-[#ccc] leading-none ml-5">Delivering to {deliveryLocation.split(' ')[0]}</p>
+                            <p className="text-xs text-[#ccc] leading-none ml-5">Delivering to {deliveryCity.split(' ')[0]}</p>
                             <div className="flex items-end">
                                 <IoLocationOutline className="text-lg" />
                                 <p className="text-sm font-bold leading-none ml-0.5">Update location</p>
@@ -262,6 +278,17 @@ const Navbar = ({ cartCount = 0, deliveryLocation = "Gummidipundi 601201" }) => 
                         <Link to="/orders" className="hidden xl:block border border-transparent hover:border-white px-2 py-1 cursor-pointer">
                             <p className="text-xs leading-none text-white">Returns</p>
                             <p className="text-sm font-bold leading-none">& Orders</p>
+                        </Link>
+
+                        <Link to="/wishlist" className="hidden lg:flex items-center border border-transparent hover:border-white px-2 py-1 cursor-pointer relative" title="Wishlist">
+                            <div className="relative">
+                                {wishlistCount > 0 && (
+                                    <span className="absolute -top-1.5 -right-1.5 bg-[#f08804] text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full leading-none">
+                                        {wishlistCount}
+                                    </span>
+                                )}
+                                <IoHeartOutline className="text-[24px]" />
+                            </div>
                         </Link>
 
                         <Link to="/cart" className="flex items-end border border-transparent hover:border-white px-2 py-1 cursor-pointer relative pb-0">

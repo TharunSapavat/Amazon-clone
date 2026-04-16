@@ -15,9 +15,26 @@ const app = express();
 
 app.get('/api/user/profile', async (req, res) => {
     try {
-        const [users] = await pool.query('SELECT id, name, email FROM users WHERE id = 1');
+        const [users] = await pool.query('SELECT id, name, email, phone, address_line1, address_line2, city, state, pincode FROM users WHERE id = 1');
         if (users.length === 0) return res.status(404).json({ error: 'User not found' });
         res.json(users[0]);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.put('/api/user/profile', async (req, res) => {
+    try {
+        const { name, phone, address_line1, address_line2, city, state, pincode } = req.body;
+        await pool.query(
+            `UPDATE users SET name = COALESCE(?, name), phone = COALESCE(?, phone), 
+             address_line1 = COALESCE(?, address_line1), address_line2 = COALESCE(?, address_line2),
+             city = COALESCE(?, city), state = COALESCE(?, state), pincode = COALESCE(?, pincode) 
+             WHERE id = 1`,
+            [name, phone, address_line1, address_line2, city, state, pincode]
+        );
+        const [updated] = await pool.query('SELECT id, name, email, phone, address_line1, address_line2, city, state, pincode FROM users WHERE id = 1');
+        res.json(updated[0]);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

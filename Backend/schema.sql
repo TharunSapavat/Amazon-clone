@@ -9,6 +9,12 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    phone VARCHAR(20) DEFAULT NULL,
+    address_line1 VARCHAR(500) DEFAULT NULL,
+    address_line2 VARCHAR(500) DEFAULT NULL,
+    city VARCHAR(100) DEFAULT NULL,
+    state VARCHAR(100) DEFAULT NULL,
+    pincode VARCHAR(10) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -213,4 +219,5 @@ CREATE TABLE IF NOT EXISTS order_items (
 -- ============================================
 --         SEED DEFAULT USER
 -- ============================================
-INSERT IGNORE INTO users (id, name, email, password) VALUES (1, 'Tharun', 'tharun.s23@iiits.in', 'zxcvbnm');
+INSERT IGNORE INTO users (id, name, email, password, phone, address_line1, city, state, pincode) 
+VALUES (1, 'Tharun', 'tharun.s23@iiits.in', 'zxcvbnm', '9876543210', 'IIIT Sri City Campus', 'Gummidipundi', 'Andhra Pradesh', '517646');

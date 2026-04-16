@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { IoStar, IoStarHalf, IoStarOutline, IoShareOutline, IoLocationOutline, IoCheckmarkCircle } from 'react-icons/io5';
+import { IoStar, IoStarHalf, IoStarOutline, IoShareOutline, IoLocationOutline, IoCheckmarkCircle, IoHeartOutline, IoHeart } from 'react-icons/io5';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { BsShieldCheck } from 'react-icons/bs';
 import { TbTruckDelivery, TbCash, TbLock } from 'react-icons/tb';
 import { MdOutlineAssignmentReturn, MdOutlineVerifiedUser } from 'react-icons/md';
 import axios from '../api/axios';
 import OptimizedImage from '../components/OptimizedImage';
+import { addToWishlist, removeFromWishlist, isInWishlist } from './WishlistPage';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -348,6 +349,26 @@ const ProductDetailPage = () => {
                 className="w-full bg-[#FFA41C] border border-[#FF8F00] hover:bg-[#FA8900] rounded-full py-2 text-[15px] mt-2 shadow-sm font-medium"
               >
                 Buy Now
+              </button>
+
+              {/* Add to Wishlist */}
+              <button
+                onClick={() => {
+                  if (isInWishlist(product.id)) {
+                    removeFromWishlist(product.id);
+                    setToastMessage('Removed from Wishlist');
+                  } else {
+                    addToWishlist(product);
+                    setToastMessage('Added to Wishlist');
+                  }
+                  setTimeout(() => setToastMessage(null), 3000);
+                }}
+                className="w-full border border-[#D5D9D9] hover:bg-[#F7FAFA] rounded-full py-2 text-[13px] mt-2 shadow-sm font-medium text-[#0F1111] flex items-center justify-center gap-2 transition-colors"
+              >
+                {isInWishlist(product.id)
+                  ? <><IoHeart className="text-[#CC0C39] text-lg" /> In your Wishlist</>
+                  : <><IoHeartOutline className="text-lg" /> Add to Wishlist</>
+                }
               </button>
 
               <div className="flex items-center justify-center gap-1 mt-4 text-[#007185] text-sm hover:text-[#C7511F] hover:underline cursor-pointer">
