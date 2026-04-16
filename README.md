@@ -1,127 +1,125 @@
-# 📦 Amazon Clone - Full Stack E-Commerce Platform
+# 📦 Amazon Clone scaler assignment - Full Stack E-Commerce Platform
 
 ![Amazon Clone](https://img.shields.io/badge/Amazon-Clone-FF9900?style=for-the-badge&logo=amazon&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Node.js](https://img.shields.io/badge/Node.js-LTS-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![MySQL](https://img.shields.io/badge/MySQL-Data-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-4.0-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
-A high-performance, feature-rich Amazon clone designed with a scalable architecture, featuring a full-stack implementation with React, Node.js, and MySQL.
+**Project Overview**  
+A production-style Amazon clone demonstrating end-to-end full-stack engineering: scalable REST APIs, normalized relational schema, responsive UI, and cloud deployment. Built to showcase system design + implementation skills for SDE role.
+
+**Live Demo:** https://amazon.tharun06.dev  
 
 ---
 
 ## 🚀 Key Features
 
-### ✨ Frontend experience
-- **Scalable Product Discovery**: Detailed search and filtering system for millions of products.
-- **Dynamic Homepage**: Multi-section homepage with banners, category-based grids, and personalized product highlights.
-- **Advanced Product Pages**: Support for multiple images, high-resolution zoom, detailed specifications, and color/variant selection.
-- **Seamless Cart & Checkout**: Real-time cart management with a multi-step checkout workflow and order confirmation.
-- **Returns & Orders tracking**: Professional order history page with real-time shipping status (Processing, Shipped, Delivered).
+### ✨ Frontend Experience
+- **Scalable Product Discovery**: Category filters, price/rating sliders, and full-text search with keyset pagination
+- **Dynamic Homepage**: Hero carousel, category grids, "Keep Shopping" + "Deals" sections from DB
+- **Advanced Product Pages**: Multi-image carousel, zoom, variant selection, real-time stock
+- **Seamless Cart & Checkout**: Persistent cart, quantity updates, multi-step checkout, order confirmation
+- **Orders & Tracking**: Order history with status pipeline: `Processing → Shipped → Delivered`
+- **Resilient Images**: `onError` fallbacks + `loading="lazy"` for broken/slow networks
 
 ### ⚙️ Backend & Infrastructure
-- **Relational Data Integrity**: Robust MySQL schema with over 10 optimized tables for products, users, cart, orders, and more.
-- **High Sensitivity Search**: Backend-driven search and filtering optimized with SQL indexing.
-- **Secure Architecture**: JWT-based authentication (internal) and sanitized SQL queries via Prisma ORM.
-- **Automated Notifications**: Integrated email system via **Resend API** for transaction confirmations.
-- **Health Monitoring**: Built-in specialized endpoints for database and system health checks.
+- **Relational Integrity**: 10+ normalized MySQL tables with foreign keys for products, users, cart, orders
+- **High-Performance Queries**: Composite indexes + `position` column to avoid N+1 queries
+- **Keyset Pagination**: `WHERE id < cursor ORDER BY id DESC` for O(log n) page loads vs O(n) OFFSET
+- **Secure Architecture**: Parameterized queries, dotenv secrets, CORS whitelist, SSL to Railway DB
+- **Transactional Emails**: Resend API for order confirmation + shipping updates
+- **Health Monitoring**: `/health` and `/health/db` endpoints for uptime checks
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- **Core**: React 19 (Hooks, Context API)
-- **Styling**: Tailwind CSS 4.0 & Lucide React Icons
+- **Core**: React 19 + Vite
+- **Styling**: Tailwind CSS 4.0 + Lucide React Icons
 - **Routing**: React Router DOM 7
-- **Networking**: Axios
+- **State/Data**: Context API + Axios
+- **Deploy**: Vercel
 
 ### **Backend**
-- **Runtime**: Node.js & Express.js
-- **Database**: MySQL (Hosted on Railway/Local)
-- **ORM**: Prisma
-- **Emailing**: Resend SDK
-- **Environment**: Dotenv for secure configuration
+- **Runtime**: Node.js LTS + Express.js
+- **Database**: MySQL 8.0 on Railway with `mysql2/promise` pool
+- **Email**: Resend SDK
+- **Security**: dotenv, helmet, rate-limit
+- **Deploy**: Railway
 
 ---
 
-## ⚙️ How to run locally
+**Database Design Decisions**
+- Used **normalized schema** to reduce redundancy
+- Separate tables for:
+  - cart & cart_items
+  - orders & order_items
+- Stored product images in separate table for scalability
+- Used indexing on frequently queried columns (category, price, id)
+
+**ER Model**
+<img width="1324" height="918" alt="amazon clone scaler er model" src="https://github.com/user-attachments/assets/eba7255f-8d3a-4f16-8eed-3bf4dadaecf9" />
+
+## ⚙️ Local Setup
 
 ### 1. Prerequisites
-- **Node.js**: v18 or higher.
-- **MySQL**: 8.0 or higher.
+- Node.js v18+
+- MySQL 8.0+ or Railway account
+- Git
 
-### 2. Backend configuration
-1. Navigate to the `Backend` directory:
-   ```bash
-   cd Backend
-   npm install
-   ```
-2. Create a `.env` file and fill in your credentials:
-   ```env
-   PORT=5000
-   DATABASE_URL="mysql://root:password@localhost:3306/amazon_clone"
-   DB_HOST=localhost
-   DB_USER=root
-   DB_PASSWORD=your_password
-   DB_NAME=amazon_clone
-   FRONTEND_URL=http://localhost:5173
-   RESEND_API_KEY=your_resend_api_key
-   ```
-3. Initialize the database schema and seed data:
-   ```bash
-   npx prisma db push
-   npm run seed
-   ```
-4. Start the server:
-   ```bash
-   npm run dev
-   ```
+### 2. Clone & Install
+```bash
+git clone https://github.com/TharunSapavat/Amazon-clone.git
+cd amazon-clone
 
-### 3. Frontend configuration
-1. Navigate to the `Frontend` directory:
-   ```bash
-   cd ../Frontend
-   npm install
-   ```
-2. Create a `.env` file:
-   ```env
-   VITE_API_URL=http://localhost:5000
-   ```
-3. Start the application:
-   ```bash
-   npm run dev
-   ```
+# Backend
+cd Backend && npm install
 
----
+# Frontend  
+cd ../Frontend && npm install
+```
+### 3. Environment Variables
+
+#### Backend/.env
+```env
+PORT=5000
+NODE_ENV=development
+DATABASE_URL=mysql://root:password@localhost:3306/amazon_clone
+FRONTEND_URL=http://localhost:5173
+RESEND_API_KEY=re_xxxxxxxxxx
+```
+### Frontend/.env:
+VITE_API_URL=http://localhost:5000
+
+
+### 4.Seed Data
+- cd Backend
+- npm run seed 
 
 ## 📂 Project Structure
 
-```text
+```bash
 Amazon-clone/
 ├── Backend/
-│   ├── prisma/         # Database schema
-│   ├── controllers/    # Request handlers
-│   ├── routes/         # API endpoint definitions
-│   ├── models/         # SQL query layers
-│   ├── schema.sql      # Raw SQL schema backup
-│   └── seed.js         # Initial data population script
+│   ├── config/db.js          # MySQL pool with SSL for Railway
+│   ├── controllers/          # productController, cartController
+│   ├── routes/               # /api/products, /api/cart, /api/orders
+│   ├── seed/seed.js          # Bulk insert with transactions
+│   ├── product_images.json   # Working CDN URLs mapped by name
+│   ├── schema.sql            # Tables + indexes
+│   └── server.js             # Express entry
 ├── Frontend/
 │   ├── src/
-│   │   ├── components/ # Shared UI components
-│   │   ├── pages/      # View layouts (Cart, Order, Search)
-│   │   ├── api/        # Axios configurations
-│   │   └── context/    # Global state management
+│   │   ├── components/       # Navbar, ProductCard, SafeImage, StarRating
+│   │   ├── context/CartContext.jsx
+│   │   ├── pages/            # Home, ProductListing, ProductDetail, Cart
+│   │   ├── api/axios.js      # Base URL from env
+│   │   └── App.jsx
+│   └── .env
 └── README.md
+
 ```
-
----
-
-## 🌐 Live Demo
-The application is deployed and can be visited at:  
-👉 **[amazon.tharun06.dev](https://amazon.tharun06.dev)**
-
----
-
-## 📄 License
-This project is licensed under the **ISC License**.
+Made by Tharun for scaler assignment
+**This project is for educational purposes only.**
