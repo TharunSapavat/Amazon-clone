@@ -169,7 +169,7 @@ const OrdersPage = () => {
 
         {/* Breadcrumb */}
         <div className="text-sm mb-3 font-medium">
-          <span className="text-[#007185] hover:text-[#C7511F] cursor-pointer">Your Account</span>  
+          <Link to="/account" className="text-[#007185] hover:text-[#C7511F] hover:underline">Your Account</Link>
           <span className="text-[#565959] mx-1">›</span>
           <span className="text-[#C7511F]">Your Orders</span>
         </div>
